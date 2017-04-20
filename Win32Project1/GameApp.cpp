@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "GameApp.h"
-#include "Game.h"
+#include "../engine/Game.h"
 
 
 int WINAPI WinMain(HINSTANCE hInstance,

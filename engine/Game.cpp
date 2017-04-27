@@ -1,14 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
-
-//definimos un formato de modelo de vertices
-#define CUSTOMFVF (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_NORMAL | D3DFVF_TEX0)
-
-struct Vertex
-{
-	FLOAT x, y, z, rhw;
-	DWORD color;
-};
+#include "Entity.h"
 
 Game::Game()
 {
@@ -20,8 +12,6 @@ Game::~Game()
 }
 
 void Game::Run(_In_ HINSTANCE hInstance,
-	_In_opt_ HINSTANCE hPrevInstance,
-	_In_     LPSTR    lpCmdLine,
 	_In_     int       nCmdShow)
 {
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -81,56 +71,7 @@ void Game::Run(_In_ HINSTANCE hInstance,
 		&dev); //El device que se crea
 
 
-	Vertex vertexes[] =
-	{
-		//rectangulo superior
-		{ 100.0f, 0.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(50,50,0) },
-		{ 540.0f, 0.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,100,0) },
-		{ 100.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(50,0,100) },
-		{ 540.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,0,255) },
-		//rectangulo inferior
-		{ 270.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(255,0,0) },
-		{ 370.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,255,0) },
-		{ 270.0f, 480.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(255,255,0) },
-		{ 370.0f, 480.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,0,255) },
-	};
-
-	WORD indexes[] =
-	{
-		0,3,2,0,1,3, 4,5,6,6,5,7
-	};
-
-	//reservamos espacio en vram para guardar el modelo, utilizando el device q creamos antes
-	LPDIRECT3DVERTEXBUFFER9 vb;
-	dev->CreateVertexBuffer(8 * sizeof(Vertex),
-		D3DUSAGE_WRITEONLY,//el uso q le vamos a dar
-		CUSTOMFVF,
-		D3DPOOL_MANAGED,//lo subimos a vram
-		&vb,
-		NULL);
-
-	LPDIRECT3DINDEXBUFFER9 ib;
-	dev->CreateIndexBuffer(
-		12 * sizeof(WORD),
-		D3DUSAGE_WRITEONLY,
-		D3DFMT_INDEX16,
-		D3DPOOL_MANAGED,
-		&ib,
-		NULL
-		);
-
-	//puntero a la memoria del vb en la vram
-	VOID *data;
-	//compiamos el array de veritces q esta en la ram de la cpu 
-	//a el puntero del vb en la vram, especificando cuantos 
-	//bytes vamos a copiar
-	vb->Lock(0, 0, &data, 0);
-	memcpy(data, vertexes, 8 * sizeof(Vertex));
-	vb->Unlock();
-
-	ib->Lock(0, 0, &data, 0);
-	memcpy(data, indexes, 12 * sizeof(WORD));
-	ib->Unlock();
+	Entity e(dev);
 
 
 	while (true)
@@ -156,27 +97,13 @@ void Game::Run(_In_ HINSTANCE hInstance,
 		//TODO: Dibujar
 		dev->BeginScene();
 
-		//especificamos el formato del vertice
-		dev->SetFVF(CUSTOMFVF);
+		e.Render();
 
-		//especificamos cual vb vamos a usar
-		dev->SetStreamSource(0, vb, 0, sizeof(Vertex));
-
-		//especificamos q indices vamos  a usar
-		dev->SetIndices(ib);
-
-		//esto apga el culling de la placa para ver si
-		//nuestro modelo...
-		//dev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-		//dibujamos 1 triangulo de dicho buffer
-		dev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 4);
 		dev->EndScene();
 		dev->Present(NULL, NULL, NULL, NULL);
 
 	}
-	ib->Release();
-	vb->Release();
+	e.Clean();
 	dev->Release();
 	d3d->Release();
 }

@@ -10,7 +10,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	int nCmdShow)
 {
 	Game* g = new Game();
-	g->Run(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+	g->Run(hInstance, nCmdShow);
 
 	return 0;
 }

@@ -3,6 +3,12 @@
 
 
 
+Model::Model()
+{
+	vb = nullptr;
+	ib = nullptr;
+}
+
 Model::Model(LPDIRECT3DDEVICE9 dev){
 	Vertex vertexes[] =
 	{
@@ -23,7 +29,7 @@ Model::Model(LPDIRECT3DDEVICE9 dev){
 		0,3,2,0,1,3, 4,5,6,6,5,7
 	};
 
-	_dev->CreateVertexBuffer(8 * sizeof(Vertex),
+	dev->CreateVertexBuffer(8 * sizeof(Vertex),
 		D3DUSAGE_WRITEONLY,//el uso q le vamos a dar
 		CUSTOMFVF,
 		D3DPOOL_MANAGED,//lo subimos a vram
@@ -31,7 +37,7 @@ Model::Model(LPDIRECT3DDEVICE9 dev){
 		NULL);
 
 
-	_dev->CreateIndexBuffer(
+	dev->CreateIndexBuffer(
 		12 * sizeof(WORD),
 		D3DUSAGE_WRITEONLY,
 		D3DFMT_INDEX16,
@@ -54,7 +60,19 @@ Model::Model(LPDIRECT3DDEVICE9 dev){
 	ib->Unlock();
 }
 
+LPDIRECT3DVERTEXBUFFER9 Model::GetVertexBuffer()
+{
+	return vb;
+}
+
+LPDIRECT3DINDEXBUFFER9 Model::GetIndexBuffer()
+{
+	return ib;
+}
+
 
 Model::~Model()
 {
+	vb->Release();
+	ib->Release();
 }

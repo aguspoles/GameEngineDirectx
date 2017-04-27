@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Game.h"
 #include "Entity.h"
+#include "Model.h"
 
 Game::Game()
 {
@@ -71,7 +72,8 @@ void Game::Run(_In_ HINSTANCE hInstance,
 		&dev); //El device que se crea
 
 
-	Entity e(dev);
+	Model m(dev);
+	Entity es[2];
 
 
 	while (true)
@@ -97,13 +99,17 @@ void Game::Run(_In_ HINSTANCE hInstance,
 		//TODO: Dibujar
 		dev->BeginScene();
 
-		e.Render();
+		for (int i = 0; i < 2; i++)
+		{
+			es[i].SetDevice(dev);
+			es[i].LoadModel(m);
+			es[i].Render();
+		}
 
 		dev->EndScene();
 		dev->Present(NULL, NULL, NULL, NULL);
 
 	}
-	e.Clean();
 	dev->Release();
 	d3d->Release();
 }

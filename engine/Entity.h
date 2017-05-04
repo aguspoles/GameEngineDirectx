@@ -14,7 +14,7 @@ public:
 	virtual ~Entity();
 
     void Render();
-	void LoadModel(Model &m);
+	void LoadModel(Model *m);
 	void SetDevice(LPDIRECT3DDEVICE9 dev);
 };
 

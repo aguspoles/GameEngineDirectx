@@ -71,9 +71,27 @@ void Game::Run(_In_ HINSTANCE hInstance,
 		&d3dpp, //Los parametros de buffers
 		&dev); //El device que se crea
 
+	Vertex vertexes[] =
+	{
+		//rectangulo superior
+		{ 100.0f, 0.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(255,0,0) },
+		{ 540.0f, 0.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,255,0) },
+		{ 100.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,0,255) },
+		{ 540.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(255,100,0) },
+		//rectangulo inferior
+		{ 270.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(255,0,0) },
+		{ 370.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,255,0) },
+		{ 270.0f, 480.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(255,255,0) },
+		{ 370.0f, 480.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,0,255) },
+	};
 
-	Model m(dev);
-	Entity es[2];
+	WORD indexes[] =
+	{
+		0,3,2,0,1,3, 4,5,6,6,5,7
+	};
+
+	Model m(dev, vertexes, indexes, 8, 12);
+	Entity es[1];
 
 
 	while (true)
@@ -95,14 +113,14 @@ void Game::Run(_In_ HINSTANCE hInstance,
 
 		//Actualizar
 		//dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 0, 0), 1.0F, 0);
-		dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 50, 70, 100), 1.0f, 0);
+		dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 0, 50, 100), 1.0f, 0);
 		//TODO: Dibujar
 		dev->BeginScene();
 
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 1; i++)
 		{
 			es[i].SetDevice(dev);
-			es[i].LoadModel(m);
+			es[i].LoadModel(&m);
 			es[i].Render();
 		}
 
@@ -128,5 +146,3 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	//Si no maneje el mensaje antes, hago el comportamiento por defecto
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
-
-

@@ -5,44 +5,28 @@
 
 Model::Model()
 {
-	vb = nullptr;
-	ib = nullptr;
+	_vb = nullptr;
+	_ib = nullptr;
 }
 
-Model::Model(LPDIRECT3DDEVICE9 dev){
-	Vertex vertexes[] =
-	{
-		//rectangulo superior
-		{ 100.0f, 0.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(50,50,0) },
-		{ 540.0f, 0.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,100,0) },
-		{ 100.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(50,0,100) },
-		{ 540.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,0,255) },
-		//rectangulo inferior
-		{ 270.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(255,0,0) },
-		{ 370.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,255,0) },
-		{ 270.0f, 480.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(255,255,0) },
-		{ 370.0f, 480.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,0,255) },
-	};
+Model::Model(LPDIRECT3DDEVICE9 dev, Vertex vertexes[], WORD indexes[], 
+	int vertexesSize, int indexesSize)
+{
 
-	WORD indexes[] =
-	{
-		0,3,2,0,1,3, 4,5,6,6,5,7
-	};
-
-	dev->CreateVertexBuffer(8 * sizeof(Vertex),
+	dev->CreateVertexBuffer(vertexesSize*sizeof(Vertex),
 		D3DUSAGE_WRITEONLY,//el uso q le vamos a dar
 		CUSTOMFVF,
 		D3DPOOL_MANAGED,//lo subimos a vram
-		&vb,
+		&_vb,
 		NULL);
 
 
 	dev->CreateIndexBuffer(
-		12 * sizeof(WORD),
+		indexesSize*sizeof(WORD),
 		D3DUSAGE_WRITEONLY,
 		D3DFMT_INDEX16,
 		D3DPOOL_MANAGED,
-		&ib,
+		&_ib,
 		NULL
 	);
 
@@ -51,28 +35,29 @@ Model::Model(LPDIRECT3DDEVICE9 dev){
 	//compiamos el array de veritces q esta en la ram de la cpu 
 	//a el puntero del vb en la vram, especificando cuantos 
 	//bytes vamos a copiar
-	vb->Lock(0, 0, &data, 0);
-	memcpy(data, vertexes, 8 * sizeof(Vertex));
-	vb->Unlock();
+	_vb->Lock(0, 0, &data, 0);
+	memcpy(data, vertexes, vertexesSize*sizeof(Vertex));
+	_vb->Unlock();
 
-	ib->Lock(0, 0, &data, 0);
-	memcpy(data, indexes, 12 * sizeof(WORD));
-	ib->Unlock();
+	VOID *indexData;
+	_ib->Lock(0, 0, &indexData, 0);
+	memcpy(indexData, indexes, indexesSize*sizeof(WORD));
+	_ib->Unlock();
 }
 
 LPDIRECT3DVERTEXBUFFER9 Model::GetVertexBuffer()
 {
-	return vb;
+	return _vb;
 }
 
 LPDIRECT3DINDEXBUFFER9 Model::GetIndexBuffer()
 {
-	return ib;
+	return _ib;
 }
 
 
 Model::~Model()
 {
-	vb->Release();
-	ib->Release();
+	_vb->Release();
+	_ib->Release();
 }

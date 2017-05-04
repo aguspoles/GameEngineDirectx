@@ -34,9 +34,9 @@ void Entity::Render()
 	_dev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 4);
 }
 
-void Entity::LoadModel(Model & m)
+void Entity::LoadModel(Model *m)
 {
-	_m = &m;
+	_m = m;
 }
 
 void Entity::SetDevice(LPDIRECT3DDEVICE9 dev)

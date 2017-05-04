@@ -71,28 +71,27 @@ void Game::Run(_In_ HINSTANCE hInstance,
 		&d3dpp, //Los parametros de buffers
 		&dev); //El device que se crea
 
+
+	WORD indexes[] = { 0,3,2,   //Los indices de los vertices del primer triangulo
+		0,1,3 }; //Los del segundo triangulo
+
 	Vertex vertexes[] =
 	{
-		//rectangulo superior
-		{ 100.0f, 0.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(255,0,0) },
-		{ 540.0f, 0.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,255,0) },
-		{ 100.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,0,255) },
-		{ 540.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(255,100,0) },
-		//rectangulo inferior
-		{ 270.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(255,0,0) },
-		{ 370.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,255,0) },
-		{ 270.0f, 480.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(255,255,0) },
-		{ 370.0f, 480.0f, 0.0f, 1.0f, D3DCOLOR_XRGB(0,0,255) },
+		{ -0.5f, +0.5f, 0.0f, D3DCOLOR_XRGB(0,0,255) },
+		{ +0.5f, +0.5f, 0.0f, D3DCOLOR_XRGB(0,0,255) },
+		{ -0.5f, -0.5f, 0.0f, D3DCOLOR_XRGB(255,0,0) },
+		{ +0.5f, -0.5f, 0.0f, D3DCOLOR_XRGB(0,255,0) },
 	};
 
-	WORD indexes[] =
-	{
-		0,3,2,0,1,3, 4,5,6,6,5,7
-	};
+	//Apago la luz para ver los colores y no todo oscuro
+	dev->SetRenderState(D3DRS_LIGHTING, false);
 
-	Model m(dev, vertexes, indexes, 8, 12);
+	Model m(dev, vertexes, indexes, 4, 6);
 	Entity es[1];
+	es[0].SetDevice(dev);
+	es[0].LoadModel(&m);
 
+	float num = 0;
 
 	while (true)
 	{
@@ -117,10 +116,9 @@ void Game::Run(_In_ HINSTANCE hInstance,
 		//TODO: Dibujar
 		dev->BeginScene();
 
+		num += 0.1f;
 		for (int i = 0; i < 1; i++)
 		{
-			es[i].SetDevice(dev);
-			es[i].LoadModel(&m);
 			es[i].Render();
 		}
 

@@ -1,7 +1,6 @@
 #pragma once
 #include "Game.h"
 #include "Model.h"
-#define CUSTOMFVF (D3DFVF_XYZRHW | D3DFVF_DIFFUSE)
 
 class Entity
 {
@@ -16,5 +15,7 @@ public:
     void Render();
 	void LoadModel(Model *m);
 	void SetDevice(LPDIRECT3DDEVICE9 dev);
+
+	D3DXMATRIX GetModelMatrix(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 sca);
 };
 

@@ -35,7 +35,7 @@ void Entity::Render()
 	_dev->SetIndices(_m->GetIndexBuffer());
 	//esto apga el culling de la placa para ver si
 	//nuestro modelo...
-	_dev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//_dev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     _dev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 4, 0, 2);
 }
 
@@ -70,5 +70,6 @@ D3DXMATRIX Entity::GetModelMatrix(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 
 	rotZMat._21 = -sin(rot.z);
 	rotZMat._22 = cos(rot.z);
 
-	return scaMat * rotZMat * transMat;
-};
+	D3DXMATRIX res = scaMat * rotZMat * transMat;
+	return res;
+}

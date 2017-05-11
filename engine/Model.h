@@ -1,6 +1,5 @@
 #pragma once
 #include "Game.h"
-#include <d3dx9.h>
 #include <vector>
 
 #define CUSTOMFVF (D3DFVF_XYZ | D3DFVF_DIFFUSE)

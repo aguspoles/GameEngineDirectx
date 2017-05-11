@@ -13,6 +13,15 @@
 #include <stdio.h> //para q me tome printf
 #include <tchar.h> //para q me tome printf
 
+#include <stdlib.h>
+#include <malloc.h>
+#include <memory.h>
+
+#include <d3d9.h>//Busca el header de directx en los path
+#pragma comment (lib, "d3d9.lib") //Incluyo la lib a mi proyecto
+
+#include <d3dx9.h>
+#pragma comment (lib, "d3dx9.lib")
 
 
 

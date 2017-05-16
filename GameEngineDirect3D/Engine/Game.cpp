@@ -4,6 +4,8 @@
 #include "Model.h"
 #include "Camera.h"
 
+#define CANT 4
+
 Game::Game()
 {
 }
@@ -85,9 +87,9 @@ void Game::Run(_In_ HINSTANCE hInstance,
 		{ +0.5f, -0.5f, 0.0f, D3DCOLOR_XRGB(0,255,0) },
 	};
 
-	Model m(dev, vertexes, indexes);
-	Entity es[2];
-	for (int i = 0; i < 2; i++)
+	Model m(dev, vertexes, indexes,2);
+	Entity es[CANT];
+	for (int i = 0; i < CANT; i++)
 	{
 		es[i].SetDevice(dev);
 		es[i].LoadModel(&m);
@@ -95,9 +97,12 @@ void Game::Run(_In_ HINSTANCE hInstance,
 
 	Camera camera;
 	camera.GetViewMatrix(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
-	camera.SetPerspective(D3DXToRadian(60), (float)640 / 480, 0.1f, 100);
+	camera.SetPerspective(D3DXToRadian(45), (float)640 / 480, 1.0f, 100.0f);
+
+	D3DXVECTOR3 objPos(0, 0, 0);
 
 	float num = 0;
+	float vel = 0.01;
 	while (true)
 	{
 		MSG msg;
@@ -122,18 +127,29 @@ void Game::Run(_In_ HINSTANCE hInstance,
 		dev->BeginScene();
 		num += 0.01;
 
-		/*es[0].ModelMatrix(D3DXVECTOR3(0.5, 0, 0),
-		D3DXVECTOR3(0, 0, num),
-		D3DXVECTOR3(0.5f, 0.5f, 0.5f));*/
-		//es[1].SetChildModelMatrix(es[0].GetModelMatrix());
-		/*es[1].Rotate(D3DXVECTOR3(0, 0, -num));
-		es[1].Scale(D3DXVECTOR3(0.25f, 0.25f, 0.25f));
-		es[1].Translate(D3DXVECTOR3(0.5, 0, 0));*/
+		/*D3DXMATRIX objRot;
+		D3DXMatrixRotationYawPitchRoll(&objRot,
+			D3DXToRadian(0), D3DXToRadian(0), D3DXToRadian(num));
+		D3DXVECTOR3 worldRight(1, 0, 0);
+		D3DXVECTOR4 objRight;
+		D3DXVec3Transform(&objRight, &worldRight, &objRot);
+		D3DXVECTOR3 right(objRight.x, objRight.y, objRight.z);
+        objPos += right * vel;*/
 
-		//camera.SetRenderView(dev);
-		for (int i = 0; i < 1; i++)
+		es[0].ModelMatrix(D3DXVECTOR3(0, 0, 0),
+		D3DXVECTOR3(0, 0, num),
+		D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+		for (int i = 1; i < CANT; i++)
 		{
-			es[i].Render(2);
+			es[i].Scale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+			es[i].Rotate(D3DXVECTOR3(0, 0, num));
+			es[i].Translate(D3DXVECTOR3(0.75, 0.75, 0));
+			es[i].SetChildModelMatrix(es[i-1].GetModelMatrix());
+		}
+		//camera.SetRenderView(dev);
+		for (int i = 0; i < CANT; i++)
+		{
+			es[i].Render(nullptr);
 		}
 
 		dev->EndScene();

@@ -27,9 +27,11 @@ Entity::~Entity()
 
 }
 
-void Entity::Render(UINT primCount)
+void Entity::Render(Camera* cam)
 {
 	_dev->SetTransform(D3DTS_WORLD, &_modelMatrix);
+	if(cam)
+		cam->SetRenderView(_dev);
 	//especificamos el formato del vertice
 	_dev->SetFVF(CUSTOMFVF);
 	//especificamos cual vb vamos a usar
@@ -40,7 +42,7 @@ void Entity::Render(UINT primCount)
 	//nuestro modelo...
 	//_dev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	_dev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0,
-		(_model->GetVertexes()).size(), 0, primCount);
+		(_model->GetVertexes()).size(), 0, _model->GetPrimitivesCount());
 }
 
 void Entity::LoadModel(Model *m)
@@ -55,7 +57,16 @@ void Entity::SetDevice(LPDIRECT3DDEVICE9 dev)
 
 void Entity::ModelMatrix(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 sca)
 {
-	D3DXMatrixIdentity(&_translateMatrix);
+	D3DXMATRIX rotX;
+	D3DXMATRIX rotY;
+	D3DXMATRIX rotZ;
+	D3DXMatrixRotationZ(&rotZ, rot.z);
+	D3DXMatrixRotationX(&rotX, rot.x);
+	D3DXMatrixRotationY(&rotY, rot.y);
+	D3DXMatrixScaling(&_scaleMatrix, sca.x, sca.y, sca.z);
+	D3DXMatrixTranslation(&_translateMatrix, pos.x, pos.y, pos.z);
+	_rotateMatrix = rotZ * rotX * rotY;
+	/*D3DXMatrixIdentity(&_translateMatrix);
 	_translateMatrix._41 = pos.x;
 	_translateMatrix._42 = pos.y;
 	_translateMatrix._43 = pos.z;
@@ -67,8 +78,7 @@ void Entity::ModelMatrix(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 sca)
 	_rotateMatrix._11 = cos(rot.z);
 	_rotateMatrix._12 = sin(rot.z);
 	_rotateMatrix._21 = -sin(rot.z);
-	_rotateMatrix._22 = cos(rot.z);
-
+	_rotateMatrix._22 = cos(rot.z);*/
 	_modelMatrix = _scaleMatrix * _rotateMatrix * _translateMatrix;
 }
 
@@ -89,28 +99,37 @@ D3DXMATRIX Entity::GetModelMatrix()
 
 void Entity::Translate(D3DXVECTOR3 pos)
 {
-	D3DXMatrixIdentity(&_translateMatrix);
+	D3DXMatrixTranslation(&_translateMatrix, pos.x, pos.y, pos.z);
+	/*D3DXMatrixIdentity(&_translateMatrix);
 	_translateMatrix._41 = pos.x;
 	_translateMatrix._42 = pos.y;
-	_translateMatrix._43 = pos.z;
+	_translateMatrix._43 = pos.z;*/
 	_modelMatrix = _rotateMatrix * _scaleMatrix * _translateMatrix;
 }
 
 void Entity::Rotate(D3DXVECTOR3 rot)
 {
-	D3DXMatrixIdentity(&_rotateMatrix);
+	D3DXMATRIX rotX;
+	D3DXMATRIX rotY;
+	D3DXMATRIX rotZ;
+	D3DXMatrixRotationZ(&rotZ, rot.z);
+	D3DXMatrixRotationX(&rotX, rot.x);
+	D3DXMatrixRotationY(&rotY, rot.y);
+	_rotateMatrix = rotZ * rotX * rotY;
+	/*D3DXMatrixIdentity(&_rotateMatrix);
 	_rotateMatrix._11 = cos(rot.z);
 	_rotateMatrix._12 = sin(rot.z);
 	_rotateMatrix._21 = -sin(rot.z);
-	_rotateMatrix._22 = cos(rot.z);
+	_rotateMatrix._22 = cos(rot.z);*/
 	_modelMatrix = _rotateMatrix * _scaleMatrix * _translateMatrix;
 }
 
 void Entity::Scale(D3DXVECTOR3 scal)
 {
-	D3DXMatrixIdentity(&_scaleMatrix);
+	D3DXMatrixScaling(&_scaleMatrix, scal.x, scal.y, scal.z);
+	/*D3DXMatrixIdentity(&_scaleMatrix);
 	_scaleMatrix._11 = scal.x;
 	_scaleMatrix._22 = scal.y;
-	_scaleMatrix._33 = scal.z;
+	_scaleMatrix._33 = scal.z;*/
 	_modelMatrix = _rotateMatrix * _scaleMatrix * _translateMatrix;
 }

@@ -5,6 +5,7 @@ Model::Model()
 {
 	_vb = nullptr;
 	_ib = nullptr;
+	_primitivesCount = 0;
 }
 
 Model::~Model()
@@ -13,7 +14,8 @@ Model::~Model()
 	_ib->Release();
 }
 
-Model::Model(LPDIRECT3DDEVICE9 dev, const std::vector<Vertex> &vertexes, const std::vector<WORD> &indexes)
+Model::Model(LPDIRECT3DDEVICE9 dev, const std::vector<Vertex> &vertexes,
+	const std::vector<WORD> &indexes, UINT primCount)
 {
 	dev->CreateVertexBuffer(vertexes.size() * sizeof(Vertex),
 		D3DUSAGE_WRITEONLY,//el uso q le vamos a dar
@@ -46,7 +48,7 @@ Model::Model(LPDIRECT3DDEVICE9 dev, const std::vector<Vertex> &vertexes, const s
 		_ib->Unlock();
 	}
 
-
+	_primitivesCount = primCount;
 }
 
 LPDIRECT3DVERTEXBUFFER9 Model::GetVertexBuffer()
@@ -59,13 +61,17 @@ LPDIRECT3DINDEXBUFFER9 Model::GetIndexBuffer()
 	return _ib;
 }
 
-std::vector<Vertex>& Model::GetVertexes()
+std::vector<Vertex> Model::GetVertexes()
 {
 	return _vertexes;
 }
 
-std::vector<WORD>& Model::GetIndexes()
+std::vector<WORD> Model::GetIndexes()
 {
 	return _indexes;
 }
 
+UINT Model::GetPrimitivesCount()
+{
+	return _primitivesCount;
+}

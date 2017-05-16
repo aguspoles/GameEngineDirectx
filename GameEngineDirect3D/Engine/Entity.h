@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "Game.h"
 #include "Model.h"
+#include "Camera.h"
 
 class Entity
 {
@@ -17,7 +18,7 @@ public:
 	Entity(LPDIRECT3DDEVICE9 dev, Model *m);
 	virtual ~Entity();
 
-	void Render(UINT primCount);
+    void Render(Camera* cam);
 	void LoadModel(Model *m);
 	void SetDevice(LPDIRECT3DDEVICE9 dev);
 

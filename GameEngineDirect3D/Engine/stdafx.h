@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <memory.h>
+#include "EngineApi.h"
 
 #include <d3d9.h>//Busca el header de directx en los path
 #pragma comment (lib, "d3d9.lib") //Incluyo la lib a mi proyecto

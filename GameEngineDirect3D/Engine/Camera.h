@@ -1,7 +1,9 @@
+#include "stdafx.h"
+
 #ifndef CAMERA_H
 #define CAMERA_H
 
-class Camera
+class ENGINE_API Camera
 {
 private:
 	D3DXMATRIX _viewMatrix;

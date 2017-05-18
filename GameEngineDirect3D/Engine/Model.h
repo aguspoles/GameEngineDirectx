@@ -11,7 +11,7 @@ struct Vertex
 	DWORD color;
 };
 
-class Model
+class ENGINE_API Model
 {
 private:
 	LPDIRECT3DVERTEXBUFFER9 _vb;

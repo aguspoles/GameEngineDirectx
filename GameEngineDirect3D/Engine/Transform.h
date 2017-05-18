@@ -1,5 +1,5 @@
-/*#pragma once
-class Transform
+#pragma once
+class ENGINE_API Transform
 {
 public:
 	D3DXVECTOR3 position;
@@ -8,5 +8,3 @@ public:
 	Transform();
 	~Transform();
 };
-
-*/

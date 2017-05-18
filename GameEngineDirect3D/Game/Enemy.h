@@ -1,11 +1,10 @@
 #pragma once
-/*#include "../Engine/Entity.h"
-#include "Transform.h"
+#include "Entity.h"
 
 class Enemy : public Entity
 {
 private:
-	Transform _transform;
+	
 public:
 	Enemy();
 	~Enemy();
@@ -17,5 +16,5 @@ public:
 	void Move(D3DXVECTOR3 pos);
 	void Scale(D3DXVECTOR3 sca);
 	void Rotate(D3DXVECTOR3 sca);
-};*/
+};
 

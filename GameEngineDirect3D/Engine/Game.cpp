@@ -97,15 +97,15 @@ void Game::RenderFrame()
 	D3DXVECTOR3 right(objRight.x, objRight.y, objRight.z);
 	objPos += right * vel;*/
 
-	entities[0]->ModelMatrix(D3DXVECTOR3(0, 0, num),
+	entities[0]->ModelMatrix(D3DXVECTOR3(0, 0, 5.0f),
 		D3DXVECTOR3(0, 0, num),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	for (int i = 1; i < entities.size(); i++)
 	{
-	entities[i]->Scale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-	entities[i]->Rotate(D3DXVECTOR3(0, 0, num));
-	entities[i]->Translate(D3DXVECTOR3(0.75, 0.75, 0));
-	entities[i]->SetChildModelMatrix(entities[i-1]->GetModelMatrix());
+		entities[i]->Scale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+		entities[i]->Rotate(D3DXVECTOR3(0, 0, num));
+		entities[i]->Translate(D3DXVECTOR3(0.75, 0.75, 0));
+		entities[i]->SetParent(entities[i - 1]);
 	}
 	//Update();
 	for (int i = 0; i < entities.size(); i++)
@@ -168,7 +168,6 @@ void Game::Run(_In_ HINSTANCE hInstance,
 	dev->Release();
 	d3d->Release();
 }
-
 
 
 //Manejo de mensajes por ventana

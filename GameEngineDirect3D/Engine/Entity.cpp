@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Entity.h"
 
-Entity::Entity()
+Entity::Entity() //: Game()
 {
 	_model = nullptr;
 	_dev = nullptr;
@@ -11,7 +11,7 @@ Entity::Entity()
 	D3DXMatrixIdentity(&_modelMatrix);
 }
 
-Entity::Entity(LPDIRECT3DDEVICE9 dev, Model *m)
+Entity::Entity(LPDIRECT3DDEVICE9 dev, Model *m) //: Game()
 {
 	_dev = dev;
 	_model = m;
@@ -27,19 +27,16 @@ Entity::~Entity()
 
 }
 
-void Entity::Render(Camera* cam)
+void Entity::Render()
 {
-	_dev->SetTransform(D3DTS_WORLD, &_modelMatrix);
-	if(cam)
-		cam->SetRenderView(_dev);
 	//especificamos el formato del vertice
 	_dev->SetFVF(CUSTOMFVF);
+	_dev->SetTransform(D3DTS_WORLD, &_modelMatrix);
 	//especificamos cual vb vamos a usar
 	_dev->SetStreamSource(0, _model->GetVertexBuffer(), 0, sizeof(Vertex));
+	//esto apga el culling de la placa 
 	//especificamos q indices vamos  a usar
 	_dev->SetIndices(_model->GetIndexBuffer());
-	//esto apga el culling de la placa para ver si
-	//nuestro modelo...
 	//_dev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	_dev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0,
 		(_model->GetVertexes()).size(), 0, _model->GetPrimitivesCount());

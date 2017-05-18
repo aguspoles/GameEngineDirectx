@@ -1,10 +1,10 @@
-#pragma once
-#include "stdafx.h"
-#include "Game.h"
+//#pragma once
+#ifndef ENTITY_H
+#define ENTITY_H
 #include "Model.h"
-#include "Camera.h"
+#include "Game.h"
 
-class Entity
+class Entity //: public Game
 {
 private:
 	Model* _model;
@@ -16,9 +16,9 @@ private:
 public:
 	Entity();
 	Entity(LPDIRECT3DDEVICE9 dev, Model *m);
-	virtual ~Entity();
+    ~Entity();
 
-    void Render(Camera* cam);
+	void Render();
 	void LoadModel(Model *m);
 	void SetDevice(LPDIRECT3DDEVICE9 dev);
 
@@ -31,4 +31,6 @@ public:
 	void Rotate(D3DXVECTOR3 rot);
 	void Scale(D3DXVECTOR3 scal);
 };
+
+#endif
 

@@ -1,6 +1,6 @@
-#pragma once
-#include "stdafx.h"
-#include "Game.h"
+//#pragma once
+#ifndef MODEL_H
+#define MODEL_H
 #include <vector>
 
 #define CUSTOMFVF (D3DFVF_XYZ | D3DFVF_DIFFUSE)
@@ -21,7 +21,7 @@ private:
 	UINT _primitivesCount;
 public:
 	Model();
-	Model(LPDIRECT3DDEVICE9 dev, const std::vector<Vertex> &vertexes, 
+	Model(LPDIRECT3DDEVICE9 dev, const std::vector<Vertex> &vertexes,
 		const std::vector<WORD> &indexes, UINT primCount);
 	~Model();
 
@@ -32,4 +32,6 @@ public:
 	UINT GetPrimitivesCount();
 
 };
+
+#endif
 

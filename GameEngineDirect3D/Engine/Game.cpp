@@ -1,22 +1,26 @@
 #include "stdafx.h"
 #include "Game.h"
 #include "Entity.h"
-#include "Model.h"
-#include "Camera.h"
 
 #define CANT 4
+float num = 0;
+float vel = 0.01;
+
+LPDIRECT3D9 d3d;
+LPDIRECT3DDEVICE9 dev;
 
 Game::Game()
 {
+	_camera = new Camera();
 }
 
 
 Game::~Game()
 {
+	delete _camera;
 }
 
-void Game::Run(_In_ HINSTANCE hInstance,
-	_In_     int       nCmdShow)
+void Game::InitD3D(_In_ HINSTANCE hInstance, _In_ int nCmdShow)
 {
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -26,7 +30,6 @@ void Game::Run(_In_ HINSTANCE hInstance,
 	//Iniciamos sus valores en 0
 	ZeroMemory(&wcex, sizeof(WNDCLASSEX));
 
-
 	wcex.cbSize = sizeof(WNDCLASSEX); //Tamaño en bytes
 	wcex.style = CS_HREDRAW | CS_VREDRAW; //Estilo de la ventana
 	wcex.lpfnWndProc = WndProc; //Funcion de manejo de mensajes de ventana
@@ -35,8 +38,7 @@ void Game::Run(_In_ HINSTANCE hInstance,
 	wcex.hbrBackground = (HBRUSH)(COLOR_GRADIENTACTIVECAPTION + 1); //Color de fondo
 	wcex.lpszClassName = L"GameWindowClass"; //Nombre del tipo (clase) de ventana
 
-											 //Registro mi tipo de ventana en windows
-	RegisterClassEx(&wcex);
+    RegisterClassEx(&wcex);  //Registro mi tipo de ventana en windows
 
 	//Creo la ventana, recibiendo el numero de ventana
 	HWND hWnd = CreateWindowEx(0, //Flags extra de estilo
@@ -56,7 +58,7 @@ void Game::Run(_In_ HINSTANCE hInstance,
 	UpdateWindow(hWnd); //La actualizo para que se vea
 
 						//Me comunico con directx por una interfaz, aca la creo
-	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
+    d3d = Direct3DCreate9(D3D_SDK_VERSION);
 
 	//Creo los parametros de los buffers de dibujado (pantalla)
 	D3DPRESENT_PARAMETERS d3dpp;
@@ -66,7 +68,6 @@ void Game::Run(_In_ HINSTANCE hInstance,
 	d3dpp.hDeviceWindow = hWnd;
 
 	//Creo la interfaz con la placa de video
-	LPDIRECT3DDEVICE9 dev;
 	d3d->CreateDevice(D3DADAPTER_DEFAULT, //Cual placa de video
 		D3DDEVTYPE_HAL, //Soft o hard
 		hWnd, //Ventana
@@ -76,6 +77,50 @@ void Game::Run(_In_ HINSTANCE hInstance,
 
 			   //Apago la luz para ver los colores y no todo oscuro
 	dev->SetRenderState(D3DRS_LIGHTING, false);
+}
+
+void Game::RenderFrame()
+{
+	D3DXVECTOR3 objPos(0, 0, 0);
+	//Actualizar
+	//dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 0, 0), 1.0F, 0);
+	dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 0, 50, 100), 1.0f, 0);
+	//TODO: Dibujar
+	dev->BeginScene();
+	num += 0.01;
+	/*D3DXMATRIX objRot;
+	D3DXMatrixRotationYawPitchRoll(&objRot,
+	D3DXToRadian(0), D3DXToRadian(0), D3DXToRadian(num));
+	D3DXVECTOR3 worldRight(1, 0, 0);
+	D3DXVECTOR4 objRight;
+	D3DXVec3Transform(&objRight, &worldRight, &objRot);
+	D3DXVECTOR3 right(objRight.x, objRight.y, objRight.z);
+	objPos += right * vel;*/
+
+	entities[0]->ModelMatrix(D3DXVECTOR3(0, 0, num),
+		D3DXVECTOR3(0, 0, num),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+	for (int i = 1; i < entities.size(); i++)
+	{
+	entities[i]->Scale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	entities[i]->Rotate(D3DXVECTOR3(0, 0, num));
+	entities[i]->Translate(D3DXVECTOR3(0.75, 0.75, 0));
+	entities[i]->SetChildModelMatrix(entities[i-1]->GetModelMatrix());
+	}
+	//Update();
+	for (int i = 0; i < entities.size(); i++)
+	{
+		entities[i]->Render();
+	}
+
+	dev->EndScene();
+	dev->Present(NULL, NULL, NULL, NULL);
+}
+
+void Game::Run(_In_ HINSTANCE hInstance,
+	_In_     int       nCmdShow)
+{
+	InitD3D(hInstance, nCmdShow);
 
 	std::vector<WORD> indexes = { 0, 3, 2, 0, 1, 3 };
 
@@ -87,22 +132,19 @@ void Game::Run(_In_ HINSTANCE hInstance,
 		{ +0.5f, -0.5f, 0.0f, D3DCOLOR_XRGB(0,255,0) },
 	};
 
-	Model m(dev, vertexes, indexes,2);
+	Model m(dev, vertexes, indexes, 2);
 	Entity es[CANT];
+	_camera->GetViewMatrix(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
+	_camera->SetPerspective(60, (float)640 / 480, 0.1f, 100.0f);
+	_camera->SetRenderView(dev);
+
 	for (int i = 0; i < CANT; i++)
 	{
-		es[i].SetDevice(dev);
-		es[i].LoadModel(&m);
+		entities.push_back(&es[i]);
+		entities[i]->SetDevice(dev);
+		entities[i]->LoadModel(&m);
 	}
 
-	Camera camera;
-	camera.GetViewMatrix(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
-	camera.SetPerspective(D3DXToRadian(45), (float)640 / 480, 1.0f, 100.0f);
-
-	D3DXVECTOR3 objPos(0, 0, 0);
-
-	float num = 0;
-	float vel = 0.01;
 	while (true)
 	{
 		MSG msg;
@@ -120,45 +162,14 @@ void Game::Run(_In_ HINSTANCE hInstance,
 			break;
 		}
 
-		//Actualizar
-		//dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 0, 0), 1.0F, 0);
-		dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 0, 50, 100), 1.0f, 0);
-		//TODO: Dibujar
-		dev->BeginScene();
-		num += 0.01;
-
-		/*D3DXMATRIX objRot;
-		D3DXMatrixRotationYawPitchRoll(&objRot,
-			D3DXToRadian(0), D3DXToRadian(0), D3DXToRadian(num));
-		D3DXVECTOR3 worldRight(1, 0, 0);
-		D3DXVECTOR4 objRight;
-		D3DXVec3Transform(&objRight, &worldRight, &objRot);
-		D3DXVECTOR3 right(objRight.x, objRight.y, objRight.z);
-        objPos += right * vel;*/
-
-		es[0].ModelMatrix(D3DXVECTOR3(0, 0, 0),
-		D3DXVECTOR3(0, 0, num),
-		D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-		for (int i = 1; i < CANT; i++)
-		{
-			es[i].Scale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-			es[i].Rotate(D3DXVECTOR3(0, 0, num));
-			es[i].Translate(D3DXVECTOR3(0.75, 0.75, 0));
-			es[i].SetChildModelMatrix(es[i-1].GetModelMatrix());
-		}
-		//camera.SetRenderView(dev);
-		for (int i = 0; i < CANT; i++)
-		{
-			es[i].Render(nullptr);
-		}
-
-		dev->EndScene();
-		dev->Present(NULL, NULL, NULL, NULL);
+		RenderFrame();
 
 	}
 	dev->Release();
 	d3d->Release();
 }
+
+
 
 //Manejo de mensajes por ventana
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -174,3 +185,4 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	//Si no maneje el mensaje antes, hago el comportamiento por defecto
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
+

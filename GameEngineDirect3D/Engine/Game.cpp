@@ -95,33 +95,10 @@ void Game::InitD3D(_In_ HINSTANCE hInstance, _In_ int nCmdShow)
 
 void Game::RenderFrame()
 {
-	D3DXMATRIX matTrans;
-	D3DXMatrixIdentity(&matTrans);
-	matTrans._31 = num;
-	matTrans._32 = num;
-	dev->SetTransform(D3DTS_TEXTURE0, &matTrans);
-	_input->CheckInput();
 	dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 0, 50, 100), 1.0f, 0);
 	//TODO: Dibujar
 	dev->BeginScene();
-	num += 0.01;
 
-	entities[0]->ModelMatrix(D3DXVECTOR3(0, 0, 1.0f),
-		D3DXVECTOR3(0, 0, 0),
-		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
-	/*for (int i = 1; i < entities.size(); i++)
-	{
-		entities[i]->Scale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-		entities[i]->Rotate(D3DXVECTOR3(0, 0, num));
-		entities[i]->Translate(D3DXVECTOR3(0.75, 0.75, 0));
-		entities[i]->SetParent(entities[i - 1]);
-	}*/
-	
-	if (_input->KeyPressed("Move Right"))
-		entities[0]->MoveRight();
-	if (_input->KeyJustPressed("Move Left"))
-		entities[0]->MoveLeft();
-	//Update();
 	for (int i = 0; i < entities.size(); i++)
 	{
 		entities[i]->Render();
@@ -129,6 +106,34 @@ void Game::RenderFrame()
 
 	dev->EndScene();
 	dev->Present(NULL, NULL, NULL, NULL);
+}
+
+void Game::Update()
+{
+	num += 0.01;
+
+	D3DXMATRIX matTrans;
+	D3DXMatrixIdentity(&matTrans);
+	matTrans._31 = num;
+	matTrans._32 = num;
+	dev->SetTransform(D3DTS_TEXTURE0, &matTrans);
+	_input->CheckInput();
+
+	/*entities[0]->ModelMatrix(D3DXVECTOR3(0, 0, 1.0f),
+		D3DXVECTOR3(0, 0, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+	/*for (int i = 1; i < entities.size(); i++)
+	{
+	entities[i]->Scale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	entities[i]->Rotate(D3DXVECTOR3(0, 0, num));
+	entities[i]->Translate(D3DXVECTOR3(0.75, 0.75, 0));
+	entities[i]->SetParent(entities[i - 1]);
+	}*/
+
+	if (_input->KeyPressed("Move Right"))
+		entities[0]->MoveRight();
+	if (_input->KeyJustPressed("Move Left"))
+		entities[0]->MoveLeft();
 }
 
 void Game::Run(_In_ HINSTANCE hInstance,
@@ -158,6 +163,9 @@ void Game::Run(_In_ HINSTANCE hInstance,
 		entities[i]->SetDevice(dev);
 		entities[i]->LoadModel(&m);
 	}
+	entities[0]->ModelMatrix(D3DXVECTOR3(0, 0, 1.0f),
+		D3DXVECTOR3(0, 0, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 
 	while (true)
 	{
@@ -176,6 +184,7 @@ void Game::Run(_In_ HINSTANCE hInstance,
 			break;
 		}
 
+		Update();
 		RenderFrame();
 
 	}

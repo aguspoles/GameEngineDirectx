@@ -20,6 +20,7 @@ public:
 
 	void InitD3D(_In_ HINSTANCE hInstance, _In_ int nCmdShow);
 	void RenderFrame();
+	void Update();
 	void Run(_In_ HINSTANCE hInstance, _In_ int nCmdShow);
 
 	virtual void Init_Graphics() = 0;

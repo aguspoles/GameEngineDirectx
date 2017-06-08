@@ -15,11 +15,9 @@ Input::Input(_In_ HINSTANCE hInstance, HWND hWnd)
 	_KeyDev->SetCooperativeLevel(hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	_KeyDev->Acquire();
 
-	std::map<std::string, std::vector<int>*> _inputMap;
-	_inputMap["Move Right"] = new std::vector<int>{ DIK_LEFTARROW, DIK_A };
-	_inputMap["Move Left"] = new std::vector<int>{ DIK_RIGHTARROW, DIK_D };
+	_inputMap["Move Left"] = new std::vector<int>{ DIK_LEFTARROW, DIK_A };
+	_inputMap["Move Right"] = new std::vector<int>{ DIK_RIGHTARROW, DIK_D };
 	_inputMap["Move Forward"] = new std::vector<int>{ DIK_UPARROW, DIK_W };
-	getInput = _inputMap["Move Right"];
 }
 
 
@@ -41,7 +39,7 @@ void Input::CheckInput()
 
 bool Input::KeyPressed(const std::string& action)
 {
-    //getInput = _inputMap["Move Right"];
+    std::vector<int>* getInput = _inputMap[action];
 	for (size_t i = 0; i < getInput->size(); i++)
 	{
 		if (_keys[getInput->at(i)])

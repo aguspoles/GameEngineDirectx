@@ -3,12 +3,12 @@
 #define MODEL_H
 #include <vector>
 
-#define CUSTOMFVF (D3DFVF_XYZ | D3DFVF_DIFFUSE)
+#define CUSTOMFVF (D3DFVF_XYZ | D3DFVF_TEX1)
 
 struct Vertex
 {
 	FLOAT x, y, z;
-	DWORD color;
+	FLOAT tu, tv;
 };
 
 class ENGINE_API Model

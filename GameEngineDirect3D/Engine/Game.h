@@ -22,7 +22,7 @@ public:
 	void RenderFrame();
 	void Run(_In_ HINSTANCE hInstance, _In_ int nCmdShow);
 
-	/*virtual*/ void Init_Graphics(); //= 0;
+	virtual void Init_Graphics() = 0;
 
 	void AddEntitie(Entity e);
 };

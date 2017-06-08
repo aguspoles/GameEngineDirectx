@@ -9,7 +9,6 @@ private:
 	byte _keys[256];
 	byte _prevKeys[256];
 	LPDIRECTINPUTDEVICE8 _KeyDev;
-	std::vector<int>* getInput;
 
 public:
 	Input();

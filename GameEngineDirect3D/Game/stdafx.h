@@ -24,4 +24,8 @@
 #include <d3dx9.h>
 #pragma comment (lib, "d3dx9.lib")
 
+#include <dinput.h>
+#pragma comment (lib, "dinput8.lib")
+#pragma comment (lib, "dxguid.lib")
+
 // TODO: reference additional headers your program requires here

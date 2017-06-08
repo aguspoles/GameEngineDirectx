@@ -30,11 +30,20 @@ public:
 	void SetModelMatrix(D3DXMATRIX model);
 	void SetParent(Entity* parent);
 
+	Transform GetTransform();
+
 	void Translate(D3DXVECTOR3 pos);
 	void Rotate(D3DXVECTOR3 rot);
 	void Scale(D3DXVECTOR3 scal);
 
-	Transform GetTransform();
+	void MoveForward();
+	void MoveRight();
+	void MoveLeft();
+
+	float GetForward();
+	float GetUp();
+	float GetRight();
+
 };
 
 #endif

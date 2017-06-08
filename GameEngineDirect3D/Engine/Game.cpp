@@ -18,6 +18,7 @@ Game::Game()
 Game::~Game()
 {
 	delete _camera;
+	delete _input;
 }
 
 void Game::InitD3D(_In_ HINSTANCE hInstance, _In_ int nCmdShow)
@@ -77,25 +78,18 @@ void Game::InitD3D(_In_ HINSTANCE hInstance, _In_ int nCmdShow)
 
 			   //Apago la luz para ver los colores y no todo oscuro
 	dev->SetRenderState(D3DRS_LIGHTING, false);
+
+	_input = new Input(hInstance, hWnd);
 }
 
 void Game::RenderFrame()
 {
-	D3DXVECTOR3 objPos(0, 0, 0);
-	//Actualizar
+	_input->CheckInput();
 	//dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 0, 0), 1.0F, 0);
 	dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 0, 50, 100), 1.0f, 0);
 	//TODO: Dibujar
 	dev->BeginScene();
 	num += 0.01;
-	/*D3DXMATRIX objRot;
-	D3DXMatrixRotationYawPitchRoll(&objRot,
-	D3DXToRadian(0), D3DXToRadian(0), D3DXToRadian(num));
-	D3DXVECTOR3 worldRight(1, 0, 0);
-	D3DXVECTOR4 objRight;
-	D3DXVec3Transform(&objRight, &worldRight, &objRot);
-	D3DXVECTOR3 right(objRight.x, objRight.y, objRight.z);
-	objPos += right * vel;*/
 
 	entities[0]->ModelMatrix(D3DXVECTOR3(0, 0, 5.0f),
 		D3DXVECTOR3(0, 0, num),
@@ -107,6 +101,11 @@ void Game::RenderFrame()
 		entities[i]->Translate(D3DXVECTOR3(0.75, 0.75, 0));
 		entities[i]->SetParent(entities[i - 1]);
 	}
+	
+	if (_input->KeyPressed("Move Right"))
+		entities[0]->MoveRight();
+	/*if (_input->Left())
+		entities[0]->MoveLeft();*/
 	//Update();
 	for (int i = 0; i < entities.size(); i++)
 	{

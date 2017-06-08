@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #ifndef CAMERA_H
 #define CAMERA_H

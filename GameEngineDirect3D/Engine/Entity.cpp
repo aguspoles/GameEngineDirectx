@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Entity.h"
 
-Entity::Entity() //: Game()
+Entity::Entity()
 {
 	_model = nullptr;
 	_dev = nullptr;
@@ -11,7 +11,7 @@ Entity::Entity() //: Game()
 	D3DXMatrixIdentity(&_modelMatrix);
 }
 
-Entity::Entity(LPDIRECT3DDEVICE9 dev, Model *m)// : Game()
+Entity::Entity(LPDIRECT3DDEVICE9 dev, Model *m)
 {
 	_dev = dev;
 	_model = m;
@@ -116,6 +116,57 @@ void Entity::Scale(D3DXVECTOR3 scal)
 	D3DXMatrixScaling(&_scaleMatrix, scal.x, scal.y, scal.z);
 	_transform.scale = scal;
 	_modelMatrix = _rotateMatrix * _scaleMatrix * _translateMatrix;
+}
+
+void Entity::MoveForward()
+{
+	static float vel = 0.01;
+	vel += 0.01;
+	D3DXVECTOR3 worldForward(0, 0, 1);
+	D3DXVECTOR4 objForward;
+	D3DXVec3Transform(&objForward, &worldForward, &_rotateMatrix);
+	D3DXVECTOR3 forward(objForward.x, objForward.y, objForward.z);
+	_transform.position += forward * vel;
+	Translate(_transform.position);
+}
+
+void Entity::MoveRight()
+{
+	static float vel = 0.01;
+	vel += 0.01;
+	D3DXVECTOR3 worldRight(1, 0, 0);
+	D3DXVECTOR4 objRight;
+	D3DXVec3Transform(&objRight, &worldRight, &_rotateMatrix);
+	D3DXVECTOR3 right(objRight.x, objRight.y, objRight.z);
+	_transform.position += right * vel;
+	Translate(_transform.position);
+}
+
+void Entity::MoveLeft()
+{
+	static float vel = 0.01;
+	vel += 0.01;
+	D3DXVECTOR3 worldLeft(-1, 0, 0);
+	D3DXVECTOR4 objLeft;
+	D3DXVec3Transform(&objLeft, &worldLeft, &_rotateMatrix);
+	D3DXVECTOR3 left(objLeft.x, objLeft.y, objLeft.z);
+	_transform.position += left * vel;
+	Translate(_transform.position);
+}
+
+float Entity::GetForward()
+{
+	return _transform.position.z;
+}
+
+float Entity::GetUp()
+{
+	return _transform.position.y;
+}
+
+float Entity::GetRight()
+{
+	return _transform.position.x;
 }
 
 Transform Entity::GetTransform()

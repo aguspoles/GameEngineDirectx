@@ -1,10 +1,9 @@
 #pragma once
 
 #include "resource.h"
-#include "stdafx.h"
 #include "Game.h"
 
-class GameApp : Game
+class GameApp : public Game
 {
 private:
 public:

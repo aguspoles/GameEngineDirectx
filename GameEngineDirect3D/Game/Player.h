@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLAYER_H
+#define PLAYER_H
 #include "Entity.h"
 #include "Enemy.h"
 
@@ -8,14 +9,15 @@ private:
 
 public:
 	Player();
+	Player(LPDIRECT3DDEVICE9 dev);
 	~Player();
 
+	void Init();
 	void Update();
-	void Move(D3DXVECTOR3 pos);
-	void Scale(D3DXVECTOR3 sca);
-	void Rotate(D3DXVECTOR3 sca);
 
-	void EnemyCollision(Enemy e);
+	std::string GetType() const;
+	void EnemyCollision(const std::vector<Entity*> &entities);
 
 };
 
+#endif

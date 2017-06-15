@@ -1,11 +1,8 @@
 #include "stdafx.h"
 #include "Model.h"
 
-Model::Model()
+Model::Model() : _vb(NULL), _ib(NULL), _primitivesCount(0)
 {
-	_vb = nullptr;
-	_ib = nullptr;
-	_primitivesCount = 0;
 }
 
 Model::~Model()

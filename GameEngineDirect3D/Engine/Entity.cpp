@@ -1,20 +1,16 @@
 #include "stdafx.h"
 #include "Entity.h"
 
-Entity::Entity()
+Entity::Entity() : _model(NULL), _dev(NULL), _texture(NULL), _isVisible(true)
 {
-	_model = nullptr;
-	_dev = nullptr;
 	D3DXMatrixIdentity(&_rotateMatrix);
 	D3DXMatrixIdentity(&_scaleMatrix);
 	D3DXMatrixIdentity(&_translateMatrix);
 	D3DXMatrixIdentity(&_modelMatrix);
 }
 
-Entity::Entity(LPDIRECT3DDEVICE9 dev, Model *m)
+Entity::Entity(LPDIRECT3DDEVICE9 dev, Model* m) : _model(m), _dev(dev), _texture(NULL), _isVisible(true)
 {
-	_dev = dev;
-	_model = m;
 	D3DXMatrixIdentity(&_rotateMatrix);
 	D3DXMatrixIdentity(&_scaleMatrix);
 	D3DXMatrixIdentity(&_translateMatrix);
@@ -24,30 +20,35 @@ Entity::Entity(LPDIRECT3DDEVICE9 dev, Model *m)
 
 Entity::~Entity()
 {
-
+	if (_texture)
+	{
+		delete _texture;
+		_texture = NULL;
+	}
+	if (_model)
+	{
+		delete _model;
+		_model = NULL;
+	}
 }
 
-/*void Entity::Update()
-{
-
-}
-*/
 void Entity::Render()
 {
+	_texture->Update();
 	//especificamos el formato del vertice
 	_dev->SetFVF(CUSTOMFVF);
 	_dev->SetTransform(D3DTS_WORLD, &_modelMatrix);
 	//especificamos cual vb vamos a usar
 	_dev->SetStreamSource(0, _model->GetVertexBuffer(), 0, sizeof(Vertex));
-	//esto apga el culling de la placa 
 	//especificamos q indices vamos  a usar
 	_dev->SetIndices(_model->GetIndexBuffer());
+	//esto apga el culling de la placa 
 	//_dev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	_dev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0,
 		(_model->GetVertexes()).size(), 0, _model->GetPrimitivesCount());
 }
 
-void Entity::LoadModel(Model *m)
+void Entity::LoadModel(Model* m)
 {
 	_model = m;
 }
@@ -55,6 +56,16 @@ void Entity::LoadModel(Model *m)
 void Entity::SetDevice(LPDIRECT3DDEVICE9 dev)
 {
 	_dev = dev;
+}
+
+LPDIRECT3DDEVICE9 Entity::GetDevice()
+{
+	return _dev;
+}
+
+void Entity::SetTexture(Texture* tex)
+{
+	_texture = tex;
 }
 
 void Entity::ModelMatrix(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 sca)
@@ -120,8 +131,7 @@ void Entity::Scale(D3DXVECTOR3 scal)
 
 void Entity::MoveForward()
 {
-	static float vel = 0.01;
-	vel += 0.01;
+	float vel = 0.03;
 	D3DXVECTOR3 worldForward(0, 0, 1);
 	D3DXVECTOR4 objForward;
 	D3DXVec3Transform(&objForward, &worldForward, &_rotateMatrix);
@@ -132,8 +142,7 @@ void Entity::MoveForward()
 
 void Entity::MoveRight()
 {
-	static float vel = 0.01;
-	vel += 0.01;
+    float vel = 0.03;
 	D3DXVECTOR3 worldRight(1, 0, 0);
 	D3DXVECTOR4 objRight;
 	D3DXVec3Transform(&objRight, &worldRight, &_rotateMatrix);
@@ -144,8 +153,7 @@ void Entity::MoveRight()
 
 void Entity::MoveLeft()
 {
-	static float vel = 0.01;
-	vel += 0.01;
+	float vel = 0.03;
 	D3DXVECTOR3 worldLeft(-1, 0, 0);
 	D3DXVECTOR4 objLeft;
 	D3DXVec3Transform(&objLeft, &worldLeft, &_rotateMatrix);
@@ -167,6 +175,11 @@ float Entity::GetUp()
 float Entity::GetRight()
 {
 	return _transform.position.x;
+}
+
+bool Entity::IsVisible() const
+{
+	return _isVisible;
 }
 
 Transform Entity::GetTransform()

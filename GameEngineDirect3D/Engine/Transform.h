@@ -1,4 +1,6 @@
-#pragma once
+#ifndef TRANSFORM_H
+#define TRANSFORM_H
+
 class ENGINE_API Transform
 {
 public:
@@ -8,3 +10,5 @@ public:
 	Transform();
 	~Transform();
 };
+
+#endif

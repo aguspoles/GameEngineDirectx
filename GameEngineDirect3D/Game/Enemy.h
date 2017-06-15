@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ENEMY_H
+#define ENEMY_H
 #include "Entity.h"
 
 class Enemy : public Entity
@@ -7,14 +8,14 @@ private:
 	
 public:
 	Enemy();
+	Enemy(LPDIRECT3DDEVICE9 dev);
 	~Enemy();
 
-	Transform GetTransform();
-
+	void Init();
 	void Update();
 
-	void Move(D3DXVECTOR3 pos);
-	void Scale(D3DXVECTOR3 sca);
-	void Rotate(D3DXVECTOR3 sca);
+	std::string GetType() const;
+
 };
 
+#endif

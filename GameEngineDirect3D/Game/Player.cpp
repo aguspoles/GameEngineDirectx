@@ -3,9 +3,32 @@
 #include "Player.h"
 
 
-Player::Player() 
+Player::Player()
 {
-	
+}
+
+Player::Player(LPDIRECT3DDEVICE9 dev)
+{
+	SetDevice(dev);
+	std::vector<WORD> indexes = { 3, 0, 1, 3, 1, 2 };
+
+	std::vector<Vertex> vertexes =
+	{
+		{ -0.5f, +0.5f, 0.0f, 0.0f, 0.0f },
+		{ +0.5f, +0.5f, 0.0f, 2.0f, 0.0f },
+		{ +0.5f, -0.5f, 0.0f, 2.0f, 2.0f },
+		{ -0.5f, -0.5f, 0.0f, 0.0f, 2.0f },
+	};
+	Model* m = new Model(dev, vertexes, indexes, 2);
+	LoadModel(m);
+
+	Texture* tex1 = new Texture(dev);
+	tex1->LoadTexture(L"../huevo.jpg");
+	SetTexture(tex1);
+
+	ModelMatrix(D3DXVECTOR3(0, 0, 1.0f),
+		D3DXVECTOR3(0, 0, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 }
 
 
@@ -15,26 +38,22 @@ Player::~Player()
 
 void Player::Update()
 {
-	Move(D3DXVECTOR3(0,0,0));
+	if (Game::GetInput()->KeyPressed("Move Right"))
+		MoveRight();
+	if (Game::GetInput()->KeyJustPressed("Move Left"))
+		MoveLeft();
 }
 
-void Player::Move(D3DXVECTOR3 pos)
+void Player::EnemyCollision(const std::vector<Entity*> &entities)
 {
-	Translate(pos);
+
 }
 
-void Player::Rotate(D3DXVECTOR3 rot)
+void Player::Init()
 {
-	Rotate(rot);
 }
 
-void Player::Scale(D3DXVECTOR3 sca)
+std::string Player::GetType() const
 {
-	Scale(sca);
-}
-
-void Player::EnemyCollision(Enemy e)
-{
-	/*if (_transform.position == e.GetTransform().position)
-		return;*/
+	return "Player";
 }

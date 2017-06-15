@@ -1,8 +1,9 @@
-#pragma once
+#ifndef INPUT_H
+#define INPUT_H
 #include <map>
 #include<vector>
 
-class Input
+class ENGINE_API Input
 {
 private:
 	std::map<std::string, std::vector<int>*> _inputMap;
@@ -21,3 +22,4 @@ public:
 	bool KeyReleased(const std::string& action);
 };
 
+#endif

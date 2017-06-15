@@ -1,7 +1,8 @@
-#pragma once
-
+#ifndef GAMEAPP_H
+#define GAMEAPP_H
 #include "resource.h"
 #include "Game.h"
+#include "Player.h"
 
 class GameApp : public Game
 {
@@ -10,5 +11,9 @@ public:
 	GameApp();
 	~GameApp();
 
-	void Init_Graphics();
+	void Run(_In_ HINSTANCE hInstance, _In_ int nCmdShow);
+	void Update();
+	void Init();
 };
+
+#endif

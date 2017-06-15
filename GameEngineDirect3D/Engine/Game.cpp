@@ -2,24 +2,36 @@
 #include "Game.h"
 #include "Entity.h"
 
-#define CANT 4
-float num = 0;
-float vel = 0.01;
+Input* Game::_input = NULL;
 
-LPDIRECT3D9 d3d;
-LPDIRECT3DDEVICE9 dev;
-IDirect3DDevice9* idev;
-
-Game::Game()
+Game::Game() : dev(NULL), d3d(NULL)
 {
 	_camera = new Camera();
 }
 
-
 Game::~Game()
 {
-	delete _camera;
-	delete _input;
+	if (_camera)
+	{
+	    delete _camera;
+		_camera = NULL;
+	}
+	if (_input)
+	{
+		delete _input;
+		_input = NULL;
+	}
+	for each(Entity* entitie in _entities)
+	{
+		if (entitie)
+		{
+			delete entitie;
+			entitie = NULL;
+		}
+	}
+	_entities.clear();
+	dev->Release();
+	d3d->Release();
 }
 
 void Game::InitD3D(_In_ HINSTANCE hInstance, _In_ int nCmdShow)
@@ -77,119 +89,36 @@ void Game::InitD3D(_In_ HINSTANCE hInstance, _In_ int nCmdShow)
 		&d3dpp, //Los parametros de buffers
 		&dev); //El device que se crea
 
-			   //Apago la luz para ver los colores y no todo oscuro
+    //Apago la luz para ver los colores y no todo oscuro
 	dev->SetRenderState(D3DRS_LIGHTING, false);
 
 	_input = new Input(hInstance, hWnd);
-
-	//--------textura-------------
-	IDirect3DTexture9* g_texture = NULL;
-	D3DXCreateTextureFromFile(dev, L"../water.jpg", &g_texture);
-
-	dev->SetTexture(0, g_texture);
-	dev->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2);
-	dev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
-	dev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
-	dev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 }
 
 void Game::RenderFrame()
 {
 	dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 0, 50, 100), 1.0f, 0);
-	//TODO: Dibujar
+	
 	dev->BeginScene();
 
-	for (int i = 0; i < entities.size(); i++)
+	for (int i = 0; i < _entities.size(); i++)
 	{
-		entities[i]->Render();
+		if (_entities[i])
+			_entities[i]->Render();
 	}
 
 	dev->EndScene();
 	dev->Present(NULL, NULL, NULL, NULL);
 }
 
-void Game::Update()
+Input* Game::GetInput()
 {
-	num += 0.01;
-
-	D3DXMATRIX matTrans;
-	D3DXMatrixIdentity(&matTrans);
-	matTrans._31 = num;
-	matTrans._32 = num;
-	dev->SetTransform(D3DTS_TEXTURE0, &matTrans);
-	_input->CheckInput();
-
-	/*entities[0]->ModelMatrix(D3DXVECTOR3(0, 0, 1.0f),
-		D3DXVECTOR3(0, 0, 0),
-		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
-	/*for (int i = 1; i < entities.size(); i++)
-	{
-	entities[i]->Scale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
-	entities[i]->Rotate(D3DXVECTOR3(0, 0, num));
-	entities[i]->Translate(D3DXVECTOR3(0.75, 0.75, 0));
-	entities[i]->SetParent(entities[i - 1]);
-	}*/
-
-	if (_input->KeyPressed("Move Right"))
-		entities[0]->MoveRight();
-	if (_input->KeyJustPressed("Move Left"))
-		entities[0]->MoveLeft();
+	return _input;
 }
 
-void Game::Run(_In_ HINSTANCE hInstance,
-	_In_     int       nCmdShow)
+void Game::AddEntitie(Entity* e)
 {
-	InitD3D(hInstance, nCmdShow);
-
-	std::vector<WORD> indexes = { 3, 0, 1, 3, 1, 2 };
-
-	std::vector<Vertex> vertexes =
-	{
-		{ -0.5f, +0.5f, 0.0f, 0.0f, 0.0f },
-		{ +0.5f, +0.5f, 0.0f, 2.0f, 0.0f },
-		{ +0.5f, -0.5f, 0.0f, 2.0f, 2.0f },
-		{ -0.5f, -0.5f, 0.0f, 0.0f, 2.0f },
-	};
-
-	Model m(dev, vertexes, indexes, 2);
-	Entity es[CANT];
-	_camera->GetViewMatrix(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
-	_camera->SetPerspective(60, (float)640 / 480, 0.1f, 100.0f);
-	_camera->SetRenderView(dev);
-
-	for (int i = 0; i < CANT; i++)
-	{
-		entities.push_back(&es[i]);
-		entities[i]->SetDevice(dev);
-		entities[i]->LoadModel(&m);
-	}
-	entities[0]->ModelMatrix(D3DXVECTOR3(0, 0, 1.0f),
-		D3DXVECTOR3(0, 0, 0),
-		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
-
-	while (true)
-	{
-		MSG msg;
-
-		//Saco un mensaje de la cola de mensajes si es que hay
-		//sino continuo
-		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-
-		if (msg.message == WM_QUIT)
-		{
-			break;
-		}
-
-		Update();
-		RenderFrame();
-
-	}
-	dev->Release();
-	d3d->Release();
+	_entities.push_back(e);
 }
 
 

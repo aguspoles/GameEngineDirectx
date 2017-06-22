@@ -22,15 +22,14 @@ Player::Player(LPDIRECT3DDEVICE9 dev)
 	Model* m = new Model(dev, vertexes, indexes, 2);
 	LoadModel(m);
 
-	Texture* tex1 = new Texture(dev);
-	tex1->LoadTexture(L"../water1.jpg");
-	SetTexture(tex1);
-	GetTexture()->Offset(D3DXVECTOR2(0,0));
-	GetTexture()->Tiling(D3DTADDRESS_WRAP, D3DTADDRESS_WRAP);
-
 	ModelMatrix(D3DXVECTOR3(0, 0, 1.0f),
 		D3DXVECTOR3(0, 0, 0),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+
+	Texture* tex1 = new Texture(dev);
+	tex1->LoadTexture(L"../water1.jpg");
+	SetTexture(tex1);
+	Tiling(D3DXVECTOR3(1,1,1));
 }
 
 
@@ -40,7 +39,7 @@ Player::~Player()
 
 void Player::Update()
 {
-	GetTexture()->WaterEffect();
+	WaterEffect();
 	if (Game::GetInput()->KeyPressed(ACTION::MOVE_RIGHT))
 		MoveRight();
 	if (Game::GetInput()->KeyJustPressed(ACTION::MOVE_LEFT))
@@ -50,6 +49,14 @@ void Player::Update()
 void Player::EnemyCollision(const std::vector<Entity*> &entities)
 {
 
+}
+
+void Player::WaterEffect()
+{
+	static float num = 0;
+	RotateTexture(D3DXVECTOR3(0, 0, num));
+	Offset(D3DXVECTOR2(num, num));
+	num += 0.01;
 }
 
 void Player::Init()

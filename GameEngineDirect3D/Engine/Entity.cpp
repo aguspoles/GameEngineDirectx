@@ -3,18 +3,28 @@
 
 Entity::Entity() : _model(NULL), _dev(NULL), _texture(NULL), _isVisible(true)
 {
-	D3DXMatrixIdentity(&_rotateMatrix);
-	D3DXMatrixIdentity(&_scaleMatrix);
-	D3DXMatrixIdentity(&_translateMatrix);
+	D3DXMatrixIdentity(&_rotateMeshMatrix);
+	D3DXMatrixIdentity(&_scaleMeshMatrix);
+	D3DXMatrixIdentity(&_translateMeshMatrix);
 	D3DXMatrixIdentity(&_modelMatrix);
+
+	D3DXMatrixIdentity(&_positionTexMatrix);
+	D3DXMatrixIdentity(&_scaleTexMatrix);
+	D3DXMatrixIdentity(&_rotateTexMatrix);
+	D3DXMatrixIdentity(&_textureMatrix);
 }
 
 Entity::Entity(LPDIRECT3DDEVICE9 dev, Model* m) : _model(m), _dev(dev), _texture(NULL), _isVisible(true)
 {
-	D3DXMatrixIdentity(&_rotateMatrix);
-	D3DXMatrixIdentity(&_scaleMatrix);
-	D3DXMatrixIdentity(&_translateMatrix);
+	D3DXMatrixIdentity(&_rotateMeshMatrix);
+	D3DXMatrixIdentity(&_scaleMeshMatrix);
+	D3DXMatrixIdentity(&_translateMeshMatrix);
 	D3DXMatrixIdentity(&_modelMatrix);
+
+	D3DXMatrixIdentity(&_positionTexMatrix);
+	D3DXMatrixIdentity(&_scaleTexMatrix);
+	D3DXMatrixIdentity(&_rotateTexMatrix);
+	D3DXMatrixIdentity(&_textureMatrix);
 }
 
 
@@ -34,7 +44,7 @@ Entity::~Entity()
 
 void Entity::Render()
 {
-	_texture->Update();
+	_texture->SetTexture(&_textureMatrix);
 	//especificamos el formato del vertice
 	_dev->SetFVF(CUSTOMFVF);
 	_dev->SetTransform(D3DTS_WORLD, &_modelMatrix);
@@ -73,6 +83,32 @@ Texture * Entity::GetTexture()
 	return _texture;
 }
 
+void Entity::Tiling(D3DXVECTOR3 scal)
+{
+	D3DXMatrixTranslation(&_positionTexMatrix, scal.x, scal.y, scal.z);
+	_textureMatrix = _rotateTexMatrix * _scaleTexMatrix * _positionTexMatrix;
+}
+
+void Entity::Offset(D3DXVECTOR2 pos)
+{
+	D3DXMatrixIdentity(&_positionTexMatrix);
+	_positionTexMatrix._31 = pos.x;
+	_positionTexMatrix._32 = pos.y;
+	_textureMatrix = _rotateTexMatrix * _scaleTexMatrix * _positionTexMatrix;
+}
+
+void Entity::RotateTexture(D3DXVECTOR3 rot)
+{
+	D3DXMATRIX rotX;
+	D3DXMATRIX rotY;
+	D3DXMATRIX rotZ;
+	D3DXMatrixRotationZ(&rotZ, rot.z);
+	D3DXMatrixRotationX(&rotX, rot.x);
+	D3DXMatrixRotationY(&rotY, rot.y);
+	_rotateTexMatrix = rotZ * rotX * rotY;
+	_textureMatrix = _rotateTexMatrix * _scaleTexMatrix * _positionTexMatrix;
+}
+
 void Entity::ModelMatrix(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 sca)
 {
 	_transform.position = pos;
@@ -84,10 +120,10 @@ void Entity::ModelMatrix(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 sca)
 	D3DXMatrixRotationZ(&rotZ, rot.z);
 	D3DXMatrixRotationX(&rotX, rot.x);
 	D3DXMatrixRotationY(&rotY, rot.y);
-	D3DXMatrixScaling(&_scaleMatrix, sca.x, sca.y, sca.z);
-	D3DXMatrixTranslation(&_translateMatrix, pos.x, pos.y, pos.z);
-	_rotateMatrix = rotZ * rotX * rotY;
-	_modelMatrix = _scaleMatrix * _rotateMatrix * _translateMatrix;
+	D3DXMatrixScaling(&_scaleMeshMatrix, sca.x, sca.y, sca.z);
+	D3DXMatrixTranslation(&_translateMeshMatrix, pos.x, pos.y, pos.z);
+	_rotateMeshMatrix = rotZ * rotX * rotY;
+	_modelMatrix = _scaleMeshMatrix * _rotateMeshMatrix * _translateMeshMatrix;
 }
 
 void Entity::SetModelMatrix(D3DXMATRIX model)
@@ -105,16 +141,16 @@ D3DXMATRIX Entity::GetModelMatrix()
 	return _modelMatrix;
 }
 
-void Entity::Translate(D3DXVECTOR3 pos)
+void Entity::TranslateMesh(D3DXVECTOR3 pos)
 {
 	_transform.position = pos;
-	D3DXMatrixTranslation(&_translateMatrix, _transform.position.x,
+	D3DXMatrixTranslation(&_translateMeshMatrix, _transform.position.x,
 		                                     _transform.position.y,
 		                                     _transform.position.z);
-	_modelMatrix = _rotateMatrix * _scaleMatrix * _translateMatrix;
+	_modelMatrix = _rotateMeshMatrix * _scaleMeshMatrix * _translateMeshMatrix;
 }
 
-void Entity::Rotate(D3DXVECTOR3 rot)
+void Entity::RotateMesh(D3DXVECTOR3 rot)
 {
 	D3DXMATRIX rotX;
 	D3DXMATRIX rotY;
@@ -122,27 +158,28 @@ void Entity::Rotate(D3DXVECTOR3 rot)
 	D3DXMatrixRotationZ(&rotZ, rot.z);
 	D3DXMatrixRotationX(&rotX, rot.x);
 	D3DXMatrixRotationY(&rotY, rot.y);
-	_rotateMatrix = rotZ * rotX * rotY;
+	_rotateMeshMatrix = rotZ * rotX * rotY;
 	_transform.rotation = rot;
-	_modelMatrix = _rotateMatrix * _scaleMatrix * _translateMatrix;
+	_modelMatrix = _rotateMeshMatrix * _scaleMeshMatrix * _translateMeshMatrix;
 }
 
-void Entity::Scale(D3DXVECTOR3 scal)
+void Entity::ScaleMesh(D3DXVECTOR3 scal)
 {
-	D3DXMatrixScaling(&_scaleMatrix, scal.x, scal.y, scal.z);
+	D3DXMatrixScaling(&_scaleMeshMatrix, scal.x, scal.y, scal.z);
 	_transform.scale = scal;
-	_modelMatrix = _rotateMatrix * _scaleMatrix * _translateMatrix;
+	_modelMatrix = _rotateMeshMatrix * _scaleMeshMatrix * _translateMeshMatrix;
 }
+
 
 void Entity::MoveForward()
 {
 	float vel = 0.03;
 	D3DXVECTOR3 worldForward(0, 0, 1);
 	D3DXVECTOR4 objForward;
-	D3DXVec3Transform(&objForward, &worldForward, &_rotateMatrix);
+	D3DXVec3Transform(&objForward, &worldForward, &_rotateMeshMatrix);
 	D3DXVECTOR3 forward(objForward.x, objForward.y, objForward.z);
 	_transform.position += forward * vel;
-	Translate(_transform.position);
+	TranslateMesh(_transform.position);
 }
 
 void Entity::MoveRight()
@@ -150,10 +187,10 @@ void Entity::MoveRight()
     float vel = 0.03;
 	D3DXVECTOR3 worldRight(1, 0, 0);
 	D3DXVECTOR4 objRight;
-	D3DXVec3Transform(&objRight, &worldRight, &_rotateMatrix);
+	D3DXVec3Transform(&objRight, &worldRight, &_rotateMeshMatrix);
 	D3DXVECTOR3 right(objRight.x, objRight.y, objRight.z);
 	_transform.position += right * vel;
-	Translate(_transform.position);
+	TranslateMesh(_transform.position);
 }
 
 void Entity::MoveLeft()
@@ -161,10 +198,10 @@ void Entity::MoveLeft()
 	float vel = 0.03;
 	D3DXVECTOR3 worldLeft(-1, 0, 0);
 	D3DXVECTOR4 objLeft;
-	D3DXVec3Transform(&objLeft, &worldLeft, &_rotateMatrix);
+	D3DXVec3Transform(&objLeft, &worldLeft, &_rotateMeshMatrix);
 	D3DXVECTOR3 left(objLeft.x, objLeft.y, objLeft.z);
 	_transform.position += left * vel;
-	Translate(_transform.position);
+	TranslateMesh(_transform.position);
 }
 
 float Entity::GetForward()

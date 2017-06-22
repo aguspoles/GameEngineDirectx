@@ -18,6 +18,8 @@ public:
 	std::string GetType() const;
 	void EnemyCollision(const std::vector<Entity*> &entities);
 
+	void WaterEffect();
+
 };
 
 #endif

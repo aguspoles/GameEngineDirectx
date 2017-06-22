@@ -13,10 +13,16 @@ private:
 	LPDIRECT3DDEVICE9 _dev;
 	Transform _transform;
 	bool _isVisible;
+	//model matrixes
 	D3DXMATRIX _modelMatrix;
-	D3DXMATRIX _rotateMatrix;
-	D3DXMATRIX _scaleMatrix;
-	D3DXMATRIX _translateMatrix;
+	D3DXMATRIX _rotateMeshMatrix;
+	D3DXMATRIX _scaleMeshMatrix;
+	D3DXMATRIX _translateMeshMatrix;
+	//texture matrixes
+	D3DXMATRIX _textureMatrix;
+	D3DXMATRIX _scaleTexMatrix;
+	D3DXMATRIX _positionTexMatrix;
+	D3DXMATRIX _rotateTexMatrix;
 	
 public:
 	Entity();
@@ -29,8 +35,12 @@ public:
 	void LoadModel(Model *m);
 	void SetDevice(LPDIRECT3DDEVICE9 dev);
 	LPDIRECT3DDEVICE9 GetDevice();
+
 	void SetTexture(Texture* tex);
 	Texture* GetTexture();
+	void Tiling(D3DXVECTOR3 scal);//scale the texture
+	void Offset(D3DXVECTOR2 pos);//positionate the texture
+	void RotateTexture(D3DXVECTOR3 rot);
 
 	void ModelMatrix(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 sca);//escala, rota y traslada
 	D3DXMATRIX GetModelMatrix();
@@ -39,9 +49,9 @@ public:
 
 	Transform GetTransform();
 
-	void Translate(D3DXVECTOR3 pos);
-	void Rotate(D3DXVECTOR3 rot);
-	void Scale(D3DXVECTOR3 scal);
+	void TranslateMesh(D3DXVECTOR3 pos);
+	void RotateMesh(D3DXVECTOR3 rot);
+	void ScaleMesh(D3DXVECTOR3 scal);
 
 	void MoveForward();
 	void MoveRight();

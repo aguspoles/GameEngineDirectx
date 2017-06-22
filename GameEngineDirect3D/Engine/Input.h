@@ -3,10 +3,12 @@
 #include <map>
 #include<vector>
 
+enum ACTION{MOVE_LEFT, MOVE_RIGHT, MOVE_FORWARD};
+
 class ENGINE_API Input
 {
 private:
-	std::map<std::string, std::vector<int>*> _inputMap;
+	std::map<ACTION, std::vector<int>*> _inputMap;
 	byte _keys[256];
 	byte _prevKeys[256];
 	LPDIRECTINPUTDEVICE8 _KeyDev;
@@ -17,9 +19,9 @@ public:
 	~Input();
 
 	void CheckInput();
-	bool KeyPressed(const std::string& action);
-	bool KeyJustPressed(const std::string& action);
-	bool KeyReleased(const std::string& action);
+	bool KeyPressed(const ACTION& action);
+	bool KeyJustPressed(const ACTION& action);
+	bool KeyReleased(const ACTION& action);
 };
 
 #endif

@@ -23,8 +23,10 @@ Player::Player(LPDIRECT3DDEVICE9 dev)
 	LoadModel(m);
 
 	Texture* tex1 = new Texture(dev);
-	tex1->LoadTexture(L"../huevo.jpg");
+	tex1->LoadTexture(L"../water1.jpg");
 	SetTexture(tex1);
+	GetTexture()->Offset(D3DXVECTOR2(0,0));
+	GetTexture()->Tiling(D3DTADDRESS_WRAP, D3DTADDRESS_WRAP);
 
 	ModelMatrix(D3DXVECTOR3(0, 0, 1.0f),
 		D3DXVECTOR3(0, 0, 0),
@@ -38,9 +40,10 @@ Player::~Player()
 
 void Player::Update()
 {
-	if (Game::GetInput()->KeyPressed("Move Right"))
+	GetTexture()->WaterEffect();
+	if (Game::GetInput()->KeyPressed(ACTION::MOVE_RIGHT))
 		MoveRight();
-	if (Game::GetInput()->KeyJustPressed("Move Left"))
+	if (Game::GetInput()->KeyJustPressed(ACTION::MOVE_LEFT))
 		MoveLeft();
 }
 

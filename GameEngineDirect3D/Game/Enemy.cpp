@@ -23,7 +23,7 @@ Enemy::Enemy(LPDIRECT3DDEVICE9 dev)
 	LoadModel(m);
 
 	Texture* tex1 = new Texture(dev);
-	tex1->LoadTexture(L"../water1.jpg");
+	tex1->LoadTexture(L"../metal.jpg");
 	SetTexture(tex1);
 
 	ModelMatrix(D3DXVECTOR3(0, 0, 1.0f),

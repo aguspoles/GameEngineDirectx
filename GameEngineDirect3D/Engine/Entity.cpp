@@ -68,6 +68,11 @@ void Entity::SetTexture(Texture* tex)
 	_texture = tex;
 }
 
+Texture * Entity::GetTexture()
+{
+	return _texture;
+}
+
 void Entity::ModelMatrix(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 sca)
 {
 	_transform.position = pos;

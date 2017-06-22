@@ -30,6 +30,7 @@ public:
 	void SetDevice(LPDIRECT3DDEVICE9 dev);
 	LPDIRECT3DDEVICE9 GetDevice();
 	void SetTexture(Texture* tex);
+	Texture* GetTexture();
 
 	void ModelMatrix(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 sca);//escala, rota y traslada
 	D3DXMATRIX GetModelMatrix();

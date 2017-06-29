@@ -43,6 +43,8 @@ void GameApp::Run(_In_ HINSTANCE hInstance,
 
 void GameApp::Update()
 {
+	Game::GetInput()->CheckInput();
+
 	for (std::vector<Entity*>::iterator it = _entities.begin(); it != _entities.end(); it++)
 	{
 		if (*it && (*it)->IsVisible())
@@ -60,9 +62,6 @@ void GameApp::Update()
 			*it = NULL;
 		}
 	}
-
-	Game::GetInput()->CheckInput();
-
 }
 
 void GameApp::Init()

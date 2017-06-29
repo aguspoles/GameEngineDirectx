@@ -20,15 +20,17 @@ Enemy::Enemy(LPDIRECT3DDEVICE9 dev)
 		{ -0.5f, -0.5f, 0.0f, 0.0f, 2.0f },
 	};
 	Model* m = new Model(dev, vertexes, indexes, 2);
-	LoadModel(m);
 
 	Texture* tex1 = new Texture(dev);
-	tex1->LoadTexture(L"../metal.jpg");
-	SetTexture(tex1);
+	tex1->LoadTexture(L"../redCircle.jpg");
 
-	ModelMatrix(D3DXVECTOR3(0, 0, 1.0f),
-		D3DXVECTOR3(0, 0, 0),
-		D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	Material* mat = new Material(m, tex1, dev);
+	SetMaterial(mat);
+
+	SetPosition(0, 0, 1);
+
+	//GetMaterial()->AlphaBlending();
+	GetMaterial()->MultiBlending();
 }
 
 

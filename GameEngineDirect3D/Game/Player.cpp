@@ -1,4 +1,3 @@
-#pragma once
 #include "stdafx.h"
 #include "Player.h"
 
@@ -20,16 +19,19 @@ Player::Player(LPDIRECT3DDEVICE9 dev)
 		{ -0.5f, -0.5f, 0.0f, 0.0f, 2.0f },
 	};
 	Model* m = new Model(dev, vertexes, indexes, 2);
-	LoadModel(m);
-
-	ModelMatrix(D3DXVECTOR3(0, 0, 1.0f),
-		D3DXVECTOR3(0, 0, 0),
-		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 
 	Texture* tex1 = new Texture(dev);
 	tex1->LoadTexture(L"../water1.jpg");
-	SetTexture(tex1);
-	Tiling(D3DXVECTOR3(1,1,1));
+
+	Material* mat = new Material(m, tex1, dev);
+	SetMaterial(mat);
+
+	SetPosition(0, 0, 1);
+
+	//GetMaterial()->AddBlending();
+	//GetMaterial()->AlphaBlending();
+	GetMaterial()->MultiBlending();
+
 }
 
 
@@ -54,8 +56,8 @@ void Player::EnemyCollision(const std::vector<Entity*> &entities)
 void Player::WaterEffect()
 {
 	static float num = 0;
-	RotateTexture(D3DXVECTOR3(0, 0, num));
-	Offset(D3DXVECTOR2(num, num));
+	GetMaterial()->RotateTexture(D3DXVECTOR3(0, 0, num));
+    GetMaterial()->Offset(D3DXVECTOR2(num, num));
 	num += 0.01;
 }
 

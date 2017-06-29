@@ -1,66 +1,49 @@
 #include "stdafx.h"
 #include "Entity.h"
 
-Entity::Entity() : _model(NULL), _dev(NULL), _texture(NULL), _isVisible(true)
+Entity::Entity() : _dev(NULL), _isVisible(true), _material(NULL)
 {
-	D3DXMatrixIdentity(&_rotateMeshMatrix);
-	D3DXMatrixIdentity(&_scaleMeshMatrix);
-	D3DXMatrixIdentity(&_translateMeshMatrix);
-	D3DXMatrixIdentity(&_modelMatrix);
-
-	D3DXMatrixIdentity(&_positionTexMatrix);
-	D3DXMatrixIdentity(&_scaleTexMatrix);
-	D3DXMatrixIdentity(&_rotateTexMatrix);
-	D3DXMatrixIdentity(&_textureMatrix);
+	_transform.position = D3DXVECTOR3(0, 0, 1);
 }
 
-Entity::Entity(LPDIRECT3DDEVICE9 dev, Model* m) : _model(m), _dev(dev), _texture(NULL), _isVisible(true)
+Entity::Entity(LPDIRECT3DDEVICE9 dev) : _dev(dev), _isVisible(true), _material(NULL)
 {
-	D3DXMatrixIdentity(&_rotateMeshMatrix);
-	D3DXMatrixIdentity(&_scaleMeshMatrix);
-	D3DXMatrixIdentity(&_translateMeshMatrix);
-	D3DXMatrixIdentity(&_modelMatrix);
-
-	D3DXMatrixIdentity(&_positionTexMatrix);
-	D3DXMatrixIdentity(&_scaleTexMatrix);
-	D3DXMatrixIdentity(&_rotateTexMatrix);
-	D3DXMatrixIdentity(&_textureMatrix);
+	_transform.position = D3DXVECTOR3(0, 0, 1);
 }
 
 
 Entity::~Entity()
 {
-	if (_texture)
-	{
-		delete _texture;
-		_texture = NULL;
-	}
-	if (_model)
-	{
-		delete _model;
-		_model = NULL;
-	}
+	if(_material)
+		delete _material;
 }
 
 void Entity::Render()
 {
-	_texture->SetTexture(&_textureMatrix);
+	D3DXMATRIX* tex = _material->GetTextureMatrix();
+	_material->GetTexture()->SetTexture(tex);
+	_material->SetBlend();
 	//especificamos el formato del vertice
 	_dev->SetFVF(CUSTOMFVF);
-	_dev->SetTransform(D3DTS_WORLD, &_modelMatrix);
+	_dev->SetTransform(D3DTS_WORLD, _material->GetModelMatrix());
 	//especificamos cual vb vamos a usar
-	_dev->SetStreamSource(0, _model->GetVertexBuffer(), 0, sizeof(Vertex));
+	_dev->SetStreamSource(0, _material->GetModel()->GetVertexBuffer(), 0, sizeof(Vertex));
 	//especificamos q indices vamos  a usar
-	_dev->SetIndices(_model->GetIndexBuffer());
+	_dev->SetIndices(_material->GetModel()->GetIndexBuffer());
 	//esto apga el culling de la placa 
 	//_dev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	_dev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0,
-		(_model->GetVertexes()).size(), 0, _model->GetPrimitivesCount());
+		(_material->GetModel()->GetVertexes()).size(), 0, _material->GetModel()->GetPrimitivesCount());
 }
 
-void Entity::LoadModel(Model* m)
+Material * Entity::GetMaterial()
 {
-	_model = m;
+	return _material;
+}
+
+void Entity::SetMaterial(Material * m)
+{
+	_material = m;
 }
 
 void Entity::SetDevice(LPDIRECT3DDEVICE9 dev)
@@ -73,113 +56,26 @@ LPDIRECT3DDEVICE9 Entity::GetDevice()
 	return _dev;
 }
 
-void Entity::SetTexture(Texture* tex)
+void Entity::SetChildModel(Entity* child)
 {
-	_texture = tex;
+	*(_material->GetModelMatrix()) *= *(child->GetMaterial()->GetModelMatrix());
 }
 
-Texture * Entity::GetTexture()
+void Entity::SetPosition(float x, float y, float z)
 {
-	return _texture;
+	_transform.position = D3DXVECTOR3(x, y, z);
+	_material->TranslateMesh(_transform.position);
 }
-
-void Entity::Tiling(D3DXVECTOR3 scal)
-{
-	D3DXMatrixTranslation(&_positionTexMatrix, scal.x, scal.y, scal.z);
-	_textureMatrix = _rotateTexMatrix * _scaleTexMatrix * _positionTexMatrix;
-}
-
-void Entity::Offset(D3DXVECTOR2 pos)
-{
-	D3DXMatrixIdentity(&_positionTexMatrix);
-	_positionTexMatrix._31 = pos.x;
-	_positionTexMatrix._32 = pos.y;
-	_textureMatrix = _rotateTexMatrix * _scaleTexMatrix * _positionTexMatrix;
-}
-
-void Entity::RotateTexture(D3DXVECTOR3 rot)
-{
-	D3DXMATRIX rotX;
-	D3DXMATRIX rotY;
-	D3DXMATRIX rotZ;
-	D3DXMatrixRotationZ(&rotZ, rot.z);
-	D3DXMatrixRotationX(&rotX, rot.x);
-	D3DXMatrixRotationY(&rotY, rot.y);
-	_rotateTexMatrix = rotZ * rotX * rotY;
-	_textureMatrix = _rotateTexMatrix * _scaleTexMatrix * _positionTexMatrix;
-}
-
-void Entity::ModelMatrix(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 sca)
-{
-	_transform.position = pos;
-	_transform.rotation = rot;
-	_transform.scale = sca;
-	D3DXMATRIX rotX;
-	D3DXMATRIX rotY;
-	D3DXMATRIX rotZ;
-	D3DXMatrixRotationZ(&rotZ, rot.z);
-	D3DXMatrixRotationX(&rotX, rot.x);
-	D3DXMatrixRotationY(&rotY, rot.y);
-	D3DXMatrixScaling(&_scaleMeshMatrix, sca.x, sca.y, sca.z);
-	D3DXMatrixTranslation(&_translateMeshMatrix, pos.x, pos.y, pos.z);
-	_rotateMeshMatrix = rotZ * rotX * rotY;
-	_modelMatrix = _scaleMeshMatrix * _rotateMeshMatrix * _translateMeshMatrix;
-}
-
-void Entity::SetModelMatrix(D3DXMATRIX model)
-{
-	_modelMatrix = model;
-}
-
-void Entity::SetParent(Entity* parent)
-{
-	_modelMatrix *= parent->GetModelMatrix();
-}
-
-D3DXMATRIX Entity::GetModelMatrix()
-{
-	return _modelMatrix;
-}
-
-void Entity::TranslateMesh(D3DXVECTOR3 pos)
-{
-	_transform.position = pos;
-	D3DXMatrixTranslation(&_translateMeshMatrix, _transform.position.x,
-		                                     _transform.position.y,
-		                                     _transform.position.z);
-	_modelMatrix = _rotateMeshMatrix * _scaleMeshMatrix * _translateMeshMatrix;
-}
-
-void Entity::RotateMesh(D3DXVECTOR3 rot)
-{
-	D3DXMATRIX rotX;
-	D3DXMATRIX rotY;
-	D3DXMATRIX rotZ;
-	D3DXMatrixRotationZ(&rotZ, rot.z);
-	D3DXMatrixRotationX(&rotX, rot.x);
-	D3DXMatrixRotationY(&rotY, rot.y);
-	_rotateMeshMatrix = rotZ * rotX * rotY;
-	_transform.rotation = rot;
-	_modelMatrix = _rotateMeshMatrix * _scaleMeshMatrix * _translateMeshMatrix;
-}
-
-void Entity::ScaleMesh(D3DXVECTOR3 scal)
-{
-	D3DXMatrixScaling(&_scaleMeshMatrix, scal.x, scal.y, scal.z);
-	_transform.scale = scal;
-	_modelMatrix = _rotateMeshMatrix * _scaleMeshMatrix * _translateMeshMatrix;
-}
-
 
 void Entity::MoveForward()
 {
 	float vel = 0.03;
 	D3DXVECTOR3 worldForward(0, 0, 1);
 	D3DXVECTOR4 objForward;
-	D3DXVec3Transform(&objForward, &worldForward, &_rotateMeshMatrix);
+	D3DXVec3Transform(&objForward, &worldForward, _material->GetRotateMeshMatrix());
 	D3DXVECTOR3 forward(objForward.x, objForward.y, objForward.z);
 	_transform.position += forward * vel;
-	TranslateMesh(_transform.position);
+	_material->TranslateMesh(_transform.position);
 }
 
 void Entity::MoveRight()
@@ -187,10 +83,10 @@ void Entity::MoveRight()
     float vel = 0.03;
 	D3DXVECTOR3 worldRight(1, 0, 0);
 	D3DXVECTOR4 objRight;
-	D3DXVec3Transform(&objRight, &worldRight, &_rotateMeshMatrix);
+	D3DXVec3Transform(&objRight, &worldRight, _material->GetRotateMeshMatrix());
 	D3DXVECTOR3 right(objRight.x, objRight.y, objRight.z);
 	_transform.position += right * vel;
-	TranslateMesh(_transform.position);
+	_material->TranslateMesh(_transform.position);
 }
 
 void Entity::MoveLeft()
@@ -198,10 +94,10 @@ void Entity::MoveLeft()
 	float vel = 0.03;
 	D3DXVECTOR3 worldLeft(-1, 0, 0);
 	D3DXVECTOR4 objLeft;
-	D3DXVec3Transform(&objLeft, &worldLeft, &_rotateMeshMatrix);
+	D3DXVec3Transform(&objLeft, &worldLeft, _material->GetRotateMeshMatrix());
 	D3DXVECTOR3 left(objLeft.x, objLeft.y, objLeft.z);
 	_transform.position += left * vel;
-	TranslateMesh(_transform.position);
+	_material->TranslateMesh(_transform.position);
 }
 
 float Entity::GetForward()
@@ -228,3 +124,4 @@ Transform Entity::GetTransform()
 {
 	return _transform;
 }
+

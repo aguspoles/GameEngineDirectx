@@ -1,6 +1,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 #include "Entity.h"
+#include <vector>
 
 class Enemy : public Entity
 {
@@ -13,6 +14,9 @@ public:
 
 	void Init();
 	void Update();
+
+	void Move();
+	void Escape(std::vector<Entity*> entities);
 
 	std::string GetType() const;
 

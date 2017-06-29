@@ -3,6 +3,7 @@
 #include "resource.h"
 #include "Game.h"
 #include "Player.h"
+#include "PickUp.h"
 
 class GameApp : public Game
 {

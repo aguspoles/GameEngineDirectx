@@ -7,10 +7,17 @@
 class ENGINE_API Entity 
 {
 private:
+	Model* _model;
 	Material* _material;
-	LPDIRECT3DDEVICE9 _dev;
 	Transform _transform;
+	LPDIRECT3DDEVICE9 _dev;
 	bool _isVisible;
+
+	//model matrixes
+	D3DXMATRIX _modelMatrix;
+	D3DXMATRIX _rotateMeshMatrix;
+	D3DXMATRIX _scaleMeshMatrix;
+	D3DXMATRIX _translateMeshMatrix;
 	
 public:
 	Entity();
@@ -25,6 +32,19 @@ public:
 
 	void SetDevice(LPDIRECT3DDEVICE9 dev);
 	LPDIRECT3DDEVICE9 GetDevice();
+
+	Model* GetModel();
+	void LoadModel(Model *m);
+
+	void ModelMatrix(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 sca);//escala, rota y traslada
+	D3DXMATRIX* GetModelMatrix();
+	D3DXMATRIX* GetTranslateMeshMatrix();
+	D3DXMATRIX* GetRotateMeshMatrix();
+	D3DXMATRIX* GetScaleMeshMatrix();
+	void SetModelMatrix(D3DXMATRIX model);
+	void TranslateMesh(D3DXVECTOR3 pos);
+	void RotateMesh(D3DXVECTOR3 rot);
+	void ScaleMesh(D3DXVECTOR3 scal);
 
 	Transform GetTransform();
 

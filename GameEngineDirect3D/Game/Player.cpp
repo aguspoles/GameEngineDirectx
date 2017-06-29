@@ -19,18 +19,20 @@ Player::Player(LPDIRECT3DDEVICE9 dev)
 		{ -0.5f, -0.5f, 0.0f, 0.0f, 2.0f },
 	};
 	Model* m = new Model(dev, vertexes, indexes, 2);
+	LoadModel(m);
 
 	Texture* tex1 = new Texture(dev);
 	tex1->LoadTexture(L"../water1.jpg");
 
-	Material* mat = new Material(m, tex1, dev);
+	Material* mat = new Material(tex1, dev);
 	SetMaterial(mat);
 
-	SetPosition(0, 0, 1);
+	ScaleMesh(D3DXVECTOR3(0.5, 0.5, 1));
+	SetPosition(-0.5, 0, 1);
 
 	//GetMaterial()->AddBlending();
-	//GetMaterial()->AlphaBlending();
-	GetMaterial()->MultiBlending();
+	GetMaterial()->AlphaBlending();
+	//GetMaterial()->MultiBlending();
 
 }
 

@@ -6,15 +6,9 @@
 class ENGINE_API Material
 {
 private:
-	Model* _model;
 	Texture* _texture;
 	LPDIRECT3DDEVICE9 _dev;
 
-	//model matrixes
-	D3DXMATRIX _modelMatrix;
-	D3DXMATRIX _rotateMeshMatrix;
-	D3DXMATRIX _scaleMeshMatrix;
-	D3DXMATRIX _translateMeshMatrix;
 	//texture matrixes
 	D3DXMATRIX _textureMatrix;
 	D3DXMATRIX _scaleTexMatrix;
@@ -28,26 +22,14 @@ private:
 
 public:
 	Material();
-	Material(Model* m, Texture* t, LPDIRECT3DDEVICE9 dev);
+	Material(Texture* t, LPDIRECT3DDEVICE9 dev);
 	~Material();
 
-	void LoadModel(Model *m);
 	void SetDevice(LPDIRECT3DDEVICE9 dev);
 	void SetTexture(Texture* tex);
 
 	LPDIRECT3DDEVICE9 GetDevice();
 	Texture* GetTexture();
-	Model* GetModel();
-
-	void ModelMatrix(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 sca);//escala, rota y traslada
-	D3DXMATRIX* GetModelMatrix();
-	D3DXMATRIX* GetTranslateMeshMatrix();
-	D3DXMATRIX* GetRotateMeshMatrix();
-	D3DXMATRIX* GetScaleMeshMatrix();
-	void SetModelMatrix(D3DXMATRIX model);
-	void TranslateMesh(D3DXVECTOR3 pos);
-	void RotateMesh(D3DXVECTOR3 rot);
-	void ScaleMesh(D3DXVECTOR3 scal);
 
 	D3DXMATRIX* GetTextureMatrix();
 

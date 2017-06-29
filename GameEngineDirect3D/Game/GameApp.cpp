@@ -55,6 +55,11 @@ void GameApp::Update()
 				Player *p = (Player*)*it;
 				p->EnemyCollision(_entities);
 			}
+			if ((*it)->GetType() == "Enemy")
+			{
+				Enemy *e = (Enemy*)*it;
+				//e->Escape(_entities);
+			}
 		}
 		else
 		{
@@ -68,8 +73,10 @@ void GameApp::Init()
 {
 	Player* p = new Player(dev);
 	Enemy* e = new Enemy(dev);
+	PickUp* pick = new PickUp(dev);
 	AddEntitie(p);
 	AddEntitie(e);
+	AddEntitie(pick);
 
 	_camera->GetViewMatrix(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
 	_camera->SetPerspective(60, (float)640 / 480, 0.1f, 100.0f);

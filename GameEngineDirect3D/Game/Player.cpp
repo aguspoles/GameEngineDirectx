@@ -22,7 +22,7 @@ Player::Player(LPDIRECT3DDEVICE9 dev)
 	LoadModel(m);
 
 	Texture* tex1 = new Texture(dev);
-	tex1->LoadTexture(L"../water1.jpg");
+	tex1->LoadTexture(L"../particle1.png");
 
 	Material* mat = new Material(tex1, dev);
 	SetMaterial(mat);
@@ -31,8 +31,8 @@ Player::Player(LPDIRECT3DDEVICE9 dev)
 	SetPosition(-0.5, 0, 1);
 
 	//GetMaterial()->AddBlending();
-	GetMaterial()->AlphaBlending();
-	//GetMaterial()->MultiBlending();
+	//GetMaterial()->AlphaBlending();
+	GetMaterial()->MultiBlending();
 
 }
 

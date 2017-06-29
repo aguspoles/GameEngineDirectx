@@ -58,7 +58,7 @@ void GameApp::Update()
 			if ((*it)->GetType() == "Enemy")
 			{
 				Enemy *e = (Enemy*)*it;
-				//e->Escape(_entities);
+				e->Escape(_entities);
 			}
 		}
 		else
@@ -74,8 +74,8 @@ void GameApp::Init()
 	Player* p = new Player(dev);
 	Enemy* e = new Enemy(dev);
 	PickUp* pick = new PickUp(dev);
-	AddEntitie(p);
 	AddEntitie(e);
+	AddEntitie(p);
 	AddEntitie(pick);
 
 	_camera->GetViewMatrix(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));

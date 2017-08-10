@@ -2,8 +2,6 @@
 #include "Game.h"
 #include "Entity.h"
 
-Input* Game::_input = NULL;
-
 Game::Game() : dev(NULL), d3d(NULL)
 {
 	_camera = new Camera();
@@ -15,11 +13,6 @@ Game::~Game()
 	{
 	    delete _camera;
 		_camera = NULL;
-	}
-	if (_input)
-	{
-		delete _input;
-		_input = NULL;
 	}
 	for each(Entity* entitie in _entities)
 	{
@@ -92,7 +85,8 @@ void Game::InitD3D(_In_ HINSTANCE hInstance, _In_ int nCmdShow)
     //Apago la luz para ver los colores y no todo oscuro
 	dev->SetRenderState(D3DRS_LIGHTING, false);
 
-	_input = new Input(hInstance, hWnd);
+	//creamos input
+	Input::Instance(hInstance, hWnd);
 }
 
 void Game::RenderFrame()
@@ -111,10 +105,34 @@ void Game::RenderFrame()
 	dev->Present(NULL, NULL, NULL, NULL);
 }
 
-Input* Game::GetInput()
+void Game::Run(HINSTANCE hInstance, int nCmdShow)
 {
-	return _input;
+	InitD3D(hInstance, nCmdShow);
+	Init();
+
+	while (true)
+	{
+		MSG msg;
+
+		//Saco un mensaje de la cola de mensajes si es que hay
+		//sino continuo
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+
+		if (msg.message == WM_QUIT)
+		{
+			break;
+		}
+
+		Input::CheckInput();
+		Update();
+		RenderFrame();
+	}
 }
+
 
 void Game::AddEntitie(Entity* e)
 {

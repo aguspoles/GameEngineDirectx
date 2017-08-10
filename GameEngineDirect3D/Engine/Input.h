@@ -3,25 +3,27 @@
 #include <map>
 #include<vector>
 
-enum ACTION{MOVE_LEFT, MOVE_RIGHT, MOVE_FORWARD};
-
 class ENGINE_API Input
 {
 private:
-	std::map<ACTION, std::vector<int>*> _inputMap;
-	byte _keys[256];
-	byte _prevKeys[256];
-	LPDIRECTINPUTDEVICE8 _KeyDev;
+	static Input* _instance;
+	static std::map<std::string, std::vector<int>*> _inputMap;
+	static byte _keys[256];
+	static byte _prevKeys[256];
+	static LPDIRECTINPUTDEVICE8 _KeyDev;
 
 public:
+	static Input* Instance(_In_ HINSTANCE hInstance, HWND hWnd);
+	~Input();
+	static void CheckInput();
+	static bool KeyPressed(const std::string action);
+	static bool KeyJustPressed(const std::string action);
+	static bool KeyReleased(const std::string action);
+
+protected:
 	Input();
 	Input(_In_ HINSTANCE hInstance, HWND hWnd);
-	~Input();
 
-	void CheckInput();
-	bool KeyPressed(const ACTION& action);
-	bool KeyJustPressed(const ACTION& action);
-	bool KeyReleased(const ACTION& action);
 };
 
 #endif

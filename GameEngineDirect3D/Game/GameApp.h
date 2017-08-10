@@ -12,7 +12,6 @@ public:
 	GameApp();
 	~GameApp();
 
-	void Run(_In_ HINSTANCE hInstance, _In_ int nCmdShow);
 	void Update();
 	void Init();
 };

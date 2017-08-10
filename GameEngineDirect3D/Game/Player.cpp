@@ -44,9 +44,9 @@ Player::~Player()
 void Player::Update()
 {
 	WaterEffect();
-	if (Game::GetInput()->KeyPressed(ACTION::MOVE_RIGHT))
+	if (Input::KeyPressed("MOVE_RIGHT"))
 		MoveRight();
-	if (Game::GetInput()->KeyJustPressed(ACTION::MOVE_LEFT))
+	if (Input::KeyJustPressed("MOVE_LEFT"))
 		MoveLeft();
 }
 

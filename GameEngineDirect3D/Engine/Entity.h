@@ -24,6 +24,7 @@ public:
 	Entity(LPDIRECT3DDEVICE9 dev);
     ~Entity();
 
+	virtual void Init() = 0;
 	virtual void Update() = 0;
 	void Render();
 

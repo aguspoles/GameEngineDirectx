@@ -22,20 +22,17 @@ Entity::Entity(LPDIRECT3DDEVICE9 dev) : _dev(dev), _isVisible(true), _material(N
 
 Entity::~Entity()
 {
-	if(_material)
-		delete _material;
-	if (_model)
-	{
-		delete _model;
-		_model = NULL;
-	}
+	
 }
 
 void Entity::Render()
 {
-	D3DXMATRIX* texMat = _material->GetTextureMatrix();
-	_material->GetTexture()->SetTexture(texMat);
-	_material->SetBlend();
+	if (_material)
+	{
+		D3DXMATRIX* texMat = _material->GetTextureMatrix();
+		_material->GetTexture()->SetTexture(texMat);
+		_material->SetBlend();
+	}
 	//especificamos el formato del vertice
 	_dev->SetFVF(CUSTOMFVF);
 	_dev->SetTransform(D3DTS_WORLD, &_modelMatrix);

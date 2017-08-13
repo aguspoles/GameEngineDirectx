@@ -2,6 +2,8 @@
 #include "Game.h"
 #include "Entity.h"
 
+float Game::_deltaTime = 0;
+
 Game::Game() : dev(NULL), d3d(NULL)
 {
 	_camera = new Camera();
@@ -22,7 +24,25 @@ Game::~Game()
 			entitie = NULL;
 		}
 	}
+	for each(Material* material in _materials)
+	{
+		if (material)
+		{
+			delete material;
+			material = NULL;
+		}
+	}
+	for each(Model* model in _models)
+	{
+		if (model)
+		{
+			delete model;
+			model = NULL;
+		}
+	}
 	_entities.clear();
+	_materials.clear();
+	_models.clear();
 	dev->Release();
 	d3d->Release();
 }
@@ -110,8 +130,13 @@ void Game::Run(HINSTANCE hInstance, int nCmdShow)
 	InitD3D(hInstance, nCmdShow);
 	Init();
 
+	_lastFrameMs = Time();
+
 	while (true)
 	{
+		_currentFrameMs = Time();
+		_deltaTime = (_currentFrameMs - _lastFrameMs) / 1000.0f;
+		_lastFrameMs = _currentFrameMs;
 		MSG msg;
 
 		//Saco un mensaje de la cola de mensajes si es que hay
@@ -137,6 +162,29 @@ void Game::Run(HINSTANCE hInstance, int nCmdShow)
 void Game::AddEntitie(Entity* e)
 {
 	_entities.push_back(e);
+}
+
+void Game::AddMaterial(Material * m)
+{
+	_materials.push_back(m);
+}
+
+void Game::AddModel(Model * model)
+{
+	_models.push_back(model);
+}
+
+int Game::Time()
+{
+	time_point<system_clock> actualTime = system_clock::now();
+	system_clock::duration duration = actualTime.time_since_epoch();
+	milliseconds ms = duration_cast<milliseconds>(duration);
+	return ms.count();
+}
+
+float Game::DeltaTime()
+{
+	return abs(_deltaTime);
 }
 
 

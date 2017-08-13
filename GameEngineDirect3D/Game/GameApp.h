@@ -14,6 +14,7 @@ public:
 
 	void Update();
 	void Init();
+	void SetCamera();
 };
 
 #endif

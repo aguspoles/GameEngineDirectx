@@ -9,28 +9,9 @@ PickUp::PickUp()
 PickUp::PickUp(LPDIRECT3DDEVICE9 dev)
 {
 	SetDevice(dev);
-	std::vector<WORD> indexes = { 3, 0, 1, 3, 1, 2 };
-
-	std::vector<Vertex> vertexes =
-	{
-		{ -0.5f, +0.5f, 0.0f, 0.0f, 0.0f },
-		{ +0.5f, +0.5f, 0.0f, 2.0f, 0.0f },
-		{ +0.5f, -0.5f, 0.0f, 2.0f, 2.0f },
-		{ -0.5f, -0.5f, 0.0f, 0.0f, 2.0f },
-	};
-	Model* m = new Model(dev, vertexes, indexes, 2);
-	LoadModel(m);
-
-	Texture* tex1 = new Texture(dev);
-	tex1->LoadTexture(L"../metal.jpg");
-
-	Material* mat = new Material(tex1, dev);
-	SetMaterial(mat);
 
 	ScaleMesh(D3DXVECTOR3(0.5, 0.5, 1));
 	SetPosition(0, 0.5, 1);
-
-	GetMaterial()->AddBlending();
 }
 
 
@@ -40,6 +21,7 @@ PickUp::~PickUp()
 
 void PickUp::Init()
 {
+	//GetMaterial()->AddBlending();
 }
 
 void PickUp::Update()

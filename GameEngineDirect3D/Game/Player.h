@@ -1,9 +1,9 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include "Entity.h"
+#include "AnimatedEntity.h"
 #include "Enemy.h"
 
-class Player : public Entity
+class Player : public AnimatedEntity
 {
 private:
 

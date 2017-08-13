@@ -58,16 +58,18 @@ D3DXMATRIX * Material::GetTextureMatrix()
 
 void Material::Tiling(D3DXVECTOR3 scal)
 {
-	D3DXMatrixTranslation(&_positionTexMatrix, scal.x, scal.y, scal.z);
-	_textureMatrix = _rotateTexMatrix * _scaleTexMatrix * _positionTexMatrix;
+	//D3DXMatrixIdentity(&_textureMatrix);
+	_textureMatrix._31 = scal.x;
+	_textureMatrix._32 = scal.y;
+	//_textureMatrix = _rotateTexMatrix * _scaleTexMatrix * _positionTexMatrix;
 }
 
 void Material::Offset(D3DXVECTOR2 pos)
 {
-	D3DXMatrixIdentity(&_positionTexMatrix);
-		_positionTexMatrix._31 = pos.x;
-		_positionTexMatrix._32 = pos.y;
-		_textureMatrix = _rotateTexMatrix * _scaleTexMatrix * _positionTexMatrix;
+	//D3DXMatrixIdentity(&_textureMatrix);
+		_textureMatrix._11 = pos.x;
+		_textureMatrix._22 = pos.y;
+		//_textureMatrix = _rotateTexMatrix * _scaleTexMatrix * _positionTexMatrix;
 }
 
 void Material::RotateTexture(D3DXVECTOR3 rot)

@@ -9,30 +9,10 @@ Player::Player()
 Player::Player(LPDIRECT3DDEVICE9 dev)
 {
 	SetDevice(dev);
-	std::vector<WORD> indexes = { 3, 0, 1, 3, 1, 2 };
-
-	std::vector<Vertex> vertexes =
-	{
-		{ -0.5f, +0.5f, 0.0f, 0.0f, 0.0f },
-		{ +0.5f, +0.5f, 0.0f, 2.0f, 0.0f },
-		{ +0.5f, -0.5f, 0.0f, 2.0f, 2.0f },
-		{ -0.5f, -0.5f, 0.0f, 0.0f, 2.0f },
-	};
-	Model* m = new Model(dev, vertexes, indexes, 2);
-	LoadModel(m);
-
-	Texture* tex1 = new Texture(dev);
-	tex1->LoadTexture(L"../particle1.png");
-
-	Material* mat = new Material(tex1, dev);
-	SetMaterial(mat);
 
 	ScaleMesh(D3DXVECTOR3(0.5, 0.5, 1));
 	SetPosition(-0.5, 0, 1);
-
-	//GetMaterial()->AddBlending();
-	//GetMaterial()->AlphaBlending();
-	GetMaterial()->MultiBlending();
+	//RotateMesh(D3DXVECTOR3(0, 0, D3DXToRadian(0)));
 
 }
 
@@ -43,9 +23,12 @@ Player::~Player()
 
 void Player::Update()
 {
-	WaterEffect();
+	//WaterEffect();
+	GetCurrentAnimation()->Play();
 	if (Input::KeyPressed("MOVE_RIGHT"))
+	{
 		MoveRight();
+	}
 	if (Input::KeyJustPressed("MOVE_LEFT"))
 		MoveLeft();
 }
@@ -65,6 +48,9 @@ void Player::WaterEffect()
 
 void Player::Init()
 {
+	//GetMaterial()->AddBlending();
+	//GetMaterial()->AlphaBlending();
+	//GetMaterial()->MultiBlending();
 }
 
 std::string Player::GetType() const

@@ -17,6 +17,11 @@ private:
 	float _y;
 	float _texWidth;
 	float _texHeight;
+
+	//variables for Play()
+	float _total;
+	float _fps;
+	size_t _countTiles;
 public:
 	Animation();
 	Animation(std::string name, Material* mat, float tileWidth, float tileHeight, 
@@ -24,5 +29,7 @@ public:
 	~Animation();
 
 	void Play();
+	void SetSpeed(float fps);
+	std::string GetName();
 };
 

@@ -49,7 +49,7 @@ void Player::WaterEffect()
 void Player::Init()
 {
 	//GetMaterial()->AddBlending();
-	//GetMaterial()->AlphaBlending();
+	GetMaterial()->AlphaBlending();
 	//GetMaterial()->MultiBlending();
 }
 

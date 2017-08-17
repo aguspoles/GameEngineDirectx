@@ -13,12 +13,13 @@ AnimatedEntity::~AnimatedEntity()
 
 void AnimatedEntity::AddAnimation(Animation * anim)
 {
-	_animations.push_back(anim);
+	_animations[anim->GetName()] = anim;
 }
 
-void AnimatedEntity::SetCurrentAnimation(Animation * anim)
+void AnimatedEntity::SetCurrentAnimation(std::string anim, float fps)
 {
-	_currentAnimation = anim;
+	_animations[anim]->SetSpeed(fps);
+	_currentAnimation = _animations[anim];
 }
 
 Animation * AnimatedEntity::GetCurrentAnimation()

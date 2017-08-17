@@ -46,10 +46,10 @@ void GameApp::Init()
 
 	std::vector<Vertex> vertexes =
 	{
-		{ -0.5f, +0.5f, 0.0f, 0.0f, 1.0f },
-		{ +0.5f, +0.5f, 0.0f, 1.0f, 1.0f },
-		{ +0.5f, -0.5f, 0.0f, 1.0f, 0.0f },
-		{ -0.5f, -0.5f, 0.0f, 0.0f, 0.0f },
+		{  -0.5, +0.5, 0.0f, 0.0f, 1.0f },
+		{  +0.5, +0.5, 0.0f, 1.0f, 1.0f },
+		{  +0.5, -0.5, 0.0f, 1.0f, 0.0f },
+		{  -0.5, -0.5, 0.0f, 0.0f, 0.0f },
 	};
 
 	Player* p = new Player(dev);
@@ -72,7 +72,8 @@ void GameApp::Init()
 	//seteo player
 	p->LoadModel(m);
 	p->SetMaterial(mat1);
-	p->SetCurrentAnimation(anim);
+	p->AddAnimation(anim);
+	p->SetCurrentAnimation("Run", 0.16);
 
 	//seteo enemigo
 	e->LoadModel(m);

@@ -7,7 +7,7 @@ Entity::Entity() : _dev(NULL), _isVisible(true), _material(NULL), _model(NULL)
 	D3DXMatrixIdentity(&_scaleMeshMatrix);
 	D3DXMatrixIdentity(&_rotateMeshMatrix);
 	D3DXMatrixIdentity(&_translateMeshMatrix);
-	_transform.position = D3DXVECTOR3(0, 0, 1);
+	_transform.position = D3DXVECTOR3(0, 0, 0);
 }
 
 Entity::Entity(LPDIRECT3DDEVICE9 dev) : _dev(dev), _isVisible(true), _material(NULL), _model(NULL)
@@ -16,7 +16,7 @@ Entity::Entity(LPDIRECT3DDEVICE9 dev) : _dev(dev), _isVisible(true), _material(N
 	D3DXMatrixIdentity(&_scaleMeshMatrix);
 	D3DXMatrixIdentity(&_rotateMeshMatrix);
 	D3DXMatrixIdentity(&_translateMeshMatrix);
-	_transform.position = D3DXVECTOR3(0, 0, 1);
+	_transform.position = D3DXVECTOR3(0, 0, 0);
 }
 
 
@@ -190,6 +190,17 @@ void Entity::MoveLeft()
 	D3DXVec3Transform(&objLeft, &worldLeft, &_rotateMeshMatrix);
 	D3DXVECTOR3 left(objLeft.x, objLeft.y, objLeft.z);
 	_transform.position += left * vel;
+	TranslateMesh(_transform.position);
+}
+
+void Entity::MoveBackWard()
+{
+	float vel = 0.03;
+	D3DXVECTOR3 worldBackWard(0, 0, -1);
+	D3DXVECTOR4 objBackWard;
+	D3DXVec3Transform(&objBackWard, &worldBackWard, &_rotateMeshMatrix);
+	D3DXVECTOR3 backWard(objBackWard.x, objBackWard.y, objBackWard.z);
+	_transform.position += backWard * vel;
 	TranslateMesh(_transform.position);
 }
 

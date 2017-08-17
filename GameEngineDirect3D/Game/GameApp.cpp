@@ -42,14 +42,14 @@ void GameApp::Update()
 
 void GameApp::Init()
 {
-	std::vector<WORD> indexes = { 3, 0, 1, 3, 1, 2 };
+	std::vector<WORD> indexes = { 3,0,1,3,1,2 };
 
 	std::vector<Vertex> vertexes =
 	{
-		{  -0.5, +0.5, 0.0f, 0.0f, 1.0f },
-		{  +0.5, +0.5, 0.0f, 1.0f, 1.0f },
-		{  +0.5, -0.5, 0.0f, 1.0f, 0.0f },
-		{  -0.5, -0.5, 0.0f, 0.0f, 0.0f },
+		{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
+		{ 0.5f, 0.0f, 0.0f, 1.0f, 0.0f },
+		{ 0.5f, 0.5f, 0.0f, 1.0f, 1.0f },
+		{ 0.0f, 0.5f, 0.0f, 0.0f, 1.0f }
 	};
 
 	Player* p = new Player(dev);
@@ -73,7 +73,7 @@ void GameApp::Init()
 	p->LoadModel(m);
 	p->SetMaterial(mat1);
 	p->AddAnimation(anim);
-	p->SetCurrentAnimation("Run", 0.16);
+	p->SetCurrentAnimation("Run", 0.12);
 
 	//seteo enemigo
 	e->LoadModel(m);
@@ -102,6 +102,6 @@ void GameApp::Init()
 void GameApp::SetCamera()
 {
 	_camera->GetViewMatrix(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
-	_camera->SetPerspective(60, (float)640 / 480, 0.1f, 100.0f);
+	_camera->SetPerspective(60, (float)640 / (float)480, 0.0f, 10.0f);
 	_camera->SetRenderView(dev);
 }

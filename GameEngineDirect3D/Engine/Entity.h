@@ -56,6 +56,7 @@ public:
 	void MoveForward();
 	void MoveRight();
 	void MoveLeft();
+	void MoveBackWard();
 
 	float GetForward();
 	float GetUp();

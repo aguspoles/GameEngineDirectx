@@ -17,7 +17,12 @@ Animation::Animation(std::string name, Material* mat, float tileWidth, float til
 	_countTiles(0),
 	_total(0)
 {
-	_tiles = { Tile(1,1), Tile(1,2), Tile(1,3), Tile(1,5), Tile(1,6) };
+	_tiles = { 
+		Tile(1,1), Tile(1,2), Tile(1,3), Tile(1,4), Tile(1,5), Tile(1,6),
+		Tile(2,1), Tile(2,2), Tile(2,3), Tile(2,4),Tile(2,5), Tile(2,6),
+		Tile(3,1), Tile(3,2), Tile(3,3), Tile(3,4),Tile(3,5), Tile(3,6),
+		Tile(4,1), Tile(4,2), Tile(4,3), Tile(4,4),Tile(4,5), Tile(4,6),
+		Tile(5,1), Tile(5,2), Tile(5,3), Tile(5,4),Tile(5,5), Tile(5,6) };
 	_y = _tiles[0].GetFila() * _tileHeight;
 	_x = _tiles[0].GetColumna() * _tileWidth;
 	_material->Offset(D3DXVECTOR2(_tileWidth / _texWidth, _tileHeight / _texHeight));

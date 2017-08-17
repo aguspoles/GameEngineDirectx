@@ -13,22 +13,22 @@ Camera::~Camera()
 
 D3DXMATRIX Camera::GetViewMatrix(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	/*D3DXVECTOR3 eye(0, 0, 0);
+	D3DXVECTOR3 eye(0, 0, 10);
 	D3DXVECTOR3 at(0, 0, 0);
 	D3DXVECTOR3 up(0, 1, 0);
-	D3DXMatrixLookAtLH(&_viewMatrix, &eye, &at, &up);*/
-	D3DXMATRIX a;
-	D3DXMatrixIdentity(&a);
-	a._41 = -pos.x;
-	a._42 = -pos.y;
-	a._43 = -pos.z;
-	D3DXMATRIX b;
-	D3DXMatrixIdentity(&b);
-	b._11 = cos(-rot.z);
-	b._12 = sin(-rot.z);
-	b._21 = -sin(-rot.z);
-	b._22 = cos(-rot.z);
-	_viewMatrix = a * b;
+	D3DXMatrixLookAtLH(&_viewMatrix, &eye, &at, &up);
+	//D3DXMATRIX a;
+	//D3DXMatrixIdentity(&a);
+	//a._41 = -pos.x;
+	//a._42 = -pos.y;
+	//a._43 = -pos.z;
+	//D3DXMATRIX b;
+	//D3DXMatrixIdentity(&b);
+	//b._11 = cos(-rot.z);
+	//b._12 = sin(-rot.z);
+	//b._21 = -sin(-rot.z);
+	//b._22 = cos(-rot.z);
+	//_viewMatrix = a * b;
 	return _viewMatrix;
 }
 

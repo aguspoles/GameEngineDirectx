@@ -11,7 +11,7 @@ Enemy::Enemy(LPDIRECT3DDEVICE9 dev)
 	SetDevice(dev);
 
 	//ScaleMesh(D3DXVECTOR3(0.5, 0.5, 1));
-	SetPosition(0.25, 0, 1);
+	SetPosition(0.25, 0, 0);
 }
 
 

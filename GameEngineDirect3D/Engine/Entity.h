@@ -1,8 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
-#include "Game.h"
 #include "Transform.h"
 #include "Material.h"
+#include "Model.h"
 
 class ENGINE_API Entity 
 {
@@ -53,10 +53,10 @@ public:
 
 	void SetPosition(float x, float y, float z);
 
-	void MoveForward();
-	void MoveRight();
-	void MoveLeft();
-	void MoveBackWard();
+	void MoveForward(float vel);
+	void MoveRight(float vel);
+	void MoveLeft(float vel);
+	void MoveBackWard(float vel);
 
 	float GetForward();
 	float GetUp();

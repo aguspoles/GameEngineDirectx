@@ -11,10 +11,8 @@ Player::Player(LPDIRECT3DDEVICE9 dev)
 	SetDevice(dev);
 
 	//ScaleMesh(D3DXVECTOR3(0.5, 0.5, 1));
-	SetPosition(0, 0, 8);
+	SetPosition(0, 0, 9);
 	RotateMesh(D3DXVECTOR3(0,0,D3DXToRadian(180)));
-	//RotateMesh(D3DXVECTOR3(0, 0, D3DXToRadian(0)));
-
 }
 
 
@@ -26,13 +24,16 @@ void Player::Update()
 {
 	//WaterEffect();
 	//MoveBackWard();
-	GetCurrentAnimation()->Play();
 	if (Input::KeyPressed("MOVE_RIGHT"))
 	{
-		MoveRight();
+	    GetCurrentAnimation()->Play();
+		MoveRight(0.3 * Game::DeltaTime());
 	}
-	if (Input::KeyJustPressed("MOVE_LEFT"))
-		MoveLeft();
+	if (Input::KeyPressed("MOVE_LEFT"))
+	{ 
+		GetCurrentAnimation()->Play();
+		MoveLeft(0.3 * Game::DeltaTime());
+	}
 }
 
 void Player::EnemyCollision(const std::vector<Entity*> &entities)

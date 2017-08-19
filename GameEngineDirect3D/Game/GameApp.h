@@ -4,10 +4,13 @@
 #include "Game.h"
 #include "Player.h"
 #include "PickUp.h"
+#include "Floor.h"
+//#include "TileMap.h"
 
 class GameApp : public Game
 {
 private:
+	//TileMap* _tileMap;
 public:
 	GameApp();
 	~GameApp();

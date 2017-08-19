@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "GameApp.h"
 
-#define CANT 1
-float num = 0;
-float vel = 0.01;
 
 GameApp::GameApp() 
 {
@@ -51,21 +48,30 @@ void GameApp::Init()
 		{ 0.5f, 0.5f, 0.0f, 1.0f, 1.0f },
 		{ 0.0f, 0.5f, 0.0f, 0.0f, 1.0f }
 	};
+	std::vector<std::vector<int>> Map =
+	{
+		{ 0,0,0,0,0 },
+		{ 0,0,0,0,0 },
+		{ 0,0,0,0,0 },
+	};
+	_tileMap = new TileMap(Map, 0.5f, 0.5f);
+	Floor* f = new Floor(_dev);
+	_tileMap->AddTile(f);
+	Player* p = new Player(_dev);
+	Enemy* e = new Enemy(_dev);
+	PickUp* pick = new PickUp(_dev);
 
-	Player* p = new Player(dev);
-	Enemy* e = new Enemy(dev);
-	PickUp* pick = new PickUp(dev);
-
-	Model* m = new Model(dev, vertexes, indexes, 2);
-	Texture* tex1 = new Texture(dev);
+	Model* m = new Model(_dev, vertexes, indexes, 2);
+	Texture* tex1 = new Texture(_dev);
 	tex1->LoadTexture(L"../walk.png");
-	Texture* tex2 = new Texture(dev);
+	Texture* tex2 = new Texture(_dev);
 	tex2->LoadTexture(L"../metal.jpg");
-	Texture* tex3 = new Texture(dev);
+	Texture* tex3 = new Texture(_dev);
 	tex3->LoadTexture(L"../particle.png");
 
-	Material* mat = new Material(tex3, dev);
-	Material* mat1 = new Material(tex1, dev);
+	Material* mat = new Material(tex3, _dev);
+	Material* mat1 = new Material(tex1, _dev);
+	Material* mat2 = new Material(tex2, _dev);
 
 	Animation* anim = new Animation("Run", mat1, 240, 296, 1440, 1480);
 
@@ -73,7 +79,7 @@ void GameApp::Init()
 	p->LoadModel(m);
 	p->SetMaterial(mat1);
 	p->AddAnimation(anim);
-	p->SetCurrentAnimation("Run", 0.12);
+	p->SetCurrentAnimation("Run", 0.10);
 
 	//seteo enemigo
 	e->LoadModel(m);
@@ -83,11 +89,16 @@ void GameApp::Init()
 	pick->LoadModel(m);
 	pick->SetMaterial(mat);
 
+	//seteo floor
+	f->LoadModel(m);
+	f->SetMaterial(mat2);
+
 	AddEntitie(e);
 	AddEntitie(p);
 	AddEntitie(pick);
 	AddMaterial(mat);
 	AddMaterial(mat1);
+	AddMaterial(mat2);
 	AddModel(m);
 
 	for each(Entity* entitie in _entities)
@@ -99,9 +110,10 @@ void GameApp::Init()
 	SetCamera();
 }
 
+
 void GameApp::SetCamera()
 {
-	_camera->GetViewMatrix(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
-	_camera->SetPerspective(60, (float)640 / (float)480, 0.0f, 10.0f);
-	_camera->SetRenderView(dev);
+	_camera->SetViewMatrix(D3DXVECTOR3(0, 0, 10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 1, 0));
+	_camera->SetPerspective(60, (float)640 / (float)480, 0.0f, 100.0f);
+	_camera->SetRenderView(_dev);
 }

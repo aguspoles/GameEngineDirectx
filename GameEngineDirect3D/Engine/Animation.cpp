@@ -41,7 +41,6 @@ void Animation::Play()
 	{
 		_y = _tiles[_countTiles].GetFila() * _tileHeight;
 		_x = _tiles[_countTiles].GetColumna() * _tileWidth;
-		_material->Offset(D3DXVECTOR2(_tileWidth / _texWidth, _tileHeight / _texHeight));
 		_material->Tiling(D3DXVECTOR3(_x / _texWidth, _y / _texHeight, 1));
 		_countTiles++;
 		_total = 0;

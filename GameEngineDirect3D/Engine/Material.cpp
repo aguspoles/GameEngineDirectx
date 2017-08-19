@@ -10,25 +10,19 @@ Material::Material() : _blendEnable(false)
 	D3DXMatrixIdentity(&_textureMatrix);
 }
 
-Material::Material(Texture * t, LPDIRECT3DDEVICE9 dev) : _blendEnable(false)
+Material::Material(Texture * t, LPDIRECT3DDEVICE9 dev) : _blendEnable(false), _texture(t), _dev(dev)
 {
 	D3DXMatrixIdentity(&_positionTexMatrix);
 	D3DXMatrixIdentity(&_scaleTexMatrix);
 	D3DXMatrixIdentity(&_rotateTexMatrix);
 	D3DXMatrixIdentity(&_textureMatrix);
-
-	_texture = t;
-	_dev = dev;
 }
 
 
 Material::~Material()
 {
 	if (_texture)
-	{
 		delete _texture;
-		_texture = NULL;
-	}
 }
 
 void Material::SetDevice(LPDIRECT3DDEVICE9 dev)

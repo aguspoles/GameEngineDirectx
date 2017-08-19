@@ -1,6 +1,7 @@
 #ifndef PICKUP_H
 #define PICKUP_H
 #include "Entity.h"
+#include "Game.h"
 
 class PickUp :
 	public Entity

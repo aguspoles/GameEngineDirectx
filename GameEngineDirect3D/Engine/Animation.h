@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ANIMATION_H
+#define ANIMATION_H
 #include <string>
 #include <vector>
 #include "Game.h"
@@ -32,4 +33,6 @@ public:
 	void SetSpeed(float fps);
 	std::string GetName();
 };
+
+#endif
 

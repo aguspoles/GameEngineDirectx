@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "Game.h"
-#include "Entity.h"
 
 float Game::_deltaTime = 0;
 
-Game::Game() : dev(NULL), d3d(NULL)
+Game::Game() : _dev(NULL), d3d(NULL), _tileMap(NULL)
 {
 	_camera = new Camera();
 }
@@ -15,6 +14,11 @@ Game::~Game()
 	{
 	    delete _camera;
 		_camera = NULL;
+	}
+	if (_tileMap)
+	{
+		delete _tileMap;
+		_tileMap = NULL;
 	}
 	for each(Entity* entitie in _entities)
 	{
@@ -43,7 +47,7 @@ Game::~Game()
 	_entities.clear();
 	_materials.clear();
 	_models.clear();
-	dev->Release();
+	_dev->Release();
 	d3d->Release();
 }
 
@@ -100,10 +104,10 @@ void Game::InitD3D(_In_ HINSTANCE hInstance, _In_ int nCmdShow)
 		hWnd, //Ventana
 		D3DCREATE_HARDWARE_VERTEXPROCESSING, //Proceso de vertices por soft o hard
 		&d3dpp, //Los parametros de buffers
-		&dev); //El device que se crea
+		&_dev); //El device que se crea
 
     //Apago la luz para ver los colores y no todo oscuro
-	dev->SetRenderState(D3DRS_LIGHTING, false);
+	_dev->SetRenderState(D3DRS_LIGHTING, false);
 
 	//creamos input
 	Input::Instance(hInstance, hWnd);
@@ -111,18 +115,20 @@ void Game::InitD3D(_In_ HINSTANCE hInstance, _In_ int nCmdShow)
 
 void Game::RenderFrame()
 {
-	dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 0, 50, 100), 1.0f, 0);
+	_dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 0, 50, 100), 1.0f, 0);
 	
-	dev->BeginScene();
+	_dev->BeginScene();
 
+	if(_tileMap)
+		_tileMap->Draw();
 	for (int i = 0; i < _entities.size(); i++)
 	{
 		if (_entities[i])
 			_entities[i]->Render();
 	}
 
-	dev->EndScene();
-	dev->Present(NULL, NULL, NULL, NULL);
+	_dev->EndScene();
+	_dev->Present(NULL, NULL, NULL, NULL);
 }
 
 void Game::Run(HINSTANCE hInstance, int nCmdShow)

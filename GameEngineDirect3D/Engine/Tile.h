@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TILE_H
+#define TILE_H
 
 class ENGINE_API Tile
 {
@@ -13,4 +14,5 @@ public:
 	int GetFila();
 	int GetColumna();
 };
+#endif
 

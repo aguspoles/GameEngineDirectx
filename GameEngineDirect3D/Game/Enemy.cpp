@@ -30,6 +30,7 @@ void Enemy::Update()
 	static float num = 0;
 	RotateMesh(D3DXVECTOR3(0, 0, num));
 	num += 0.01;
+	//MoveForward();
 }
 
 void Enemy::Move()
@@ -43,7 +44,7 @@ void Enemy::Escape(std::vector<Entity*> entities)
 	{
 		if(var->GetType() == "Player")
 			if (abs((GetTransform().position - var->GetTransform().position).x) < 0.5)
-				MoveForward();
+				MoveForward(0.3* Game::DeltaTime());
 	}
 }
 

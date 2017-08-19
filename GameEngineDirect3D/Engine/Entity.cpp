@@ -160,9 +160,8 @@ void Entity::SetPosition(float x, float y, float z)
 	TranslateMesh(_transform.position);
 }
 
-void Entity::MoveForward()
+void Entity::MoveForward(float vel)
 {
-	float vel = 0.03;
 	D3DXVECTOR3 worldForward(0, 0, 1);
 	D3DXVECTOR4 objForward;
 	D3DXVec3Transform(&objForward, &worldForward, &_rotateMeshMatrix);
@@ -171,9 +170,8 @@ void Entity::MoveForward()
 	TranslateMesh(_transform.position);
 }
 
-void Entity::MoveRight()
+void Entity::MoveRight(float vel)
 {
-    float vel = 0.03;
 	D3DXVECTOR3 worldRight(1, 0, 0);
 	D3DXVECTOR4 objRight;
 	D3DXVec3Transform(&objRight, &worldRight, &_rotateMeshMatrix);
@@ -182,9 +180,8 @@ void Entity::MoveRight()
 	TranslateMesh(_transform.position);
 }
 
-void Entity::MoveLeft()
+void Entity::MoveLeft(float vel)
 {
-	float vel = 0.03;
 	D3DXVECTOR3 worldLeft(-1, 0, 0);
 	D3DXVECTOR4 objLeft;
 	D3DXVec3Transform(&objLeft, &worldLeft, &_rotateMeshMatrix);
@@ -193,9 +190,8 @@ void Entity::MoveLeft()
 	TranslateMesh(_transform.position);
 }
 
-void Entity::MoveBackWard()
+void Entity::MoveBackWard(float vel)
 {
-	float vel = 0.03;
 	D3DXVECTOR3 worldBackWard(0, 0, -1);
 	D3DXVECTOR4 objBackWard;
 	D3DXVec3Transform(&objBackWard, &worldBackWard, &_rotateMeshMatrix);

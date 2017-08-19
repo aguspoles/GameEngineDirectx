@@ -2,6 +2,7 @@
 #define PLAYER_H
 #include "AnimatedEntity.h"
 #include "Enemy.h"
+#include "Game.h"
 
 class Player : public AnimatedEntity
 {

@@ -1,7 +1,8 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
-#include "Model.h"
 #include "Texture.h"
+#include <map>
+#include <string>
 
 class ENGINE_API Material
 {
@@ -22,7 +23,7 @@ private:
 
 public:
 	Material();
-	Material(Texture* t, LPDIRECT3DDEVICE9 dev);
+	Material(Texture* tex, LPDIRECT3DDEVICE9 dev);
 	~Material();
 
 	void SetDevice(LPDIRECT3DDEVICE9 dev);

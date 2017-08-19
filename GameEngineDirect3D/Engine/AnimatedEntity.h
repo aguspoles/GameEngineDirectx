@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ANIMATEDENTITY_H
+#define ANIMATEDENTITY_H
 #include "Entity.h"
 #include<map>
 #include "Animation.h"
@@ -19,3 +20,4 @@ public:
 	Animation* GetCurrentAnimation();
 };
 
+#endif

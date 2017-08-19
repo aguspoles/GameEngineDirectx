@@ -32,10 +32,10 @@ void PickUp::Update()
 void PickUp::Move()
 {
 	if (GetTransform().position.x <= 0.5 && _direction == 1)
-		MoveRight();
+		MoveRight(0.3* Game::DeltaTime());
 	else _direction = -1;
 	if (GetTransform().position.x >= -0.5 && _direction == -1)
-		MoveLeft();
+		MoveLeft(0.3* Game::DeltaTime());
 	else _direction = 1;
 }
 

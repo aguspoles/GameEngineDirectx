@@ -42,14 +42,14 @@ void GameApp::Update()
 
 void GameApp::Init()
 {
-	std::vector<WORD> indexes = { 3,0,1,3,1,2 };
+	std::vector<WORD> indexes = { 0,1,2,3,0,2 };
 
 	std::vector<Vertex> vertexes =
 	{
-		{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
-		{ 0.5f, 0.0f, 0.0f, 1.0f, 0.0f },
-		{ 0.5f, 0.5f, 0.0f, 1.0f, 1.0f },
-		{ 0.0f, 0.5f, 0.0f, 0.0f, 1.0f }
+		{ -1.0f, 1.0f, 0.0f, 0.0f, 0.0f },
+		{ 1.0f, 1.0f, 0.0f, 1.0f, 0.0f },
+		{ 1.0f, -1.0f, 0.0f, 1.0f, 1.0f },
+		{ -1.0f, -1.0f, 0.0f, 0.0f, 1.0f }
 	};
 
 	Player* p = new Player(dev);

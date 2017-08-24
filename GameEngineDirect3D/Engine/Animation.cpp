@@ -23,10 +23,11 @@ Animation::Animation(std::string name, Material* mat, float tileWidth, float til
 		Tile(3,1), Tile(3,2), Tile(3,3), Tile(3,4),Tile(3,5), Tile(3,6),
 		Tile(4,1), Tile(4,2), Tile(4,3), Tile(4,4),Tile(4,5), Tile(4,6),
 		Tile(5,1), Tile(5,2), Tile(5,3), Tile(5,4),Tile(5,5), Tile(5,6) };
+
 	_y = _tiles[0].GetFila() * _tileHeight;
 	_x = _tiles[0].GetColumna() * _tileWidth;
-	_material->Offset(D3DXVECTOR2(_tileWidth / _texWidth, _tileHeight / _texHeight));
-	_material->Tiling(D3DXVECTOR3(_x / _texWidth, _y / _texHeight, 1));
+	_material->Tiling(D3DXVECTOR3(_tileWidth / _texWidth, _tileHeight / _texHeight, 1));
+	_material->Offset(D3DXVECTOR2(_x * _texWidth, _y * _texHeight));
 }
 
 
@@ -37,16 +38,18 @@ Animation::~Animation()
 void Animation::Play()
 {
 	_total += Game::DeltaTime();
-	while (_countTiles < _tiles.size() && _total >= _fps)
+	while (_total >= _fps)
 	{
-		_y = _tiles[_countTiles].GetFila() * _tileHeight;
-		_x = _tiles[_countTiles].GetColumna() * _tileWidth;
-		_material->Offset(D3DXVECTOR2(_tileWidth / _texWidth, _tileHeight / _texHeight));
-		_material->Tiling(D3DXVECTOR3(_x / _texWidth, _y / _texHeight, 1));
+		_total -= _fps;
 		_countTiles++;
-		_total = 0;
-	} 
-	if (_countTiles == _tiles.size()) _countTiles = 0;
+	}
+	_countTiles %= _tiles.size();
+
+	_y = _tiles[_countTiles].GetFila() * _tileHeight;
+	_x = _tiles[_countTiles].GetColumna() * _tileWidth;
+	_material->Offset(D3DXVECTOR2(_tileWidth / _texWidth, _tileHeight / _texHeight));
+	_material->Tiling(D3DXVECTOR3(_x / _texWidth, _y / _texHeight, 1));
+
 }
 
 void Animation::SetSpeed(float fps)

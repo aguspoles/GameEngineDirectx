@@ -10,8 +10,8 @@ Tile::Tile()
 
 Tile::Tile(int fila, int columna)
 {
-	_fila = fila;
-	_columna = columna;
+	_fila = fila-1;
+	_columna = columna-1;
 }
 
 

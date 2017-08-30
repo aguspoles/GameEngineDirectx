@@ -11,8 +11,9 @@ Player::Player(LPDIRECT3DDEVICE9 dev)
 	SetDevice(dev);
 
 	//ScaleMesh(D3DXVECTOR3(0.5, 0.5, 1));
-	SetPosition(0, 0, 9);
-	RotateMesh(D3DXVECTOR3(0,0,D3DXToRadian(180)));
+	SetPosition(0, 0, 8);
+	//RotateMesh(D3DXVECTOR3(0, D3DXToRadian(180),0));
+	//RotateMesh(D3DXVECTOR3(0, 0, D3DXToRadian(0)));
 }
 
 

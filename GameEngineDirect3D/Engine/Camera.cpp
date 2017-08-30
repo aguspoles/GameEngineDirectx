@@ -11,8 +11,11 @@ Camera::~Camera()
 {
 }
 
-D3DXMATRIX Camera::SetViewMatrix(D3DXVECTOR3 eye, D3DXVECTOR3 at, D3DXVECTOR3 up)
+D3DXMATRIX Camera::SetViewMatrix(D3DXVECTOR3 ey, D3DXVECTOR3 a, D3DXVECTOR3 u)
 {
+	D3DXVECTOR3 eye(0, 0, 0);
+	D3DXVECTOR3 at(0, 0, 1);
+	D3DXVECTOR3 up(0, 1, 0);
 	D3DXMatrixLookAtLH(&_viewMatrix, &eye, &at, &up);
 	//D3DXMATRIX a;
 	//D3DXMatrixIdentity(&a);

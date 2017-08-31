@@ -98,9 +98,9 @@ void GameApp::Init()
 	f->Add(m);
 	f->Add(mat2);
 
-	AddEntitie(e);
+	//AddEntitie(e);
 	AddEntitie(p);
-	AddEntitie(pick);
+	//AddEntitie(pick);
 	AddMaterial(mat);
 	AddMaterial(mat1);
 	AddMaterial(mat2);

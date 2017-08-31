@@ -47,8 +47,8 @@ D3DXMATRIX Camera::GetProjectMatrix()
 	return _projectMatrix;
 }
 
-void Camera::SetRenderView(LPDIRECT3DDEVICE9 dev)
+void Camera::SetRenderView()
 {
-	dev->SetTransform(D3DTS_VIEW, &_viewMatrix);
-	dev->SetTransform(D3DTS_PROJECTION, &_projectMatrix);
+	GameSetUp::Device->SetTransform(D3DTS_VIEW, &_viewMatrix);
+	GameSetUp::Device->SetTransform(D3DTS_PROJECTION, &_projectMatrix);
 }

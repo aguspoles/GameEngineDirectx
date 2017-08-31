@@ -3,7 +3,7 @@
 
 float Game::_deltaTime = 0;
 
-Game::Game() : _dev(NULL), d3d(NULL), _tileMap(NULL)
+Game::Game() : _tileMap(NULL)
 {
 	_camera = new Camera();
 }
@@ -20,7 +20,7 @@ Game::~Game()
 		delete _tileMap;
 		_tileMap = NULL;
 	}
-	for each(Entity* entitie in _entities)
+	for each(MeshRenderer* entitie in _entities)
 	{
 		if (entitie)
 		{
@@ -47,7 +47,7 @@ Game::~Game()
 	_entities.clear();
 	_materials.clear();
 	_models.clear();
-	_dev->Release();
+	Device->Release();
 	d3d->Release();
 }
 
@@ -69,9 +69,9 @@ void Game::InitD3D(_In_ HINSTANCE hInstance, _In_ int nCmdShow)
 	wcex.hbrBackground = (HBRUSH)(COLOR_GRADIENTACTIVECAPTION + 1); //Color de fondo
 	wcex.lpszClassName = L"GameWindowClass"; //Nombre del tipo (clase) de ventana
 
-    RegisterClassEx(&wcex);  //Registro mi tipo de ventana en windows
+	RegisterClassEx(&wcex);  //Registro mi tipo de ventana en windows
 
-	//Creo la ventana, recibiendo el numero de ventana
+							 //Creo la ventana, recibiendo el numero de ventana
 	HWND hWnd = CreateWindowEx(0, //Flags extra de estilo
 		L"GameWindowClass", //Nombre del tipo de ventana a crear
 		L"Game", //Titulo de la barra
@@ -89,7 +89,7 @@ void Game::InitD3D(_In_ HINSTANCE hInstance, _In_ int nCmdShow)
 	UpdateWindow(hWnd); //La actualizo para que se vea
 
 						//Me comunico con directx por una interfaz, aca la creo
-    d3d = Direct3DCreate9(D3D_SDK_VERSION);
+	d3d = Direct3DCreate9(D3D_SDK_VERSION);
 
 	//Creo los parametros de los buffers de dibujado (pantalla)
 	D3DPRESENT_PARAMETERS d3dpp;
@@ -104,20 +104,19 @@ void Game::InitD3D(_In_ HINSTANCE hInstance, _In_ int nCmdShow)
 		hWnd, //Ventana
 		D3DCREATE_HARDWARE_VERTEXPROCESSING, //Proceso de vertices por soft o hard
 		&d3dpp, //Los parametros de buffers
-		&_dev); //El device que se crea
+		&Device); //El device que se crea
 
-    //Apago la luz para ver los colores y no todo oscuro
-	_dev->SetRenderState(D3DRS_LIGHTING, false);
+				  //Apago la luz para ver los colores y no todo oscuro
+	Device->SetRenderState(D3DRS_LIGHTING, false);
 
-	//creamos input
 	Input::Instance(hInstance, hWnd);
 }
 
 void Game::RenderFrame()
 {
-	_dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 0, 50, 100), 1.0f, 0);
+	Device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 0, 50, 100), 1.0f, 0);
 	
-	_dev->BeginScene();
+	Device->BeginScene();
 
 	if(_tileMap)
 		_tileMap->Draw();
@@ -127,8 +126,8 @@ void Game::RenderFrame()
 			_entities[i]->Render();
 	}
 
-	_dev->EndScene();
-	_dev->Present(NULL, NULL, NULL, NULL);
+	Device->EndScene();
+	Device->Present(NULL, NULL, NULL, NULL);
 }
 
 void Game::Run(HINSTANCE hInstance, int nCmdShow)
@@ -165,7 +164,7 @@ void Game::Run(HINSTANCE hInstance, int nCmdShow)
 }
 
 
-void Game::AddEntitie(Entity* e)
+void Game::AddEntitie(MeshRenderer* e)
 {
 	_entities.push_back(e);
 }
@@ -191,6 +190,11 @@ int Game::Time()
 float Game::DeltaTime()
 {
 	return abs(_deltaTime);
+}
+
+std::vector<MeshRenderer*> Game::GetMeshes()
+{
+	return _entities;
 }
 
 

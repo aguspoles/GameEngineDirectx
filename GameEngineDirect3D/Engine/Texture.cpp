@@ -2,12 +2,7 @@
 #include "Texture.h"
 
 
-Texture::Texture() : g_texture(NULL), _dev(NULL)
-{
-
-}
-
-Texture::Texture(LPDIRECT3DDEVICE9 dev) : g_texture(NULL), _dev(dev)
+Texture::Texture() : g_texture(NULL)
 {
 	_adressU = D3DTADDRESS_WRAP;
 	_adressV = D3DTADDRESS_WRAP;
@@ -24,25 +19,20 @@ Texture::~Texture()
 
 void Texture::SetTexture(D3DXMATRIX* textureMatrix)
 {
-	_dev->SetTexture(0, g_texture);
-	_dev->SetSamplerState(0, D3DSAMP_ADDRESSU, _adressU);//adress mode in u
-	_dev->SetSamplerState(0, D3DSAMP_ADDRESSV, _adressV);//adress mode in v
-	_dev->SetSamplerState(0, D3DSAMP_MINFILTER, _minFilter);//filter
-	_dev->SetSamplerState(0, D3DSAMP_MAGFILTER, _magFilter);//filter
-	_dev->SetSamplerState(0, D3DSAMP_MIPFILTER, _mipFilter);//filter
-	_dev->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, _transformFlag);
-	_dev->SetTransform(D3DTS_TEXTURE0, textureMatrix);
+	GameSetUp::Device->SetTexture(0, g_texture);
+	GameSetUp::Device->SetSamplerState(0, D3DSAMP_ADDRESSU, _adressU);//adress mode in u
+	GameSetUp::Device->SetSamplerState(0, D3DSAMP_ADDRESSV, _adressV);//adress mode in v
+	GameSetUp::Device->SetSamplerState(0, D3DSAMP_MINFILTER, _minFilter);//filter
+	GameSetUp::Device->SetSamplerState(0, D3DSAMP_MAGFILTER, _magFilter);//filter
+	GameSetUp::Device->SetSamplerState(0, D3DSAMP_MIPFILTER, _mipFilter);//filter
+	GameSetUp::Device->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, _transformFlag);
+	GameSetUp::Device->SetTransform(D3DTS_TEXTURE0, textureMatrix);
 }
 
 void Texture::LoadTexture(LPWSTR textureName)
 {
-	D3DXCreateTextureFromFile(_dev, textureName, &g_texture);
-	_dev->SetTexture(0, g_texture);
-}
-
-void Texture::SetDevice(LPDIRECT3DDEVICE9 dev)
-{
-	_dev = dev;
+	D3DXCreateTextureFromFile(GameSetUp::Device, textureName, &g_texture);
+	GameSetUp::Device->SetTexture(0, g_texture);
 }
 
 void Texture::SetAdressModeU(D3DTEXTUREADDRESS adress)

@@ -4,12 +4,7 @@
 
 Floor::Floor()
 {
-}
-
-Floor::Floor(LPDIRECT3DDEVICE9 dev)
-{
-	SetDevice(dev);
-	//SetPosition(0, 0, 9);
+	_transform = GetComponent<Transform>();
 }
 
 
@@ -19,9 +14,10 @@ Floor::~Floor()
 
 void Floor::Init()
 {
+	_material = GetComponent<Material>();
 }
 
-void Floor::Update()
+void Floor::UpdateComposite()
 {
 }
 

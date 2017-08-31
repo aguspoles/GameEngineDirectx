@@ -1,17 +1,19 @@
 #ifndef FLOOR_H
 #define FLOOR_H
-#include "Entity.h"
+#include "MeshRenderer.h"
 
 class Floor :
-	public Entity
+	public MeshRenderer
 {
+private:
+	Transform* _transform;
+	Material* _material;
 public:
 	Floor();
-	Floor(LPDIRECT3DDEVICE9 dev);
 	~Floor();
 
 	void Init();
-	void Update();
+	void UpdateComposite();
 
 	std::string GetType() const;
 };

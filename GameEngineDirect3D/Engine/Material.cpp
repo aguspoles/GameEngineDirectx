@@ -10,39 +10,14 @@ Material::Material() : _blendEnable(false)
 	D3DXMatrixIdentity(&_textureMatrix);
 }
 
-Material::Material(Texture * t, LPDIRECT3DDEVICE9 dev) : _blendEnable(false), _texture(t), _dev(dev)
-{
-	D3DXMatrixIdentity(&_positionTexMatrix);
-	D3DXMatrixIdentity(&_scaleTexMatrix);
-	D3DXMatrixIdentity(&_rotateTexMatrix);
-	D3DXMatrixIdentity(&_textureMatrix);
-}
-
-
 Material::~Material()
 {
 	if (_texture)
 		delete _texture;
 }
 
-void Material::SetDevice(LPDIRECT3DDEVICE9 dev)
+void Material::UpdateComposite()
 {
-	_dev = dev;
-}
-
-void Material::SetTexture(Texture * tex)
-{
-	_texture = tex;
-}
-
-LPDIRECT3DDEVICE9 Material::GetDevice()
-{
-	return _dev;
-}
-
-Texture * Material::GetTexture()
-{
-	return _texture;
 }
 
 D3DXMATRIX * Material::GetTextureMatrix()
@@ -52,9 +27,9 @@ D3DXMATRIX * Material::GetTextureMatrix()
 
 void Material::Tiling(D3DXVECTOR3 scal)
 {
+	_textureMatrix._11 = scal.x;
+	_textureMatrix._22 = scal.y;
 	//D3DXMatrixIdentity(&_textureMatrix);
-		_textureMatrix._11 = scal.x;
-		_textureMatrix._22 = scal.y;
 	//_textureMatrix = _rotateTexMatrix * _scaleTexMatrix * _positionTexMatrix;
 }
 
@@ -82,10 +57,10 @@ void Material::SetBlend()
 {
 	if (_blendEnable)
 	{
-		_dev->SetRenderState(D3DRS_ALPHABLENDENABLE, _blendEnable);
-		_dev->SetRenderState(D3DRS_SRCBLEND, _srcFactor);
-		_dev->SetRenderState(D3DRS_DESTBLEND, _destFactor);
-		//_dev->SetRenderState(D3DRS_BLENDOP, _blendOP);
+		GameSetUp::Device->SetRenderState(D3DRS_ALPHABLENDENABLE, _blendEnable);
+		GameSetUp::Device->SetRenderState(D3DRS_SRCBLEND, _srcFactor);
+		GameSetUp::Device->SetRenderState(D3DRS_DESTBLEND, _destFactor);
+		//Game::Device->SetRenderState(D3DRS_BLENDOP, _blendOP);
 	}
 }
 

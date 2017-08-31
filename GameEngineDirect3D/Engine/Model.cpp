@@ -11,10 +11,10 @@ Model::~Model()
 	_ib->Release();
 }
 
-Model::Model(LPDIRECT3DDEVICE9 dev, const std::vector<Vertex> &vertexes,
+Model::Model(const std::vector<Vertex> &vertexes,
 	const std::vector<WORD> &indexes, UINT primCount)
 {
-	dev->CreateVertexBuffer(vertexes.size() * sizeof(Vertex),
+	GameSetUp::Device->CreateVertexBuffer(vertexes.size() * sizeof(Vertex),
 		D3DUSAGE_WRITEONLY,//el uso q le vamos a dar
 		CUSTOMFVF,
 		D3DPOOL_MANAGED,//lo subimos a vram
@@ -31,7 +31,7 @@ Model::Model(LPDIRECT3DDEVICE9 dev, const std::vector<Vertex> &vertexes,
 
 	if (&indexes)
 	{
-		dev->CreateIndexBuffer(
+		GameSetUp::Device->CreateIndexBuffer(
 			indexes.size() * sizeof(WORD),
 			D3DUSAGE_WRITEONLY,
 			D3DFMT_INDEX16,

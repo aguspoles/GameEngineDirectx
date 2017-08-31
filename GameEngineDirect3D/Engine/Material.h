@@ -1,14 +1,15 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
+#include "GameSetUp.h"
 #include "Texture.h"
 #include <map>
 #include <string>
+#include "Composite.h"
 
-class ENGINE_API Material
+class ENGINE_API Material : public Composite
 {
 private:
 	Texture* _texture;
-	LPDIRECT3DDEVICE9 _dev;
 
 	//texture matrixes
 	D3DXMATRIX _textureMatrix;
@@ -23,14 +24,9 @@ private:
 
 public:
 	Material();
-	Material(Texture* tex, LPDIRECT3DDEVICE9 dev);
 	~Material();
 
-	void SetDevice(LPDIRECT3DDEVICE9 dev);
-	void SetTexture(Texture* tex);
-
-	LPDIRECT3DDEVICE9 GetDevice();
-	Texture* GetTexture();
+	void UpdateComposite() override;
 
 	D3DXMATRIX* GetTextureMatrix();
 

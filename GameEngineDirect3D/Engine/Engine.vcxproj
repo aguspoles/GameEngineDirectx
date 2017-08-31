@@ -238,8 +238,11 @@
     <ClInclude Include="AnimatedEntity.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="Composite.h" />
     <ClInclude Include="EngineApi.h" />
-    <ClInclude Include="Entity.h" />
+    <ClInclude Include="GameSetUp.h" />
+    <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Material.h" />
@@ -255,6 +258,8 @@
     <ClCompile Include="AnimatedEntity.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Composite.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</CompileAsManaged>
@@ -276,7 +281,8 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="GameSetUp.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Material.cpp" />

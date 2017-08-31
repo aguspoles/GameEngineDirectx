@@ -1,23 +1,23 @@
 #ifndef ENEMY_H
 #define ENEMY_H
-#include "Entity.h"
+#include "MeshRenderer.h"
 #include <vector>
 #include "Game.h"
 
-class Enemy : public Entity
+class Enemy : public MeshRenderer
 {
 private:
-	
+	Transform* _transform;
+	Material* _material;
 public:
 	Enemy();
-	Enemy(LPDIRECT3DDEVICE9 dev);
 	~Enemy();
 
 	void Init();
-	void Update();
+	void UpdateComposite();
 
 	void Move();
-	void Escape(std::vector<Entity*> entities);
+	void Escape(std::vector<MeshRenderer*> entities);
 
 	std::string GetType() const;
 

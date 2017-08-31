@@ -1,12 +1,13 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 #include <string>
+#include "Component.h"
+#include "GameSetUp.h"
 
-class ENGINE_API Texture
+class ENGINE_API Texture : public Component
 {
 private:
 	IDirect3DTexture9* g_texture;
-	LPDIRECT3DDEVICE9 _dev;
 	D3DTEXTUREADDRESS _adressU;
 	D3DTEXTUREADDRESS _adressV;
 	D3DTEXTUREFILTERTYPE _magFilter;
@@ -15,13 +16,11 @@ private:
 	D3DTEXTURETRANSFORMFLAGS _transformFlag;
 public:
 	Texture();
-	Texture(LPDIRECT3DDEVICE9 dev);
 	~Texture();
 
 	void SetTexture(D3DXMATRIX* textureMatrix);
 
 	void LoadTexture(LPWSTR textureName);
-	void SetDevice(LPDIRECT3DDEVICE9 dev);
 
 	void SetAdressModeU(D3DTEXTUREADDRESS adress);
 	void SetAdressModeV(D3DTEXTUREADDRESS adress);

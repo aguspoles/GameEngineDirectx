@@ -7,17 +7,17 @@
 class Player : public AnimatedEntity
 {
 private:
-
+	Transform* _transform;
+	Material* _material;
 public:
 	Player();
-	Player(LPDIRECT3DDEVICE9 dev);
 	~Player();
 
 	void Init();
-	void Update();
+	void UpdateComposite();
 
 	std::string GetType() const;
-	void EnemyCollision(const std::vector<Entity*> &entities);
+	void EnemyCollision(const std::vector<MeshRenderer*> &entities);
 
 	void WaterEffect();
 

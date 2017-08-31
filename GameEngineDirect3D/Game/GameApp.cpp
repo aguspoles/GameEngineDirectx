@@ -13,7 +13,8 @@ GameApp::~GameApp()
 
 void GameApp::Update()
 {
-	for (std::vector<Entity*>::iterator it = _entities.begin(); it != _entities.end(); it++)
+	std::vector<MeshRenderer*> entities = GetMeshes();
+	for (std::vector<MeshRenderer*>::iterator it = entities.begin(); it != entities.end(); it++)
 	{
 		if (*it && (*it)->IsVisible())
 		{
@@ -21,12 +22,12 @@ void GameApp::Update()
 			if ((*it)->GetType() == "Player")
 			{
 				Player *p = (Player*)*it;
-				p->EnemyCollision(_entities);
+				p->EnemyCollision(entities);
 			}
 			if ((*it)->GetType() == "Enemy")
 			{
 				Enemy *e = (Enemy*)*it;
-				e->Escape(_entities);
+				e->Escape(entities);
 			}
 		}
 		else
@@ -54,44 +55,48 @@ void GameApp::Init()
 		{ 0,0,0,0,0 },
 		{ 0,0,0,0,0 },
 	};
-	_tileMap = new TileMap(Map, 0.5f, 0.5f);
-	Floor* f = new Floor(_dev);
-	_tileMap->AddTile(f);
-	Player* p = new Player(_dev);
-	Enemy* e = new Enemy(_dev);
-	PickUp* pick = new PickUp(_dev);
-
-	Model* m = new Model(_dev, vertexes, indexes, 2);
-	Texture* tex1 = new Texture(_dev);
+	Model* m = new Model(vertexes, indexes, 2);
+	Texture* tex1 = new Texture();
 	tex1->LoadTexture(L"../walk.png");
-	Texture* tex2 = new Texture(_dev);
+	Texture* tex2 = new Texture();
 	tex2->LoadTexture(L"../metal.jpg");
-	Texture* tex3 = new Texture(_dev);
+	Texture* tex3 = new Texture();
 	tex3->LoadTexture(L"../particle.png");
 
-	Material* mat = new Material(tex3, _dev);
-	Material* mat1 = new Material(tex1, _dev);
-	Material* mat2 = new Material(tex2, _dev);
+	Material* mat = new Material();
+	mat->Add(tex3);
+	Material* mat1 = new Material();
+	mat1->Add(tex1);
+	Material* mat2 = new Material();
+	mat2->Add(tex2);
+
+	_tileMap = new TileMap(Map, 0.5f, 0.5f);
+	Floor* f = new Floor();
+	_tileMap->AddTile(f);
+	Player* p = new Player();
+	Enemy* e = new Enemy();
+	PickUp* pick = new PickUp();
+
 
 	Animation* anim = new Animation("Run", mat1, 240, 296, 1440, 1480);
 
 	//seteo player
-	p->LoadModel(m);
-	p->SetMaterial(mat1);
+	p->Add(m);
+	p->Add(mat1);
 	p->AddAnimation(anim);
 	p->SetCurrentAnimation("Run", 0.10);
 
 	//seteo enemigo
-	e->LoadModel(m);
-	e->SetMaterial(mat);
+	e->Add(m);
+	e->Add(mat);
 
 	//seteo pick
-	pick->LoadModel(m);
-	pick->SetMaterial(mat);
+	pick->Add(m);
+	pick->Add(mat);
 
 	//seteo floor
-	f->LoadModel(m);
-	f->SetMaterial(mat2);
+	f->Add(m);
+	f->Add(mat2);
 
 	AddEntitie(e);
 	AddEntitie(p);
@@ -101,7 +106,7 @@ void GameApp::Init()
 	AddMaterial(mat2);
 	AddModel(m);
 
-	for each(Entity* entitie in _entities)
+	for each(MeshRenderer* entitie in GetMeshes())
 	{
 		if (entitie)
 			entitie->Init();
@@ -115,5 +120,5 @@ void GameApp::SetCamera()
 {
 	_camera->SetViewMatrix(D3DXVECTOR3(0, 0, 10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 1, 0));
 	_camera->SetPerspective(60, (float)640 / (float)480, 0.0f, 100.0f);
-	_camera->SetRenderView(_dev);
+	_camera->SetRenderView();
 }

@@ -2,11 +2,12 @@
 #define ANIMATION_H
 #include <string>
 #include <vector>
-#include "Game.h"
 #include "Material.h"
 #include "Tile.h"
+#include "Composite.h"
+#include "Game.h"
 
-class ENGINE_API Animation
+class ENGINE_API Animation : public Composite
 {
 private:
 	Material* _material;
@@ -29,6 +30,7 @@ public:
 		float texWidth, float texHeight);
 	~Animation();
 
+	void UpdateComposite();
 	void Play();
 	void SetSpeed(float fps);
 	std::string GetName();

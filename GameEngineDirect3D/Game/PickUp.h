@@ -1,20 +1,21 @@
 #ifndef PICKUP_H
 #define PICKUP_H
-#include "Entity.h"
+#include "MeshRenderer.h"
 #include "Game.h"
 
 class PickUp :
-	public Entity
+	public MeshRenderer
 {
 private:
+	Transform* _transform;
+	Material* _material;
 	int _direction = 1;
 public:
 	PickUp();
-	PickUp(LPDIRECT3DDEVICE9 dev);
 	~PickUp();
 
 	void Init();
-	void Update();
+	void UpdateComposite();
 
 	void Move();
 

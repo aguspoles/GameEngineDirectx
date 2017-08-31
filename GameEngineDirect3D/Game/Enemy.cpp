@@ -4,14 +4,9 @@
 
 Enemy::Enemy()
 {
-}
-
-Enemy::Enemy(LPDIRECT3DDEVICE9 dev)
-{
-	SetDevice(dev);
-
+	_transform = GetComponent<Transform>();
 	//ScaleMesh(D3DXVECTOR3(0.5, 0.5, 1));
-	SetPosition(0.25, 0, 0);
+	_transform->SetPosition(0.25, 0, 0);
 }
 
 
@@ -21,16 +16,20 @@ Enemy::~Enemy()
 
 void Enemy::Init()
 {
-	GetMaterial()->AlphaBlending();
+	_material = GetComponent<Material>();
+	if (_material)
+	{
+		_material->AlphaBlending();
+	}
 	//GetMaterial()->MultiBlending();
 }
 
-void Enemy::Update()
+void Enemy::UpdateComposite()
 {
 	static float num = 0;
-	RotateMesh(D3DXVECTOR3(0, 0, num));
+	_transform->RotateMesh(D3DXVECTOR3(0, 0, num));
 	num += 0.01;
-	//MoveForward();
+	//_transform->MoveForward();
 }
 
 void Enemy::Move()
@@ -38,13 +37,14 @@ void Enemy::Move()
 	
 }
 
-void Enemy::Escape(std::vector<Entity*> entities)
+void Enemy::Escape(std::vector<MeshRenderer*> entities)
 {
-	for each (Entity* var in entities)
+	for each (MeshRenderer* var in entities)
 	{
+		auto other = var->GetComponent<Transform>();
 		if(var->GetType() == "Player")
-			if (abs((GetTransform().position - var->GetTransform().position).x) < 0.5)
-				MoveForward(0.3* Game::DeltaTime());
+			if (abs((_transform->position - other->position).x) < 0.5)
+				_transform->MoveForward(0.3* Game::DeltaTime());
 	}
 }
 

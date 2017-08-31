@@ -1,6 +1,8 @@
 #ifndef MODEL_H
 #define MODEL_H
+#include "GameSetUp.h"
 #include <vector>
+#include "Component.h"
 
 #define CUSTOMFVF (D3DFVF_XYZ | D3DFVF_TEX1)
 
@@ -10,7 +12,7 @@ struct Vertex
 	FLOAT tu, tv;
 };
 
-class ENGINE_API Model
+class ENGINE_API Model : public Component
 {
 private:
 	LPDIRECT3DVERTEXBUFFER9 _vb;
@@ -20,7 +22,7 @@ private:
 	UINT _primitivesCount;
 public:
 	Model();
-	Model(LPDIRECT3DDEVICE9 dev, const std::vector<Vertex> &vertexes,
+	Model(const std::vector<Vertex> &vertexes,
 		const std::vector<WORD> &indexes, UINT primCount);
 	~Model();
 

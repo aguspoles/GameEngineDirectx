@@ -65,9 +65,10 @@ void GameApp::Init()
 
 	Material* mat = new Material();
 	mat->Add(tex3);
+	mat->SetShadder(L"shaderTexTinte.fx");
 	Material* mat1 = new Material();
 	mat1->Add(tex1);
-	mat1->SetShadder(L"shader.fx");
+	mat1->SetShadder(L"shaderTexTinte.fx");
 	Material* mat2 = new Material();
 	mat2->Add(tex2);
 
@@ -86,6 +87,7 @@ void GameApp::Init()
 	p->Add(mat1);
 	p->AddAnimation(anim);
 	p->SetCurrentAnimation("Run", 0.10);
+	p->game = this;
 
 	//seteo enemigo
 	e->Add(m);
@@ -101,7 +103,7 @@ void GameApp::Init()
 
 	//AddEntitie(e);
 	AddEntitie(p);
-	//AddEntitie(pick);
+	AddEntitie(pick);
 	AddMaterial(mat);
 	AddMaterial(mat1);
 	AddMaterial(mat2);

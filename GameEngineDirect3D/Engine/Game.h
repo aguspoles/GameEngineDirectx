@@ -23,8 +23,8 @@ private:
 	float _currentFrameMs;
 	static float _deltaTime;
 protected:
-	Camera* _camera;
 	TileMap* _tileMap;
+    Camera* _camera;
 public:
 	Game();
     ~Game();
@@ -42,6 +42,7 @@ public:
 	static float DeltaTime();
 
 	std::vector<MeshRenderer*> GetMeshes();
+	Camera* GetCamera();
 };
 
 #endif

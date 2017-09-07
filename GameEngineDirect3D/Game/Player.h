@@ -13,6 +13,7 @@ public:
 	Player();
 	~Player();
 
+	Game* game;
 	void Init();
 	void UpdateComposite();
 

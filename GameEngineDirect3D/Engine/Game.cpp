@@ -197,6 +197,11 @@ std::vector<MeshRenderer*> Game::GetMeshes()
 	return _entities;
 }
 
+Camera * Game::GetCamera()
+{
+	return _camera;
+}
+
 
 //Manejo de mensajes por ventana
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

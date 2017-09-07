@@ -15,6 +15,7 @@ public:
 	D3DXMATRIX SetViewMatrix(D3DXVECTOR3 eye, D3DXVECTOR3 at, D3DXVECTOR3 up);
 	void SetPerspective(FLOAT angle, FLOAT aspectRatio, FLOAT zMin, FLOAT zMax);
 	D3DXMATRIX GetProjectMatrix();
+	D3DXMATRIX GetViewMatrix();
 	void SetRenderView();
 };
 

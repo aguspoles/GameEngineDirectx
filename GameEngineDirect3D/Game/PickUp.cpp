@@ -17,21 +17,23 @@ PickUp::~PickUp()
 void PickUp::Init()
 {
 	_material = GetComponent<Material>();
-	//_material->AddBlending();
+	//_material->AlphaBlending();
 }
 
 void PickUp::UpdateComposite()
 {
 	Move();
+/*	_material->GetShadderEffect()->SetMatrix("mvp", &mvp);
+	_material->GetShadderEffect()->SetVector("_Color", &D3DXVECTOR4(1, 0.5f, 0.5f, 0));*/
 }
 
 void PickUp::Move()
 {
 	if (_transform->position.x <= 0.5 && _direction == 1)
-		_transform->MoveRight(0.3* Game::DeltaTime());
+		_transform->MoveRight(0.5 * Game::DeltaTime());
 	else _direction = -1;
 	if (_transform->position.x >= -0.5 && _direction == -1)
-		_transform->MoveLeft(0.3* Game::DeltaTime());
+		_transform->MoveLeft(0.5 * Game::DeltaTime());
 	else _direction = 1;
 }
 

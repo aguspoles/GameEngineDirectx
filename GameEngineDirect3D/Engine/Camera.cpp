@@ -47,6 +47,11 @@ D3DXMATRIX Camera::GetProjectMatrix()
 	return _projectMatrix;
 }
 
+D3DXMATRIX Camera::GetViewMatrix()
+{
+	return _viewMatrix;
+}
+
 void Camera::SetRenderView()
 {
 	GameSetUp::Device->SetTransform(D3DTS_VIEW, &_viewMatrix);

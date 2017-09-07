@@ -23,7 +23,7 @@ public:
 	D3DXMATRIX* GetRotateMeshMatrix();
 	D3DXMATRIX* GetScaleMeshMatrix();
 	void SetModelMatrix(D3DXMATRIX model);
-	void TranslateMesh(D3DXVECTOR3 pos);
+    void TranslateMesh(D3DXVECTOR3 pos);
 	void RotateMesh(D3DXVECTOR3 rot);
 	void ScaleMesh(D3DXVECTOR3 scal);
 
@@ -41,3 +41,4 @@ public:
 };
 
 #endif
+

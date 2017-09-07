@@ -11,6 +11,8 @@ class ENGINE_API Material : public Composite
 private:
 	Texture* _texture;
 
+	//shadder
+	LPD3DXEFFECT _effect;
 	//texture matrixes
 	D3DXMATRIX _textureMatrix;
 	D3DXMATRIX _scaleTexMatrix;
@@ -38,6 +40,9 @@ public:
 	void AddBlending();
 	void AlphaBlending();
 	void MultiBlending();
+
+	void SetShadder(LPCWSTR shader);
+	LPD3DXEFFECT GetShadderEffect();
 };
 
 #endif

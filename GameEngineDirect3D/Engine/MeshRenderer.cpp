@@ -14,44 +14,45 @@ MeshRenderer::~MeshRenderer()
 
 void MeshRenderer::Render()
 {
-	LPD3DXEFFECT effect;
-	D3DXCreateEffectFromFile(
-		GameSetUp::Device, L"shader.fx", NULL, NULL,
-		D3DXSHADER_ENABLE_BACKWARDS_COMPATIBILITY,
-		NULL, &effect, NULL);
-
-	Material* mat = GetComponent<Material>();
+	Material* material = GetComponent<Material>();
 	Model* model = GetComponent<Model>();
-	if (mat)
-	{
-		auto tex = mat->GetComponent<Texture>();
-		D3DXMATRIX* texMat = mat->GetTextureMatrix();
-		tex->SetTexture(texMat);
-		mat->SetBlend();
-	}
 	if (model)
 	{
 		//especificamos el formato del vertice
 		GameSetUp::Device->SetFVF(CUSTOMFVF);
-		//GameSetUp::Device->SetTransform(D3DTS_WORLD, _transform->GetModelMatrix());
 		//especificamos cual vb vamos a usar
 		GameSetUp::Device->SetStreamSource(0, model->GetVertexBuffer(), 0, sizeof(Vertex));
 		//especificamos q indices vamos  a usar
 		GameSetUp::Device->SetIndices(model->GetIndexBuffer());
 		//esto apga el culling de la placa 
 		//_dev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-		/*GameSetUp::Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0,
-			(model->GetVertexes()).size(), 0, model->GetPrimitivesCount());*/
+	}
+	if (material)
+	{
+		Texture* texture = material->GetComponent<Texture>();
+		D3DXMATRIX* texMatrix = material->GetTextureMatrix();
+		texture->SetTexture(texMatrix);
+		material->SetBlend();
+
 		//lo apago para que lo proximo que se dibuje no tenga blend necesariamente
 		GameSetUp::Device->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 
-		UINT passes;
-		effect->Begin(&passes, 0);
-		effect->BeginPass(0);
-		GameSetUp::Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0,
+		if (material->GetShadderEffect())
+		{
+			UINT passes;
+			material->GetShadderEffect()->Begin(&passes, 0);
+			material->GetShadderEffect()->BeginPass(0);
+			GameSetUp::Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0,
 				(model->GetVertexes()).size(), 0, model->GetPrimitivesCount());
-		effect->EndPass();
-		effect->End();
+			material->GetShadderEffect()->EndPass();
+			material->GetShadderEffect()->End();
+		}
+		else
+		{
+			GameSetUp::Device->SetTransform(D3DTS_WORLD, _transform->GetModelMatrix());
+			GameSetUp::Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0,
+				(model->GetVertexes()).size(), 0, model->GetPrimitivesCount());
+		}
 	}
 }
 

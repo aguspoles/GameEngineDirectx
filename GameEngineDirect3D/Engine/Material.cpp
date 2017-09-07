@@ -85,3 +85,16 @@ void Material::MultiBlending()
 	_srcFactor = D3DBLEND_DESTCOLOR;
 	_destFactor = D3DBLEND_ZERO;
 }
+
+void Material::SetShadder(LPCWSTR shader)
+{
+	D3DXCreateEffectFromFile(
+		GameSetUp::Device, shader, NULL, NULL,
+		D3DXSHADER_ENABLE_BACKWARDS_COMPATIBILITY,
+		NULL, &_effect, NULL);
+}
+
+LPD3DXEFFECT Material::GetShadderEffect()
+{
+	return _effect;
+}

@@ -64,6 +64,13 @@ void Transform::TranslateMesh(D3DXVECTOR3 pos)
 		pos.y,
 		pos.z);
 	_modelMatrix = _rotateMeshMatrix * _scaleMeshMatrix * _translateMeshMatrix;
+	//Composite* parent = GetParent();
+	//if (parent)
+	//{
+	//	Transform* transform = parent->GetComponent<Transform>();
+	//	if (parent->GetComponent<Transform>())
+	//		parent->GetComponent<Transform>()->TranslateMesh(pos);
+	//}
 }
 
 void Transform::RotateMesh(D3DXVECTOR3 rot)

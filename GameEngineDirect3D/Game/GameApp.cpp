@@ -67,6 +67,7 @@ void GameApp::Init()
 	mat->Add(tex3);
 	Material* mat1 = new Material();
 	mat1->Add(tex1);
+	mat1->SetShadder(L"shader.fx");
 	Material* mat2 = new Material();
 	mat2->Add(tex2);
 

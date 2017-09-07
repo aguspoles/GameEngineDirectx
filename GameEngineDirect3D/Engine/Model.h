@@ -4,11 +4,12 @@
 #include <vector>
 #include "Component.h"
 
-#define CUSTOMFVF (D3DFVF_XYZ | D3DFVF_TEX1)
+#define CUSTOMFVF (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1)
 
 struct Vertex
 {
 	FLOAT x, y, z;
+	FLOAT nx, ny, nz;
 	FLOAT tu, tv;
 };
 
@@ -23,7 +24,7 @@ private:
 public:
 	Model();
 	Model(const std::vector<Vertex> &vertexes,
-		const std::vector<WORD> &indexes, UINT primCount);
+		const std::vector<WORD> &indexes);
 	~Model();
 
 	LPDIRECT3DVERTEXBUFFER9 GetVertexBuffer();
@@ -31,6 +32,9 @@ public:
 	std::vector<Vertex> GetVertexes();
 	std::vector<WORD> GetIndexes();
 	UINT GetPrimitivesCount();
+	void LoadModelFromFile(const char* file);
+	void ChargeModel(const std::vector<Vertex> &vertexes,
+		const std::vector<WORD> &indexes);
 
 };
 

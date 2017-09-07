@@ -55,7 +55,8 @@ void GameApp::Init()
 		{ 0,0,0,0,0 },
 		{ 0,0,0,0,0 },
 	};
-	Model* m = new Model(vertexes, indexes, 2);
+	Model* m = new Model();
+	m->LoadModelFromFile("bus.obj");
 	Texture* tex1 = new Texture();
 	tex1->LoadTexture(L"../walk.png");
 	Texture* tex2 = new Texture();
@@ -101,7 +102,7 @@ void GameApp::Init()
 	f->Add(m);
 	f->Add(mat2);
 
-	//AddEntitie(e);
+	AddEntitie(e);
 	AddEntitie(p);
 	AddEntitie(pick);
 	AddMaterial(mat);

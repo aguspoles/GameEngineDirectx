@@ -26,8 +26,13 @@ void MeshRenderer::Render()
 		GameSetUp::Device->SetIndices(model->GetIndexBuffer());
 		//esto apga el culling de la placa 
 		//_dev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		GameSetUp::Device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+		GameSetUp::Device->SetRenderState(D3DRS_ZWRITEENABLE, true);
+		GameSetUp::Device->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
 		if (material)
 		{
+
+
 			Texture* texture = material->GetComponent<Texture>();
 			D3DXMATRIX* texMatrix = material->GetTextureMatrix();
 			texture->SetTexture(texMatrix);

@@ -12,7 +12,6 @@ class ENGINE_API MeshRenderer : public Composite
 private:
 	Transform* _transform;
 	bool _isVisible;
-	
 public:
 	MeshRenderer();
     ~MeshRenderer();
@@ -20,6 +19,7 @@ public:
 	virtual void Init() = 0;
 	virtual void UpdateComposite() = 0;
 	void Render();
+	void Render(D3DXMATRIX modelMatrix);
 
 	bool IsVisible() const;
 	virtual std::string GetType() const=0;

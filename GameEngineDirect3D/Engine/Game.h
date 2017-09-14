@@ -5,7 +5,7 @@
 #include "GameSetUp.h"
 #include "MeshRenderer.h"
 #include "TileMap.h"
-#include "Camera.h"
+//#include "Camera.h"
 #include "Input.h"
 #include "Material.h"
 #include "Model.h"
@@ -24,7 +24,7 @@ private:
 	static float _deltaTime;
 protected:
 	TileMap* _tileMap;
-    Camera* _camera;
+    //Camera* _camera;
 public:
 	Game();
     ~Game();
@@ -42,7 +42,7 @@ public:
 	static float DeltaTime();
 
 	std::vector<MeshRenderer*> GetMeshes();
-	Camera* GetCamera();
+	//Camera* GetCamera();
 };
 
 #endif

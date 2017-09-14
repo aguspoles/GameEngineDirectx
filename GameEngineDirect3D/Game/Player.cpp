@@ -27,10 +27,6 @@ void Player::UpdateComposite()
 		GetCurrentAnimation()->Play();
 		_transform->MoveLeft(1 * Game::DeltaTime());
 	}
-
-	D3DXMATRIX mvp = *(_transform->GetModelMatrix()) * game->GetCamera()->GetViewMatrix() * game->GetCamera()->GetProjectMatrix();
-	_material->GetShadderEffect()->SetMatrix("mvp", &mvp);
-	_material->GetShadderEffect()->SetVector("_Color", &D3DXVECTOR4(1, 0.5f, 0.5f, 0));
 }
 
 void Player::EnemyCollision(const std::vector<MeshRenderer*> &entities)

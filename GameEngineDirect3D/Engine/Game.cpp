@@ -197,10 +197,10 @@ std::vector<MeshRenderer*> Game::GetMeshes()
 	return _entities;
 }
 
-Camera * Game::GetCamera()
-{
-	return _camera;
-}
+//Camera * Game::GetCamera()
+//{
+//	return _camera;
+//}
 
 
 //Manejo de mensajes por ventana

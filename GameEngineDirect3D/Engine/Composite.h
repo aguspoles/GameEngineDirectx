@@ -10,8 +10,10 @@ private:
 	vector<Component*> components;
 
 	template<class T> void GetComponentsInParent(vector<T*>*);
+	template<class t> void Composite::GetComponentsInChildren(vector<T*>* vec);
 protected:
 	virtual void UpdateComposite() = 0;
+	virtual void RenderComposite() = 0;
 public:
 	Composite();
 	~Composite();
@@ -19,10 +21,12 @@ public:
 	void Add(Component* component);
 	void Remove(Component* component);
 	void Update() override final;
+	void Render() override final;
 	template<class T> T* GetComponent();
 	template<class T> T* GetComponentInChildren();
 	template<class T> T* GetComponentInParent();
 	template<class T> vector<T*>* GetComponentsInParent();
+	template<class T> vector<T*>* GetComponentsInChildren();
 };
 
 template<class T>
@@ -93,11 +97,27 @@ inline vector<T*>* Composite::GetComponentsInParent()
 }
 
 template<class T>
+inline vector<T*>* Composite::GetComponentsInChildren()
+{
+	vector<T*>* vec = new vector<T*>();
+	GetComponentsInChildren<T*>(vec);
+	return vec;
+}
+
+template<class T>
 inline void Composite::GetComponentsInParent(vector<T*>* vec)
 {
 	T* comp = dynamic_cast<T*>(this);
 	if (comp) vec->push_back(comp);
 	if (GetParent()) GetParent()->GetComponentsInParent(vec);
+}
+
+template<class t>
+inline void Composite::GetComponentsInChildren(vector<T*>* vec)
+{
+	T* comp = dynamic_cast<T*>(this);
+	if (comp) vec->push_back(comp);
+	if (GetChildren()) GetChildren()->GetComponentsInChildren(vec);
 }
 
 

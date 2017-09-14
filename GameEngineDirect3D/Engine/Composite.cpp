@@ -28,7 +28,12 @@ void Composite::Update()
 		components[i]->Update();
 }
 
-void Composite::UpdateComposite()
+void Composite::Render()
 {
+	RenderComposite();
+
+	for (size_t i = 0; i < components.size(); i++)
+		components[i]->Render();
 }
+
 

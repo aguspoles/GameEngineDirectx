@@ -2,6 +2,7 @@
 #define GAMEAPP_H
 #include "resource.h"
 #include "Game.h"
+#include "Camera.h"
 #include "Player.h"
 #include "PickUp.h"
 #include "Floor.h"

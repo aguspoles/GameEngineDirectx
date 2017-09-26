@@ -2,7 +2,6 @@
 #define MODEL_H
 #include "GameSetUp.h"
 #include <vector>
-#include "Component.h"
 
 #define CUSTOMFVF (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1)
 
@@ -13,7 +12,7 @@ struct Vertex
 	FLOAT tu, tv;
 };
 
-class ENGINE_API Model : public Component
+class ENGINE_API Model
 {
 private:
 	LPDIRECT3DVERTEXBUFFER9 _vb;

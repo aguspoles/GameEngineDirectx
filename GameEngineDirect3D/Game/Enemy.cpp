@@ -19,17 +19,16 @@ void Enemy::Init()
 	_material = GetComponent<Material>();
 	if (_material)
 	{
-		_material->AlphaBlending();
+		//_material->AlphaBlending();
 	}
-	//GetMaterial()->MultiBlending();
 }
 
 void Enemy::UpdateComposite()
 {
 	static float num = 0;
-	_transform->RotateMesh(D3DXVECTOR3(0, 0, num));
+	//_transform->RotateMesh(D3DXVECTOR3(0, 0, num));
 	num += 0.01;
-	//_transform->MoveForward();
+	//_transform->MoveForward(1);
 }
 
 void Enemy::Move()

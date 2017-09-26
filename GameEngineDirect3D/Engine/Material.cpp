@@ -16,13 +16,19 @@ Material::~Material()
 		delete _texture;
 }
 
-void Material::UpdateComposite()
-{
-}
-
 D3DXMATRIX * Material::GetTextureMatrix()
 {
 	return &_textureMatrix;
+}
+
+void Material::SetTexture(Texture* texture)
+{
+	_texture = texture;
+}
+
+Texture * Material::GetTexture()
+{
+	return _texture;
 }
 
 void Material::Tiling(D3DXVECTOR3 scal)

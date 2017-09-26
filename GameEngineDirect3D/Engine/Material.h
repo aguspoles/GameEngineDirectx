@@ -4,9 +4,9 @@
 #include "Texture.h"
 #include <map>
 #include <string>
-#include "Composite.h"
+#include "Component.h"
 
-class ENGINE_API Material : public Composite
+class ENGINE_API Material : public Component
 {
 private:
 	Texture* _texture;
@@ -28,9 +28,9 @@ public:
 	Material();
 	~Material();
 
-	void UpdateComposite() override;
-
 	D3DXMATRIX* GetTextureMatrix();
+	void SetTexture(Texture* texture);
+	Texture* GetTexture();
 
 	void Tiling(D3DXVECTOR3 scal);//scale the texture
 	void Offset(D3DXVECTOR2 pos);//positionate the texture

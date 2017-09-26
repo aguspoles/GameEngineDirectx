@@ -15,8 +15,6 @@ public:
 	AnimatedEntity();
 	~AnimatedEntity();
 
-	virtual void UpdateComposite() = 0;
-
 	void AddAnimation(Animation* anim);
 	void SetCurrentAnimation(std::string anim, float fps);
 	Animation* GetCurrentAnimation();

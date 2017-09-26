@@ -20,7 +20,8 @@ void Player::UpdateComposite()
 	if (Input::KeyPressed("MOVE_RIGHT"))
 	{
 	    GetCurrentAnimation()->Play();
-		_transform->MoveRight(1 * Game::DeltaTime());
+		_transform->MoveRight(5 * Game::DeltaTime());
+		//_transform->RotateMesh(D3DXVECTOR3(0, 0, 1));
 	}
 	if (Input::KeyPressed("MOVE_LEFT"))
 	{ 

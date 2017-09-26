@@ -55,8 +55,8 @@ void GameApp::Init()
 		{ 0,0,0,0,0 },
 		{ 0,0,0,0,0 },
 	};
-	Model* m = new Model();
-	m->LoadModelFromFile("bus.obj");
+	Model* m = new Model(vertexes, indexes);
+	//m->LoadModelFromFile("cube.obj");
 	Texture* tex1 = new Texture();
 	tex1->LoadTexture(L"../walk.png");
 	Texture* tex2 = new Texture();
@@ -65,13 +65,13 @@ void GameApp::Init()
 	tex3->LoadTexture(L"../particle.png");
 
 	Material* mat = new Material();
-	mat->Add(tex3);
-	mat->SetShadder(L"shaderTexTinte.fx");
+	mat->SetTexture(tex3);
+	//mat->SetShadder(L"shaderTexTinte.fx");
 	Material* mat1 = new Material();
-	mat1->Add(tex1);
-	mat1->SetShadder(L"shaderTexTinte.fx");
+	mat1->SetTexture(tex1);
+	//mat1->SetShadder(L"shaderTexTinte.fx");
 	Material* mat2 = new Material();
-	mat2->Add(tex2);
+	mat2->SetTexture(tex2);
 
 	_tileMap = new TileMap(Map, 0.5f, 0.5f);
 	Floor* f = new Floor();
@@ -84,25 +84,25 @@ void GameApp::Init()
 	Animation* anim = new Animation("Run", mat1, 240, 296, 1440, 1480);
 
 	//seteo player
-	p->Add(m);
+	p->SetModel(m);
 	p->Add(mat1);
 	p->AddAnimation(anim);
 	p->SetCurrentAnimation("Run", 0.10);
-	p->game = this;
 
 	//seteo enemigo
-	e->Add(m);
+	e->SetModel(m);
 	e->Add(mat);
 
 	//seteo pick
-	pick->Add(m);
+	pick->SetModel(m);
 	pick->Add(mat);
+	//pick->SetParent(p);
 
 	//seteo floor
-	f->Add(m);
+	f->SetModel(m);
 	f->Add(mat2);
 
-	AddEntitie(e);
+	//AddEntitie(e);
 	AddEntitie(p);
 	AddEntitie(pick);
 	AddMaterial(mat);
@@ -122,7 +122,7 @@ void GameApp::Init()
 
 void GameApp::SetCamera()
 {
-	_camera->SetViewMatrix(D3DXVECTOR3(0, 0, 10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 1, 0));
-	_camera->SetPerspective(60, (float)640 / (float)480, 0.0f, 100.0f);
-	_camera->SetRenderView();
+	Camera::Instance()->SetViewMatrix(D3DXVECTOR3(0, 0, 10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 1, 0));
+	Camera::Instance()->SetPerspective(60, (float)640 / (float)480, 0.0f, 100.0f);
+	Camera::Instance()->SetRenderView();
 }

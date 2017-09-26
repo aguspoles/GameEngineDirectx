@@ -1,16 +1,18 @@
 #pragma once
 #include <vector>
 #include "Component.h"
+#include "Transform.h"
 
 using namespace std;
 
 class ENGINE_API Composite : public Component
 {
 private:
-	vector<Component*> components;
+	Transform* _transform;
+	vector<Component*> _components;
 
 	template<class T> void GetComponentsInParent(vector<T*>*);
-	template<class t> void Composite::GetComponentsInChildren(vector<T*>* vec);
+	template<class T> void Composite::GetComponentsInChildren(vector<T*>*);
 protected:
 	virtual void UpdateComposite() = 0;
 	virtual void RenderComposite() = 0;
@@ -27,14 +29,16 @@ public:
 	template<class T> T* GetComponentInParent();
 	template<class T> vector<T*>* GetComponentsInParent();
 	template<class T> vector<T*>* GetComponentsInChildren();
+
+	Transform* GetTransform();
 };
 
 template<class T>
 inline T* Composite::GetComponent()
 {
-	for (size_t i = 0; i < components.size(); i++)
+	for (size_t i = 0; i < _components.size(); i++)
 	{
-		T* comp = dynamic_cast<T*>(components[i]);
+		T* comp = dynamic_cast<T*>(_components[i]);
 		if (comp != nullptr) return comp;
 	}
 
@@ -47,9 +51,9 @@ inline T * Composite::GetComponentInChildren()
 	T* comp = dynamic_cast<T*>(this);
 	if (comp) return comp;
 
-	for (size_t i = 0; i < components.size(); i++)
+	for (size_t i = 0; i < _components.size(); i++)
 	{
-		Component* child = components[i];
+		Component* child = _components[i];
 		Composite* compositeChild = dynamic_cast<Composite*>(child);
 		if (compositeChild)
 		{
@@ -112,7 +116,7 @@ inline void Composite::GetComponentsInParent(vector<T*>* vec)
 	if (GetParent()) GetParent()->GetComponentsInParent(vec);
 }
 
-template<class t>
+template<class T>
 inline void Composite::GetComponentsInChildren(vector<T*>* vec)
 {
 	T* comp = dynamic_cast<T*>(this);

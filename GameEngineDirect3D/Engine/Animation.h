@@ -4,10 +4,10 @@
 #include <vector>
 #include "Material.h"
 #include "Tile.h"
-#include "Composite.h"
+#include "Component.h"
 #include "Game.h"
 
-class ENGINE_API Animation : public Composite
+class ENGINE_API Animation : public Component
 {
 private:
 	Material* _material;
@@ -30,7 +30,6 @@ public:
 		float texWidth, float texHeight);
 	~Animation();
 
-	void UpdateComposite();
 	void Play();
 	void SetSpeed(float fps);
 	std::string GetName();

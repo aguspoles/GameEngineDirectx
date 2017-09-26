@@ -4,7 +4,7 @@
 #include "Component.h"
 #include "GameSetUp.h"
 
-class ENGINE_API Texture : public Component
+class ENGINE_API Texture
 {
 private:
 	IDirect3DTexture9* g_texture;

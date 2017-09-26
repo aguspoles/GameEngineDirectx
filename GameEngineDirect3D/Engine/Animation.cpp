@@ -24,7 +24,6 @@ Animation::Animation(std::string name, Material* mat, float tileWidth, float til
 		Tile(4,1), Tile(4,2), Tile(4,3), Tile(4,4),Tile(4,5), Tile(4,6),
 		Tile(5,1), Tile(5,2), Tile(5,3), Tile(5,4),Tile(5,5), Tile(5,6) };
 
-	Add(mat);
 	_y = _tiles[0].GetFila() * _tileHeight;
 	_x = _tiles[0].GetColumna() * _tileWidth;
 	mat->Offset(D3DXVECTOR2(_x / _texWidth, _y / _texHeight));
@@ -33,10 +32,6 @@ Animation::Animation(std::string name, Material* mat, float tileWidth, float til
 
 
 Animation::~Animation()
-{
-}
-
-void Animation::UpdateComposite()
 {
 }
 

@@ -5,15 +5,16 @@
 #include "Model.h"
 #include "Composite.h"
 #include "GameSetUp.h"
+#include "Camera.h"
 
 
 class ENGINE_API MeshRenderer : public Composite
 {
 private:
-	Transform* _transform;
+	Transform* _transform;//lo tiene composite
+	Material* _material;
+	Model* _model;
 	bool _isVisible;
-
-	D3DXMATRIX ModelMatrix(D3DXMATRIX otherModelMatrix);
 public:
 	MeshRenderer();
     ~MeshRenderer();
@@ -21,8 +22,8 @@ public:
 	virtual void Init() = 0;
 	virtual void UpdateComposite() = 0;
 	void RenderComposite() override;
-	void RenderComposite(D3DXMATRIX modelMatrix);
 
+	void SetModel(Model* model);
 	bool IsVisible() const;
 	virtual std::string GetType() const=0;
 

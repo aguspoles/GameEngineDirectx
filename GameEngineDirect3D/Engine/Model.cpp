@@ -159,5 +159,5 @@ void Model::ChargeModel(const std::vector<Vertex> &vertexes,
 		_ib->Unlock();
 	}
 
-	_primitivesCount = indexes.size() / 3;
+	_primitivesCount = indexes.size() / 3;//triangulos (3 vertices)
 }

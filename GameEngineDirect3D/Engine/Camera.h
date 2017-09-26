@@ -1,16 +1,22 @@
 #ifndef CAMERA_H
 #define CAMERA_H
-#include "Component.h"
+#include "Composite.h"
 #include "GameSetUp.h"
 
-class ENGINE_API Camera : public Component
+class ENGINE_API Camera : public Composite
 {
 private:
-	D3DXMATRIX _viewMatrix;
-	D3DXMATRIX _projectMatrix;
-public:
+	static Camera* _instance;
+    D3DXMATRIX _viewMatrix;
+    D3DXMATRIX _projectMatrix;
+protected:
 	Camera();
+public:
+	static Camera* Instance();
 	~Camera();
+
+	void UpdateComposite() override;
+	void RenderComposite() override;
 
 	D3DXMATRIX SetViewMatrix(D3DXVECTOR3 eye, D3DXVECTOR3 at, D3DXVECTOR3 up);
 	void SetPerspective(FLOAT angle, FLOAT aspectRatio, FLOAT zMin, FLOAT zMax);

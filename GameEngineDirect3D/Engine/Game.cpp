@@ -5,16 +5,11 @@ float Game::_deltaTime = 0;
 
 Game::Game() : _tileMap(NULL)
 {
-	_camera = new Camera();
+	
 }
 
 Game::~Game()
 {
-	if (_camera)
-	{
-	    delete _camera;
-		_camera = NULL;
-	}
 	if (_tileMap)
 	{
 		delete _tileMap;
@@ -118,8 +113,8 @@ void Game::RenderFrame()
 	
 	Device->BeginScene();
 
-	if(_tileMap)
-		_tileMap->Draw();
+	/*if(_tileMap)
+		_tileMap->Draw();*/
 	for (int i = 0; i < _entities.size(); i++)
 	{
 		if (_entities[i])
@@ -196,11 +191,6 @@ std::vector<MeshRenderer*> Game::GetMeshes()
 {
 	return _entities;
 }
-
-//Camera * Game::GetCamera()
-//{
-//	return _camera;
-//}
 
 
 //Manejo de mensajes por ventana

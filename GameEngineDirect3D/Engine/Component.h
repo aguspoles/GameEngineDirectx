@@ -3,6 +3,7 @@
 class ENGINE_API Component
 {
 	class Composite* parent;
+private:
 protected:
 	float x;
 	float y;

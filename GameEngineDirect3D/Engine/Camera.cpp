@@ -1,13 +1,31 @@
 #include "stdafx.h"
 #include "Camera.h"
 
+Camera* Camera::_instance = NULL;
 
 Camera::Camera()
 {
 }
 
 
+Camera * Camera::Instance()
+{
+	if (_instance == NULL)
+		_instance = new Camera();
+	return _instance;
+}
+
 Camera::~Camera()
+{
+	if (_instance)
+		delete _instance;
+}
+
+void Camera::UpdateComposite()
+{
+}
+
+void Camera::RenderComposite()
 {
 }
 

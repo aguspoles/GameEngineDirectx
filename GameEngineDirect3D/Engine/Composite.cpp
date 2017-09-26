@@ -3,15 +3,19 @@
 
 Composite::Composite()
 {
+	_transform = new Transform();
+	Add(_transform);
 }
 
 Composite::~Composite()
 {
+	if (_transform)
+		delete _transform;
 }
 
 void Composite::Add(Component * component)
 {
-	components.push_back(component);
+	_components.push_back(component);
 	component->SetParent(this);
 }
 
@@ -24,16 +28,28 @@ void Composite::Update()
 {
 	UpdateComposite();
 
-	for (size_t i = 0; i < components.size(); i++)
-		components[i]->Update();
+	for (size_t i = 0; i < _components.size(); i++)
+		_components[i]->Update();
 }
 
 void Composite::Render()
 {
+	Composite* parent = GetParent();
+	if (parent)
+	{
+		D3DXMATRIX parentMatrix = *(parent->GetComponent<Transform>()->GetModelMatrix());
+		D3DXMATRIX modelMatrix = parentMatrix * (*_transform->GetModelMatrix());
+		_transform->SetModelMatrix(modelMatrix);
+	}
 	RenderComposite();
 
-	for (size_t i = 0; i < components.size(); i++)
-		components[i]->Render();
+	for (size_t i = 0; i < _components.size(); i++)
+		_components[i]->Render();
+}
+
+Transform * Composite::GetTransform()
+{
+	return _transform;
 }
 
 

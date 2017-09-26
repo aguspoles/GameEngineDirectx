@@ -6,7 +6,7 @@ PickUp::PickUp()
 {
 	_transform = GetComponent<Transform>();
 	_transform->ScaleMesh(D3DXVECTOR3(0.5, 0.5, 1));
-	_transform->SetPosition(0, 0.5, 1);
+	_transform->SetPosition(-0.5, 0.5, 5);
 }
 
 
@@ -22,9 +22,7 @@ void PickUp::Init()
 
 void PickUp::UpdateComposite()
 {
-	Move();
-/*	_material->GetShadderEffect()->SetMatrix("mvp", &mvp);
-	_material->GetShadderEffect()->SetVector("_Color", &D3DXVECTOR4(1, 0.5f, 0.5f, 0));*/
+	//Move();
 }
 
 void PickUp::Move()

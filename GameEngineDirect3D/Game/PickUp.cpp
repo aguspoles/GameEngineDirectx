@@ -23,6 +23,10 @@ void PickUp::Init()
 void PickUp::UpdateComposite()
 {
 	//Move();
+	/*if (Input::KeyPressed("MOVE_LEFT"))
+	{
+		_transform->MoveLeft(1 * Game::DeltaTime());
+	}*/
 }
 
 void PickUp::Move()

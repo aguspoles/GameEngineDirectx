@@ -35,14 +35,18 @@ void Composite::Update()
 void Composite::Render()
 {
 	Composite* parent = GetParent();
-	if (parent)
+	D3DXMATRIX original = *_transform->GetModelMatrix();
+	D3DXMATRIX modelMatrix = original;
+	while (parent)
 	{
 		D3DXMATRIX parentMatrix = *(parent->GetComponent<Transform>()->GetModelMatrix());
-		D3DXMATRIX modelMatrix = parentMatrix * (*_transform->GetModelMatrix());
-		_transform->SetModelMatrix(modelMatrix);
+		modelMatrix *= parentMatrix;
+		parent = parent->GetParent();
 	}
-	RenderComposite();
 
+	_transform->SetModelMatrix(modelMatrix);
+	RenderComposite();
+	_transform->SetModelMatrix(original);
 	for (size_t i = 0; i < _components.size(); i++)
 		_components[i]->Render();
 }

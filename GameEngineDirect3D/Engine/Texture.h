@@ -28,6 +28,8 @@ public:
 	void SetMinFilter(D3DTEXTUREFILTERTYPE filter);
 	void SetMipFilter(D3DTEXTUREFILTERTYPE filter);
 	void SetTransformFlag(D3DTEXTURETRANSFORMFLAGS transformFlag);
+
+	IDirect3DTexture9* GetTexture();
 };
 
 #endif

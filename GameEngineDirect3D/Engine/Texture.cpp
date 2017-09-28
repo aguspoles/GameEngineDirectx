@@ -64,3 +64,8 @@ void Texture::SetTransformFlag(D3DTEXTURETRANSFORMFLAGS transformFlag)
 {
 	_transformFlag = transformFlag;
 }
+
+IDirect3DTexture9* Texture::GetTexture()
+{
+	return g_texture;
+}

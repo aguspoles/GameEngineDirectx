@@ -44,11 +44,12 @@ void GameApp::Init()
 
 	std::vector<Vertex> vertexes =
 	{
-		{ -1.0f, 1.0f, 0.0f, 0.0f, 0.0f },
-		{ 1.0f, 1.0f, 0.0f, 1.0f, 0.0f },
-		{ 1.0f, -1.0f, 0.0f, 1.0f, 1.0f },
-		{ -1.0f, -1.0f, 0.0f, 0.0f, 1.0f }
+		{ -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
+		{ 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f },
+		{ 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f },
+		{ -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f }
 	};
+
 	std::vector<std::vector<int>> Map =
 	{
 		{ 0,0,0,0,0 },
@@ -69,7 +70,7 @@ void GameApp::Init()
 	//mat->SetShadder(L"shaderTexTinte.fx");
 	Material* mat1 = new Material();
 	mat1->SetTexture(tex1);
-	//mat1->SetShadder(L"shaderTexTinte.fx");
+	mat1->SetShadder(L"shaderTexTinte.fx");
 	Material* mat2 = new Material();
 	mat2->SetTexture(tex2);
 
@@ -86,23 +87,24 @@ void GameApp::Init()
 	//seteo player
 	p->SetModel(m);
 	p->Add(mat1);
-	p->AddAnimation(anim);
-	p->SetCurrentAnimation("Run", 0.10);
+    p->AddAnimation(anim);
+	p->SetCurrentAnimation("Run", 0.08);
 
 	//seteo enemigo
 	e->SetModel(m);
 	e->Add(mat);
+	e->SetParent(pick);
 
 	//seteo pick
 	pick->SetModel(m);
-	pick->Add(mat);
-	//pick->SetParent(p);
+	pick->Add(mat1);
+	pick->SetParent(p);
 
 	//seteo floor
 	f->SetModel(m);
 	f->Add(mat2);
 
-	//AddEntitie(e);
+	AddEntitie(e);
 	AddEntitie(p);
 	AddEntitie(pick);
 	AddMaterial(mat);

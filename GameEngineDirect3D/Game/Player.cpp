@@ -13,15 +13,19 @@ Player::~Player()
 {
 }
 
+
 void Player::UpdateComposite()
 {
+	/*static float num = 0;
+	num += 0.1f;*/
 	//WaterEffect();
 	//MoveBackWard();
+	Effect();
+	GetCurrentAnimation()->Play();
 	if (Input::KeyPressed("MOVE_RIGHT"))
 	{
-	    GetCurrentAnimation()->Play();
 		_transform->MoveRight(5 * Game::DeltaTime());
-		//_transform->RotateMesh(D3DXVECTOR3(0, 0, 1));
+		//_transform->RotateMesh(D3DXVECTOR3(0, 0, num));
 	}
 	if (Input::KeyPressed("MOVE_LEFT"))
 	{ 
@@ -46,15 +50,39 @@ void Player::WaterEffect()
 	}
 }
 
+void Player::Effect()
+{
+	static bool up = true, down = false;
+	static float num = 0.5f;
+	if (up)
+	{
+		if (num <= 0.8f)
+			num += 0.01f;
+		else
+		{
+			up = false;
+			down = true;
+		}
+	}
+	else if (down) {
+		if (num >= 0.3f)
+			num -= 0.01f;
+		else {
+			up = true;
+			down = false;
+		}
+	}
+	_material->GetShadderEffect()->SetFloat("num", num);
+}
+
 void Player::Init()
 {
 	_material = GetComponent<Material>();
-	if (_material)
-	{
-		//GetMaterial()->AddBlending();
-		//_material->AlphaBlending();
-		//GetMaterial()->MultiBlending();
-	}
+	LPD3DXEFFECT shadder = _material->GetShadderEffect();
+	shadder->SetVector("_Color", &D3DXVECTOR4(1.0f, 0.8f, 0, 0));
+	//_material->AddBlending();
+	//_material->AlphaBlending();
+	//_material->MultiBlending();
 }
 
 std::string Player::GetType() const

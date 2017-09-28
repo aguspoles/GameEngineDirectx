@@ -12,7 +12,7 @@ private:
 	vector<Component*> _components;
 
 	template<class T> void GetComponentsInParent(vector<T*>*);
-	template<class T> void Composite::GetComponentsInChildren(vector<T*>*);
+	template<class T> void GetComponentsInChildren(vector<T*>*);
 protected:
 	virtual void UpdateComposite() = 0;
 	virtual void RenderComposite() = 0;

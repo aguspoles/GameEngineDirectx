@@ -20,6 +20,7 @@ public:
 	void EnemyCollision(const std::vector<MeshRenderer*> &entities);
 
 	void WaterEffect();
+	void Effect();
 
 };
 

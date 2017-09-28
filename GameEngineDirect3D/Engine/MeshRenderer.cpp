@@ -41,7 +41,8 @@ void MeshRenderer::RenderComposite()
 					Camera::Instance()->GetViewMatrix() * 
 					Camera::Instance()->GetProjectMatrix();
 				shadder->SetMatrix("mvp", &mvp);
-				shadder->SetVector("_Color", &D3DXVECTOR4(1, 0.5f, 0.5f, 0));
+				shadder->SetMatrix("texMatrix", texMatrix);
+				shadder->SetTexture("tex", texture->GetTexture());
 				UINT passes;
 				shadder->Begin(&passes, 0);
 				shadder->BeginPass(0);

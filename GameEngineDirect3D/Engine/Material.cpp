@@ -66,7 +66,7 @@ void Material::SetBlend()
 		GameSetUp::Device->SetRenderState(D3DRS_ALPHABLENDENABLE, _blendEnable);
 		GameSetUp::Device->SetRenderState(D3DRS_SRCBLEND, _srcFactor);
 		GameSetUp::Device->SetRenderState(D3DRS_DESTBLEND, _destFactor);
-		//Game::Device->SetRenderState(D3DRS_BLENDOP, _blendOP);
+		//GameSetUp::Device->SetRenderState(D3DRS_BLENDOP, _blendOP);
 	}
 }
 

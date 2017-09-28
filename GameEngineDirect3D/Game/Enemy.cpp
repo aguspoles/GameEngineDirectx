@@ -6,7 +6,7 @@ Enemy::Enemy()
 {
 	_transform = GetComponent<Transform>();
 	//ScaleMesh(D3DXVECTOR3(0.5, 0.5, 1));
-	_transform->SetPosition(0.25, 0, 0);
+	_transform->SetPosition(-4.0, 0, 0);
 }
 
 
@@ -17,10 +17,7 @@ Enemy::~Enemy()
 void Enemy::Init()
 {
 	_material = GetComponent<Material>();
-	if (_material)
-	{
-		//_material->AlphaBlending();
-	}
+	_material->AlphaBlending();
 }
 
 void Enemy::UpdateComposite()

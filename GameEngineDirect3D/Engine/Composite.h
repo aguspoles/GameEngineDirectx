@@ -9,6 +9,7 @@ class ENGINE_API Composite : public Component
 {
 private:
 	Transform* _transform;
+    Transform* _parentTransform;
 	vector<Component*> _components;
 
 	template<class T> void GetComponentsInParent(vector<T*>*);
@@ -16,6 +17,7 @@ private:
 protected:
 	virtual void UpdateComposite() = 0;
 	virtual void RenderComposite() = 0;
+	virtual void RenderComposite(D3DXMATRIX modelMatrix) = 0;
 public:
 	Composite();
 	~Composite();
@@ -24,6 +26,7 @@ public:
 	void Remove(Component* component);
 	void Update() override final;
 	void Render() override final;
+	void Render(D3DXMATRIX modelMatrix) override final;
 	template<class T> T* GetComponent();
 	template<class T> T* GetComponentInChildren();
 	template<class T> T* GetComponentInParent();

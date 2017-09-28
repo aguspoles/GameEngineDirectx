@@ -29,7 +29,7 @@ void Player::UpdateComposite()
 	}
 	if (Input::KeyPressed("MOVE_LEFT"))
 	{ 
-		GetCurrentAnimation()->Play();
+		//GetCurrentAnimation()->Play();
 		_transform->MoveLeft(1 * Game::DeltaTime());
 	}
 }

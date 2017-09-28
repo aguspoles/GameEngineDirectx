@@ -4,6 +4,7 @@
 
 Component::Component()
 {
+
 }
 
 
@@ -17,6 +18,10 @@ void Component::Update()
 }
 
 void Component::Render()
+{
+}
+
+void Component::Render(D3DXMATRIX modelMatrix)
 {
 }
 
@@ -35,3 +40,9 @@ Composite * Component::GetParent()
 {
 	return parent;
 }
+
+void Component::SetModelMatrix(D3DXMATRIX modelMatrix)
+{
+	_modelMatrix = modelMatrix;
+}
+

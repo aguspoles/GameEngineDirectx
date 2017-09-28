@@ -57,7 +57,6 @@ void MeshRenderer::RenderComposite()
 				GameSetUp::Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0,
 					(_model->GetVertexes()).size(), 0, _model->GetPrimitivesCount());
 			}
-
 			//lo apago para que lo proximo que se dibuje no tenga blend necesariamente
 			GameSetUp::Device->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 		}

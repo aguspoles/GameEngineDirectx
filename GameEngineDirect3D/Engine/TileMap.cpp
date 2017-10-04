@@ -16,10 +16,10 @@ TileMap::TileMap(std::vector<std::vector<int>> tilemap, float tileWidth, float t
 
 TileMap::~TileMap()
 {
-	for each(MeshRenderer* entitie in _tiles)
+	for each(Tile* tile in _tiles)
 	{
-		if (entitie)
-			delete entitie;
+		if (tile)
+			delete tile;
 	}
 }
 
@@ -34,16 +34,17 @@ void TileMap::Draw()
 		for (int indiceColumna = 0; indiceColumna < fila->size(); indiceColumna++)
 		{
 			int celda = fila->at(indiceColumna);
-			float posX = _tileWidth * indiceColumna;
-			float posY = _tileHeight * indiceFila;
+			float posX = _tileWidth * indiceColumna * 2;
+			float posY = _tileHeight * indiceFila * 2;
 			auto transform = _tiles[celda]->GetComponent<Transform>();
+			transform->ScaleMesh(D3DXVECTOR3(_tileWidth, _tileHeight, 1));
 			transform->TranslateMesh(D3DXVECTOR3(posX, -posY, 6));
 			_tiles[celda]->Render();
 		}
 	}
 }
 
-void TileMap::AddTile(MeshRenderer * entity)
+void TileMap::AddTile(Tile * tile)
 {
-	_tiles.push_back(entity);
+	_tiles.push_back(tile);
 }

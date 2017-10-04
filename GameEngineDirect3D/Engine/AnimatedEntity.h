@@ -1,8 +1,8 @@
 #ifndef ANIMATEDENTITY_H
 #define ANIMATEDENTITY_H
 #include "MeshRenderer.h"
-#include<map>
 #include "Animation.h"
+#include<map>
 
 class ENGINE_API AnimatedEntity :
 	public MeshRenderer

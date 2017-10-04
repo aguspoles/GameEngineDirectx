@@ -2,12 +2,13 @@
 #define TILEMAP_H
 #include <vector>
 #include "MeshRenderer.h"
+#include "Tile.h"
 
 class ENGINE_API TileMap 
 {
 private:
 	std::vector<std::vector<int>> _tileMap;
-	std::vector<MeshRenderer*> _tiles;
+	std::vector<Tile*> _tiles;
 	float _tileWidth;
 	float _tileHeight;
 public:
@@ -16,6 +17,6 @@ public:
 	~TileMap();
 
 	void Draw();
-	void AddTile(MeshRenderer* entity);
+	void AddTile(Tile* tile);
 };
 #endif

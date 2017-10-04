@@ -4,7 +4,6 @@
 MeshRenderer::MeshRenderer() : _isVisible(true)
 {
 	_transform = GetComponent<Transform>();
-	//_transform = GetTransform();
 }
 
 MeshRenderer::~MeshRenderer()
@@ -13,6 +12,7 @@ MeshRenderer::~MeshRenderer()
 
 void MeshRenderer::RenderComposite()
 {
+	D3DXMATRIX* modelMatrix = _transform->GetModelMatrix();
 	_material = GetComponent<Material>();
 	if (_model)
 	{
@@ -37,7 +37,7 @@ void MeshRenderer::RenderComposite()
 			LPD3DXEFFECT shadder = _material->GetShadderEffect();
 			if (shadder)
 			{
-				D3DXMATRIX mvp = *_transform->GetModelMatrix() * 
+				D3DXMATRIX mvp = *modelMatrix * 
 					Camera::Instance()->GetViewMatrix() * 
 					Camera::Instance()->GetProjectMatrix();
 				shadder->SetMatrix("mvp", &mvp);
@@ -53,7 +53,7 @@ void MeshRenderer::RenderComposite()
 			}
 			else
 			{
-				GameSetUp::Device->SetTransform(D3DTS_WORLD, _transform->GetModelMatrix());
+				GameSetUp::Device->SetTransform(D3DTS_WORLD, modelMatrix);
 				GameSetUp::Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0,
 					(_model->GetVertexes()).size(), 0, _model->GetPrimitivesCount());
 			}

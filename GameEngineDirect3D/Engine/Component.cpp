@@ -21,10 +21,6 @@ void Component::Render()
 {
 }
 
-void Component::Render(D3DXMATRIX modelMatrix)
-{
-}
-
 void Component::Move(float offsetX, float offsetY)
 {
 	x += offsetX;
@@ -41,8 +37,4 @@ Composite * Component::GetParent()
 	return parent;
 }
 
-void Component::SetModelMatrix(D3DXMATRIX modelMatrix)
-{
-	_modelMatrix = modelMatrix;
-}
 

@@ -27,7 +27,7 @@ void GameApp::Update()
 			if ((*it)->GetType() == "Enemy")
 			{
 				Enemy *e = (Enemy*)*it;
-				e->Escape(entities);
+				//e->Escape(entities);
 			}
 		}
 		else
@@ -50,12 +50,6 @@ void GameApp::Init()
 		{ -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f }
 	};
 
-	std::vector<std::vector<int>> Map =
-	{
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-	};
 	Model* m = new Model(vertexes, indexes);
 	//m->LoadModelFromFile("cube.obj");
 	Texture* tex1 = new Texture();
@@ -63,8 +57,8 @@ void GameApp::Init()
 	Texture* tex2 = new Texture();
 	tex2->LoadTexture(L"../metal.jpg");
 	Texture* tex3 = new Texture();
-	tex3->LoadTexture(L"../particle.png");
-
+	//tex3->LoadTexture(L"../particle.png");
+	tex3->LoadTexture(L"../metal-1.jpg");
 	Material* mat = new Material();
 	mat->SetTexture(tex3);
 	//mat->SetShadder(L"shaderTexTinte.fx");
@@ -74,35 +68,55 @@ void GameApp::Init()
 	Material* mat2 = new Material();
 	mat2->SetTexture(tex2);
 
+	std::vector<std::vector<int>> Map =
+	{
+		{ 0,1,0,1,0 },
+		{ 1,0,1,0,1 },
+		{ 0,1,0,1,0 },
+	};
 	_tileMap = new TileMap(Map, 0.5f, 0.5f);
-	Floor* f = new Floor();
+	Tile* f = new Floor();
+	Tile* f1 = new Floor();
+	f->SetModel(m);
+	f->AddComponent(mat2);
+	f1->SetModel(m);
+	f1->AddComponent(mat);
 	_tileMap->AddTile(f);
+	_tileMap->AddTile(f1);
+
 	Player* p = new Player();
 	Enemy* e = new Enemy();
 	PickUp* pick = new PickUp();
 
 
 	Animation* anim = new Animation("Run", mat1, 240, 296, 1440, 1480);
+	vector<frame> frames = {
+	    frame(0,0), frame(0,1), frame(0,2), frame(0,3), frame(0,4), frame(0,5),
+		frame(1,0), frame(1,1), frame(1,2), frame(1,3), frame(1,4), frame(1,5),
+		frame(2,0), frame(2,1), frame(2,2), frame(2,3), frame(2,4), frame(2,5),
+		frame(3,0), frame(3,1), frame(3,2), frame(3,3), frame(3,4), frame(3,5),
+		frame(4,0), frame(4,1), frame(4,2), frame(4,3), frame(4,4), frame(4,5) };
+	anim->SetFrames(frames);
+	anim->SetIdleFrame(frame(0, 0));
+
 
 	//seteo player
 	p->SetModel(m);
-	p->Add(mat1);
+	p->AddComponent(mat1);
     p->AddAnimation(anim);
 	p->SetCurrentAnimation("Run", 0.08);
 
 	//seteo enemigo
 	e->SetModel(m);
-	e->Add(mat);
-	e->SetParent(pick);
+	e->AddComponent(mat);
+	//e->SetParent(pick);
 
 	//seteo pick
 	pick->SetModel(m);
-	pick->Add(mat1);
+	pick->AddComponent(mat1);
 	pick->SetParent(p);
+	//pick->Add(e);
 
-	//seteo floor
-	f->SetModel(m);
-	f->Add(mat2);
 
 	AddEntitie(e);
 	AddEntitie(p);

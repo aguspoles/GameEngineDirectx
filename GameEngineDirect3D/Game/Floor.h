@@ -1,9 +1,9 @@
 #ifndef FLOOR_H
 #define FLOOR_H
-#include "MeshRenderer.h"
+#include "Tile.h"
 
 class Floor :
-	public MeshRenderer
+	public Tile
 {
 private:
 	Transform* _transform;

@@ -4,14 +4,14 @@
 
 Tile::Tile()
 {
-	_fila = 1;
-	_columna = 1;
+	_fila = 0;
+	_columna = 0;
 }
 
 Tile::Tile(int fila, int columna)
 {
-	_fila = fila-1;
-	_columna = columna-1;
+	_fila = fila;
+	_columna = columna;
 }
 
 
@@ -27,4 +27,17 @@ int Tile::GetFila()
 int Tile::GetColumna()
 {
 	return _columna;
+}
+
+void Tile::Init()
+{
+}
+
+void Tile::UpdateComposite()
+{
+}
+
+std::string Tile::GetType() const
+{
+	return std::string();
 }

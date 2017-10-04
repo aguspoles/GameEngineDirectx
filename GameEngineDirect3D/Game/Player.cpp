@@ -24,7 +24,7 @@ void Player::UpdateComposite()
 	GetCurrentAnimation()->Play();
 	if (Input::KeyPressed("MOVE_RIGHT"))
 	{
-		_transform->MoveRight(5 * Game::DeltaTime());
+		_transform->MoveRight(1 * Game::DeltaTime());
 		//_transform->RotateMesh(D3DXVECTOR3(0, 0, num));
 	}
 	if (Input::KeyPressed("MOVE_LEFT"))

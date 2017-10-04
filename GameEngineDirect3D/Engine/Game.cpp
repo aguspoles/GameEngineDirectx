@@ -113,8 +113,9 @@ void Game::RenderFrame()
 	
 	Device->BeginScene();
 
-	/*if(_tileMap)
-		_tileMap->Draw();*/
+	if(_tileMap)
+		_tileMap->Draw();
+
 	for (int i = 0; i < _entities.size(); i++)
 	{
 		if (_entities[i])

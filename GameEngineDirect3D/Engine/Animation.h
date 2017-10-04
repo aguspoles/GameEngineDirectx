@@ -7,12 +7,17 @@
 #include "Component.h"
 #include "Game.h"
 
+struct frame {
+	int fila, columna;
+	frame(int f, int c) { fila = f; columna = c; }
+};
+
 class ENGINE_API Animation : public Component
 {
 private:
 	Material* _material;
 	std::string _name;
-	std::vector<Tile> _tiles;
+	std::vector<frame> _frames;
 	float _tileWidth;
 	float _tileHeight;
 	float _x;
@@ -26,12 +31,15 @@ private:
 	size_t _countTiles;
 public:
 	Animation();
-	Animation(std::string name, Material* mat, float tileWidth, float tileHeight, 
+	Animation(std::string name, Material* mat, float tileWidth, float tileHeight,
 		float texWidth, float texHeight);
 	~Animation();
 
 	void Play();
 	void SetSpeed(float fps);
+	void AddFrame(frame frame);
+	void SetFrames(vector<frame> frames);
+	void SetIdleFrame(frame frame);
 	std::string GetName();
 };
 

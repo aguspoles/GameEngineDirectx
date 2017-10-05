@@ -4,9 +4,6 @@
 
 Enemy::Enemy()
 {
-	_transform = GetComponent<Transform>();
-	//ScaleMesh(D3DXVECTOR3(0.5, 0.5, 1));
-	_transform->SetPosition(-4, 0, 8);
 }
 
 
@@ -16,8 +13,11 @@ Enemy::~Enemy()
 
 void Enemy::Init()
 {
+	_transform = GetComponent<Transform>();
 	_material = GetComponent<Material>();
 	//_material->AlphaBlending();
+	_transform->SetPosition(0, -6, 35);
+	//_transform->RotateMesh(D3DXVECTOR3(0, 0, 45));
 }
 
 void Enemy::UpdateComposite()
@@ -26,6 +26,7 @@ void Enemy::UpdateComposite()
 	//_transform->RotateMesh(D3DXVECTOR3(0, 0, num));
 	num += 0.01;
 	//_transform->MoveForward(1);
+	_transform->RotateMesh(D3DXVECTOR3(0, num, 0));
 }
 
 void Enemy::Move()

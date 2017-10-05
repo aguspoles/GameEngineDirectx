@@ -4,8 +4,7 @@
 
 Player::Player()
 {
-	_transform = GetComponent<Transform>(); 
-	_transform->SetPosition(0, 0, 8);
+	
 }
 
 
@@ -29,7 +28,6 @@ void Player::UpdateComposite()
 	}
 	if (Input::KeyPressed("MOVE_LEFT"))
 	{ 
-		//GetCurrentAnimation()->Play();
 		_transform->MoveLeft(1 * Game::DeltaTime());
 	}
 }
@@ -77,9 +75,12 @@ void Player::Effect()
 
 void Player::Init()
 {
+	_transform = GetComponent<Transform>();
+	_transform->SetPosition(0, 0, 8);
 	_material = GetComponent<Material>();
 	LPD3DXEFFECT shadder = _material->GetShadderEffect();
 	shadder->SetVector("_Color", &D3DXVECTOR4(1.0f, 0.8f, 0, 0));
+	//_transform->ScaleMesh(D3DXVECTOR3(0.2, 0.2, 0.2));
 	//_material->AddBlending();
 	//_material->AlphaBlending();
 	//_material->MultiBlending();

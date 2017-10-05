@@ -4,9 +4,7 @@
 
 PickUp::PickUp()
 {
-	_transform = GetComponent<Transform>();
-	_transform->ScaleMesh(D3DXVECTOR3(0.5, 0.5, 1));
-	_transform->SetPosition(-0.5, 0.5, 5);
+
 }
 
 
@@ -16,6 +14,9 @@ PickUp::~PickUp()
 
 void PickUp::Init()
 {
+	_transform = GetComponent<Transform>();
+	_transform->ScaleMesh(D3DXVECTOR3(0.5, 0.5, 1));
+	_transform->SetPosition(-0.5, 0.5, 5);
 	_material = GetComponent<Material>();
 	//_material->AlphaBlending();
 }

@@ -12,7 +12,6 @@ MeshRenderer::~MeshRenderer()
 
 void MeshRenderer::RenderComposite()
 {
-	_material = GetComponent<Material>();
 	if (_model)
 	{
 		//especificamos el formato del vertice
@@ -26,6 +25,8 @@ void MeshRenderer::RenderComposite()
 		GameSetUp::Device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 		GameSetUp::Device->SetRenderState(D3DRS_ZWRITEENABLE, true);
 		GameSetUp::Device->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
+
+	    _material = GetComponent<Material>();
 		if (_material)
 		{
 			Texture* texture = _material->GetTexture();

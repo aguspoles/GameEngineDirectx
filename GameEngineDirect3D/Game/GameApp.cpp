@@ -52,20 +52,22 @@ void GameApp::Init()
 	};
 
 	Model* m = new Model(vertexes, indexes);
-	//m->LoadModelFromFile("cube.obj");
+	Model* m1 = new Model();
+	m1->LoadModelFromFile("bb8.obj");
 	Texture* tex1 = new Texture();
 	tex1->LoadTexture(L"../walk.png");
 	Texture* tex2 = new Texture();
 	tex2->LoadTexture(L"../metal.jpg");
 	Texture* tex3 = new Texture();
 	//tex3->LoadTexture(L"../particle.png");
-	tex3->LoadTexture(L"../metal-1.jpg");
+	tex3->LoadTexture(L"../Body.jpg");
 	Material* mat = new Material();
 	mat->SetTexture(tex3);
 	mat->SetShadder(L"efecto.fx");
 	Material* mat1 = new Material();
 	mat1->SetTexture(tex1);
 	mat1->SetShadder(L"shaderTexTinte.fx");
+	//mat1->SetShadder(L"efecto.fx");
 	Material* mat2 = new Material();
 	mat2->SetTexture(tex2);
 	mat2->SetShadder(L"efecto.fx");
@@ -82,7 +84,7 @@ void GameApp::Init()
 	f->SetModel(m);
 	f->AddComponent(mat2);
 	f1->SetModel(m);
-	f1->AddComponent(mat);
+	f1->AddComponent(mat1);
 	_tileMap->AddTile(f);
 	_tileMap->AddTile(f1);
 
@@ -109,7 +111,7 @@ void GameApp::Init()
 	p->SetCurrentAnimation("Run", 0.08);
 
 	//seteo enemigo
-	e->SetModel(m);
+	e->SetModel(m1);
 	e->AddComponent(mat);
 	//e->SetParent(pick);
 
@@ -127,6 +129,7 @@ void GameApp::Init()
 	AddMaterial(mat1);
 	AddMaterial(mat2);
 	AddModel(m);
+	AddModel(m1);
 
 	for each(MeshRenderer* entitie in GetMeshes())
 	{
@@ -150,5 +153,5 @@ void GameApp::SetLight()
 {
 	Light::SetLightDirection(D3DXVECTOR4(0, 0, 1, 0));
 	Light::SetLightColor(D3DXVECTOR4(1, 1, 1, 0));
-	Light::SetLightAmbientColor(D3DXVECTOR4(0.4f, 0, 0, 0));
+	Light::SetLightAmbientColor(D3DXVECTOR4(0.1f, 0, 0.5, 0));
 }

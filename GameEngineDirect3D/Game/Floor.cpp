@@ -4,7 +4,6 @@
 
 Floor::Floor()
 {
-	_transform = GetComponent<Transform>();
 }
 
 
@@ -14,6 +13,7 @@ Floor::~Floor()
 
 void Floor::Init()
 {
+	_transform = GetComponent<Transform>();
 	_material = GetComponent<Material>();
 }
 

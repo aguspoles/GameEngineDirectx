@@ -6,9 +6,9 @@ Texture::Texture() : g_texture(NULL)
 {
 	_adressU = D3DTADDRESS_WRAP;
 	_adressV = D3DTADDRESS_WRAP;
-	_magFilter = D3DTEXF_ANISOTROPIC;
-	_minFilter = D3DTEXF_ANISOTROPIC;
-	_mipFilter = D3DTEXF_ANISOTROPIC;
+	_magFilter = D3DTEXF_LINEAR;
+	_minFilter = D3DTEXF_LINEAR;
+	_mipFilter = D3DTEXF_NONE;
 	_transformFlag = D3DTTFF_COUNT2;
 }
 

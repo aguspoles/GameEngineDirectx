@@ -6,7 +6,7 @@
 #include "Composite.h"
 #include "GameSetUp.h"
 #include "Camera.h"
-
+#include "Light.h"
 
 class ENGINE_API MeshRenderer : public Composite
 {

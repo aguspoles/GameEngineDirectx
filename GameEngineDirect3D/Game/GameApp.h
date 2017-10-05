@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "PickUp.h"
 #include "Floor.h"
+#include "Light.h"
 //#include "TileMap.h"
 
 class GameApp : public Game
@@ -19,6 +20,7 @@ public:
 	void Update();
 	void Init();
 	void SetCamera();
+	void SetLight();
 };
 
 #endif

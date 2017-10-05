@@ -17,7 +17,7 @@ Enemy::~Enemy()
 void Enemy::Init()
 {
 	_material = GetComponent<Material>();
-	_material->AlphaBlending();
+	//_material->AlphaBlending();
 }
 
 void Enemy::UpdateComposite()

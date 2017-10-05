@@ -12,7 +12,6 @@ MeshRenderer::~MeshRenderer()
 
 void MeshRenderer::RenderComposite()
 {
-	D3DXMATRIX* modelMatrix = _transform->GetModelMatrix();
 	_material = GetComponent<Material>();
 	if (_model)
 	{
@@ -34,6 +33,8 @@ void MeshRenderer::RenderComposite()
 			texture->SetTexture(texMatrix);
 			_material->SetBlend();
 
+	        D3DXMATRIX* modelMatrix = _transform->GetModelMatrix();
+	        D3DXMATRIX* rot = _transform->GetRotateMeshMatrix();
 			LPD3DXEFFECT shadder = _material->GetShadderEffect();
 			if (shadder)
 			{
@@ -41,8 +42,12 @@ void MeshRenderer::RenderComposite()
 					Camera::Instance()->GetViewMatrix() * 
 					Camera::Instance()->GetProjectMatrix();
 				shadder->SetMatrix("mvp", &mvp);
+				shadder->SetMatrix("rotMat", rot);
 				shadder->SetMatrix("texMatrix", texMatrix);
 				shadder->SetTexture("tex", texture->GetTexture());
+				shadder->SetVector("lightDir", &Light::GetLightDirection());
+				shadder->SetVector("lightCol", &Light::GetLightColor());
+				shadder->SetVector("ambientCol", &Light::GetLightAmbientColor());
 				UINT passes;
 				shadder->Begin(&passes, 0);
 				shadder->BeginPass(0);

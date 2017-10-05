@@ -16,6 +16,7 @@ public:
 	~AnimatedEntity();
 
 	void AddAnimation(Animation* anim);
+	void Play(std::string anim);
 	void SetCurrentAnimation(std::string anim, float fps);
 	Animation* GetCurrentAnimation();
 };

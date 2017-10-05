@@ -242,6 +242,7 @@
     <ClInclude Include="Composite.h" />
     <ClInclude Include="EngineApi.h" />
     <ClInclude Include="GameSetUp.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Input.h" />
@@ -282,6 +283,7 @@
     </ClCompile>
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameSetUp.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Input.cpp" />

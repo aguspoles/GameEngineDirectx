@@ -4,7 +4,6 @@
 #include <vector>
 #include "Material.h"
 #include "Tile.h"
-#include "Component.h"
 #include "Game.h"
 
 struct frame {
@@ -12,7 +11,7 @@ struct frame {
 	frame(int f, int c) { fila = f; columna = c; }
 };
 
-class ENGINE_API Animation : public Component
+class ENGINE_API Animation
 {
 private:
 	Material* _material;

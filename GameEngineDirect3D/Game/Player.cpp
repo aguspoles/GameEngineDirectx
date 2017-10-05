@@ -16,16 +16,16 @@ Player::~Player()
 
 void Player::UpdateComposite()
 {
-	/*static float num = 0;
-	num += 0.1f;*/
+	static float num = 0;
+	num += 0.01f;
 	//WaterEffect();
 	//MoveBackWard();
 	Effect();
-	GetCurrentAnimation()->Play();
+	Play("Run");
+	//_transform->RotateMesh(D3DXVECTOR3(0, num, 0));
 	if (Input::KeyPressed("MOVE_RIGHT"))
 	{
 		_transform->MoveRight(1 * Game::DeltaTime());
-		//_transform->RotateMesh(D3DXVECTOR3(0, 0, num));
 	}
 	if (Input::KeyPressed("MOVE_LEFT"))
 	{ 

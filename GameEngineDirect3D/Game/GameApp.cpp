@@ -4,6 +4,7 @@
 
 GameApp::GameApp() 
 {
+
 }
 
 GameApp::~GameApp()
@@ -44,10 +45,10 @@ void GameApp::Init()
 
 	std::vector<Vertex> vertexes =
 	{
-		{ -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
-		{ 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f },
-		{ 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f },
-		{ -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f }
+		{ -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f },
+		{ 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f },
+		{ 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f },
+		{ -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f }
 	};
 
 	Model* m = new Model(vertexes, indexes);
@@ -61,12 +62,13 @@ void GameApp::Init()
 	tex3->LoadTexture(L"../metal-1.jpg");
 	Material* mat = new Material();
 	mat->SetTexture(tex3);
-	//mat->SetShadder(L"shaderTexTinte.fx");
+	mat->SetShadder(L"efecto.fx");
 	Material* mat1 = new Material();
 	mat1->SetTexture(tex1);
 	mat1->SetShadder(L"shaderTexTinte.fx");
 	Material* mat2 = new Material();
 	mat2->SetTexture(tex2);
+	mat2->SetShadder(L"efecto.fx");
 
 	std::vector<std::vector<int>> Map =
 	{
@@ -133,6 +135,7 @@ void GameApp::Init()
 	}
 
 	SetCamera();
+	SetLight();
 }
 
 
@@ -141,4 +144,11 @@ void GameApp::SetCamera()
 	Camera::Instance()->SetViewMatrix(D3DXVECTOR3(0, 0, 10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 1, 0));
 	Camera::Instance()->SetPerspective(60, (float)640 / (float)480, 0.0f, 100.0f);
 	Camera::Instance()->SetRenderView();
+}
+
+void GameApp::SetLight()
+{
+	Light::SetLightDirection(D3DXVECTOR4(0, 0, 1, 0));
+	Light::SetLightColor(D3DXVECTOR4(1, 1, 1, 0));
+	Light::SetLightAmbientColor(D3DXVECTOR4(0.4f, 0, 0, 0));
 }
